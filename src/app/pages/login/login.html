@@ -1,1 +1,69 @@
-<p>login works!</p>
+<div class="auth-container d-flex justify-content-center align-items-center vh-100">
+  <div class="auth-card p-4 rounded-4 shadow-lg">
+    
+    <div class="text-center mb-5 mt-2">
+      <div class="logo-icon d-inline-flex justify-content-center align-items-center rounded-3 mb-2">
+        <i class="bi bi-lightning-charge-fill"></i>
+      </div>
+      <h1 class="fw-bold mb-0 logo-text">ÍON</h1>
+      <p class="subtitle text-uppercase">Mobilidade Sustentável</p>
+    </div>
+
+    <form>
+      <div class="mb-4">
+        <label class="form-label">E-MAIL</label>
+        <input type="email" class="form-control" placeholder="seu@email.com">
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">SENHA</label>
+        <div class="input-group">
+          <input type="password" class="form-control border-end-0" placeholder="••••••••">
+          <span class="input-group-text border-start-0">
+            <i class="bi bi-eye"></i>
+          </span>
+        </div>
+      </div>
+      
+      <div class="text-end mb-4">
+        <a href="#" class="forgot-password">Esqueceu a senha?</a>
+      </div>
+
+      <div class="form-check mb-4 d-flex align-items-start">
+        <!-- O evento (change) atualiza a variável lgpdAceito no seu login.ts -->
+        <input class="form-check-input me-2 mt-1" type="checkbox" id="lgpdCheck" (change)="lgpdAceito = !lgpdAceito">
+        <label class="form-check-label text-muted-custom" for="lgpdCheck">
+          Li e concordo com a <a href="#" class="accent-link">Política de Privacidade</a> e autorizo o tratamento dos meus dados pessoais conforme a <span class="accent-link">LGPD</span>.
+        </label>
+      </div>
+
+      <button type="button" (click)="entrar()" [disabled]="!lgpdAceito" class="btn btn-primary-custom w-100 fw-bold py-2 mb-4">
+        ENTRAR
+      </button>
+    </form>
+
+    <div class="d-flex align-items-center mb-4">
+      <hr class="flex-grow-1 line-divider">
+      <span class="mx-3 divider-text text-uppercase">ou</span>
+      <hr class="flex-grow-1 line-divider">
+    </div>
+
+    <div class="text-center pb-2">
+      <span class="text-muted-custom">Não tem conta? </span>
+      <a routerLink="/cadastro" class="accent-link fw-bold">Cadastre-se</a>
+    </div>
+
+  </div>
+</div>
+
+<footer class="fixed-bottom text-center mb-3">
+  <div class="footer-links mb-1">
+    <a href="#">Política de Privacidade</a> · 
+    <a href="#">Termos de Uso</a> · 
+    <a href="#">Cookies</a> · 
+    <a href="#">LGPD</a>
+  </div>
+  <div class="footer-copy">
+    © 2026 Íon Mobilidade · v2.4.1 · <span class="badge badge-lgpd">● LGPD Compliant</span>
+  </div>
+</footer>

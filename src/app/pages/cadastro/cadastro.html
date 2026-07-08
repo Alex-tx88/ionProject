@@ -1,1 +1,137 @@
-<p>cadastro works!</p>
+<div class="auth-container d-flex justify-content-center align-items-center vh-100">
+  <div class="auth-card p-4 rounded-4 shadow-lg">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <button (click)="passoAnterior()" [class.invisible]="passoAtual === 1" class="btn btn-back d-flex align-items-center p-0">
+        <i class="bi bi-chevron-left me-1"></i> Voltar
+      </button>
+      
+      <div class="logo-mini mx-auto">
+        <i class="bi bi-lightning-charge-fill me-1"></i><strong>ÍON</strong>
+      </div>
+
+      <div class="step-indicator d-flex gap-2">
+        <span class="step-dot" [class.active]="passoAtual === 1 || passoAtual === 2">
+          <i class="bi bi-check-lg" *ngIf="passoAtual === 2"></i>
+          <span *ngIf="passoAtual === 1">1</span>
+        </span>
+        <span class="step-dot" [class.active]="passoAtual === 2">2</span>
+      </div>
+    </div>
+
+    <div *ngIf="passoAtual === 1">
+      <h2 class="form-title mb-1">Criar sua conta</h2>
+      <p class="form-subtitle mb-4">Passo 1 de 2 — Dados pessoais</p>
+
+      <form>
+        <div class="mb-3">
+          <label class="form-label">NOME COMPLETO</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person"></i></span>
+            <input type="text" class="form-control" placeholder="Ana Souza" [(ngModel)]="dados.nome" name="nome">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">E-MAIL</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+            <input type="email" class="form-control" placeholder="ana@email.com" [(ngModel)]="dados.email" name="email">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <label class="form-label">TELEFONE</label>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+              <input type="text" class="form-control" placeholder="(11) 99999-9999" [(ngModel)]="dados.telefone" name="telefone">
+            </div>
+          </div>
+          <div class="col-md-6 mb-4">
+            <label class="form-label">CPF</label>
+            <input type="text" class="form-control" placeholder="000.000.000-00" [(ngModel)]="dados.cpf" name="cpf">
+          </div>
+        </div>
+
+        <button type="button" (click)="proximoPasso()" [disabled]="!passo1Valido" class="btn btn-primary-custom w-100 fw-bold py-2 mb-4">
+          CONTINUAR
+        </button>
+      </form>
+    </div>
+
+    <div *ngIf="passoAtual === 2">
+      <h2 class="form-title mb-1">Segurança e preferências</h2>
+      <p class="form-subtitle mb-4">Passo 2 de 2 — Senha e veículo elétrico</p>
+
+      <form>
+        <div class="mb-3">
+          <label class="form-label">SENHA</label>
+          <div class="input-group">
+            <input type="password" class="form-control border-end-0" placeholder="Mínimo 8 caracteres" [(ngModel)]="dados.senha" name="senha">
+            <span class="input-group-text border-start-0"><i class="bi bi-eye"></i></span>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">CONFIRMAR SENHA</label>
+          <div class="input-group">
+            <input type="password" class="form-control border-end-0" placeholder="Repita a senha" [(ngModel)]="dados.confirmarSenha" name="confirmarSenha">
+            <span class="input-group-text border-start-0"><i class="bi bi-eye"></i></span>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">TIPO DE VEÍCULO</label>
+          <div class="row g-2">
+            <div class="col-4">
+              <div class="vehicle-card text-center p-2 rounded-3" [class.selected]="veiculoSelecionado === 'BEV'" (click)="selecionarVeiculo('BEV')">
+                <i class="bi bi-car-front-fill d-block mb-1"></i>
+                <span class="d-block name">100% Elétrico</span>
+                <span class="sub">BEV</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="vehicle-card text-center p-2 rounded-3" [class.selected]="veiculoSelecionado === 'PHEV'" (click)="selecionarVeiculo('PHEV')">
+                <i class="bi bi-car-front-fill d-block mb-1"></i>
+                <span class="d-block name">Híbrido Plug-in</span>
+                <span class="sub">PHEV</span>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="vehicle-card text-center p-2 rounded-3" [class.selected]="veiculoSelecionado === 'NONE'" (click)="selecionarVeiculo('NONE')">
+                <i class="bi bi-car-front-fill d-block mb-1"></i>
+                <span class="d-block name">Ainda não tenho</span>
+                <span class="sub">Em breve</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-check mb-3 d-flex align-items-start">
+          <input class="form-check-input me-2 mt-1" type="checkbox" id="privacyCheck" [(ngModel)]="lgpdAceito" name="lgpdAceito">
+          <label class="form-check-label text-muted-custom" for="privacyCheck">
+            Li e concordo com a <a href="#" class="accent-link">Política de Privacidade</a> e autorizo o tratamento dos meus dados conforme a <span class="accent-link">LGPD</span>.
+          </label>
+        </div>
+
+        <div class="form-check mb-4 d-flex align-items-start">
+          <input class="form-check-input me-2 mt-1" type="checkbox" id="marketingCheck">
+          <label class="form-check-label text-muted-custom" for="marketingCheck">
+            Quero receber novidades, promoções e conteúdo sobre mobilidade elétrica. <span class="text-secondary">(Opcional)</span>
+          </label>
+        </div>
+
+        <button type="button" (click)="finalizarCadastro()" [disabled]="!passo2Valido" class="btn btn-primary-custom w-100 fw-bold py-2 mb-4">
+          CRIAR CONTA
+        </button>
+      </form>
+    </div>
+
+    <div class="text-center pb-2">
+      <span class="text-muted-custom">Já tem uma conta? </span>
+      <a routerLink="/login" class="accent-link fw-bold">Entrar</a>
+    </div>
+
+  </div>
+</div>

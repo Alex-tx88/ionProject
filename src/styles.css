@@ -1,1 +1,221 @@
 /* You can add global styles to this file, and also import other style files */
+/* Customização de Variáveis de Cores do Protótipo */
+body {
+  background-color: #0b1114 !important;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #ffffff;
+}
+
+.auth-container {
+  background: radial-gradient(circle at center, #111820 0%, #0b1114 100%);
+}
+
+.auth-card {
+  width: 440px;
+  background-color: #161b22;
+  border: 1px solid #21262d;
+}
+
+/* Identidade Visual ÍON */
+.logo-icon {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(0, 229, 155, 0.1);
+  border: 1px solid #00e59b;
+  color: #00e59b;
+  font-size: 1.5rem;
+}
+
+.logo-text {
+  color: #ffffff;
+  letter-spacing: 4px;
+  font-size: 1.8rem;
+}
+
+.logo-mini {
+  color: #ffffff;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.logo-mini i {
+  color: #00e59b;
+}
+
+.subtitle {
+  color: #8b95a1;
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+
+/* Tipografias dos Formulários */
+.form-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.form-subtitle {
+  color: #8b95a1;
+  font-size: 0.85rem;
+}
+
+.form-label {
+  color: #8b95a1;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Inputs customizados conforme layout */
+.form-control, .input-group-text {
+  background-color: #0d1117 !important;
+  border: 1px solid #21262d !important;
+  color: #ffffff !important;
+}
+
+.form-control::placeholder {
+  color: #484f58;
+}
+
+.form-control:focus {
+  border-color: #00e59b !important;
+  box-shadow: none !important;
+}
+
+/* Links e Destaques */
+.accent-link {
+  color: #00e59b !important;
+  text-decoration: none;
+}
+
+.accent-link:hover {
+  text-decoration: underline;
+}
+
+.forgot-password {
+  color: #8b95a1;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.text-muted-custom {
+  color: #8b95a1;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+/* Botões do Sistema */
+.btn-primary-custom {
+  background-color: #0a362e !important;
+  color: #00e59b !important;
+  border: 1px solid rgba(0, 229, 155, 0.2) !important;
+  border-radius: 8px;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary-custom:hover {
+  background-color: #104f43 !important;
+  box-shadow: 0 0 12px rgba(0, 229, 155, 0.3);
+}
+
+.btn-back {
+  color: #8b95a1;
+  font-size: 0.85rem;
+  background: transparent;
+  border: none;
+}
+
+.btn-back:hover {
+  color: #ffffff;
+}
+
+.line-divider {
+  border-color: #21262d;
+  opacity: 1;
+}
+
+.divider-text {
+  color: #484f58;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Indicadores de Passos */
+.step-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #21262d;
+  color: #8b95a1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.step-dot.active {
+  background-color: #00e59b;
+  color: #0b1114;
+}
+
+/* Cards de Escolha de Veículos */
+.vehicle-card {
+  background-color: #0d1117;
+  border: 1px solid #21262d;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.vehicle-card i {
+  font-size: 1.2rem;
+  color: #484f58;
+}
+
+.vehicle-card .name {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #8b95a1;
+}
+
+.vehicle-card .sub {
+  font-size: 0.6rem;
+  color: #484f58;
+}
+
+.vehicle-card.selected {
+  border-color: #00e59b;
+  background-color: rgba(0, 229, 155, 0.05);
+}
+
+.vehicle-card.selected i, .vehicle-card.selected .name {
+  color: #00e59b;
+}
+
+/* Rodapé Global */
+footer .footer-links a {
+  color: #484f58;
+  text-decoration: none;
+  font-size: 0.75rem;
+}
+
+footer .footer-links a:hover {
+  color: #8b95a1;
+}
+
+footer .footer-copy {
+  color: #484f58;
+  font-size: 0.7rem;
+}
+
+.badge-lgpd {
+  border: 1px solid #1f6746;
+  color: #00e59b;
+  background-color: rgba(0, 229, 155, 0.05);
+  font-size: 0.65rem;
+  border-radius: 20px;
+  padding: 3px 8px;
+}
