@@ -19,6 +19,7 @@
       </div>
     </div>
 
+
     <div *ngIf="passoAtual === 1">
       <h2 class="form-title mb-1">Criar sua conta</h2>
       <p class="form-subtitle mb-4">Passo 1 de 2 — Dados pessoais</p>
@@ -54,12 +55,14 @@
           </div>
         </div>
 
+    
         <button type="button" (click)="proximoPasso()" [disabled]="!passo1Valido" class="btn btn-primary-custom w-100 fw-bold py-2 mb-4">
           CONTINUAR
         </button>
       </form>
     </div>
 
+ 
     <div *ngIf="passoAtual === 2">
       <h2 class="form-title mb-1">Segurança e preferências</h2>
       <p class="form-subtitle mb-4">Passo 2 de 2 — Senha e veículo elétrico</p>
@@ -81,6 +84,7 @@
           </div>
         </div>
 
+   
         <div class="mb-4">
           <label class="form-label">TIPO DE VEÍCULO</label>
           <div class="row g-2">
@@ -108,13 +112,17 @@
           </div>
         </div>
 
+        
         <div class="form-check mb-3 d-flex align-items-start">
-          <input class="form-check-input me-2 mt-1" type="checkbox" id="privacyCheck" [(ngModel)]="lgpdAceito" name="lgpdAceito">
+          <input class="form-check-input me-2 mt-1" type="checkbox" id="privacyCheck" [(ngModel)]="lgpdAceito" name="lgpdAceito" [disabled]="!podeAceitarLgpd">
           <label class="form-check-label text-muted-custom" for="privacyCheck">
-            Li e concordo com a <a href="#" class="accent-link">Política de Privacidade</a> e autorizo o tratamento dos meus dados conforme a <span class="accent-link">LGPD</span>.
+            Li e concordo com a 
+            <a href="#" class="accent-link" (click)="abrirPolitica($event)">Política de Privacidade</a> 
+            e autorizo o tratamento dos meus dados conforme a <span>LGPD</span>.
           </label>
         </div>
 
+      
         <div class="form-check mb-4 d-flex align-items-start">
           <input class="form-check-input me-2 mt-1" type="checkbox" id="marketingCheck">
           <label class="form-check-label text-muted-custom" for="marketingCheck">
@@ -122,12 +130,14 @@
           </label>
         </div>
 
+       
         <button type="button" (click)="finalizarCadastro()" [disabled]="!passo2Valido" class="btn btn-primary-custom w-100 fw-bold py-2 mb-4">
           CRIAR CONTA
         </button>
       </form>
     </div>
 
+ 
     <div class="text-center pb-2">
       <span class="text-muted-custom">Já tem uma conta? </span>
       <a routerLink="/login" class="accent-link fw-bold">Entrar</a>

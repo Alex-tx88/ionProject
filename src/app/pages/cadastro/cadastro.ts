@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms'; // <-- Importamos o módulo de formulários
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule], // <-- Adicionamos no imports
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './cadastro.html',
   styleUrls: ['./cadastro.css']
 })
 export class Cadastro {
   passoAtual: number = 1;
 
-  
+ 
   dados = {
     nome: '',
     email: '',
@@ -24,7 +24,10 @@ export class Cadastro {
   };
 
   veiculoSelecionado: string = '';
+  
+ 
   lgpdAceito: boolean = false;
+  podeAceitarLgpd: boolean = false;
 
   constructor(private router: Router) {}
 
@@ -50,6 +53,12 @@ export class Cadastro {
 
   selecionarVeiculo(tipo: string) {
     this.veiculoSelecionado = tipo;
+  }
+
+  abrirPolitica(event: Event) {
+    event.preventDefault();
+    this.podeAceitarLgpd = true;
+    alert('Simulação: Abrindo o texto da Política de Privacidade...\n\nAgora o checkbox foi liberado para você marcar no seu cadastro.');
   }
 
   finalizarCadastro() {

@@ -12,13 +12,15 @@
     <form>
       <div class="mb-4">
         <label class="form-label">E-MAIL</label>
-        <input type="email" class="form-control" placeholder="seu@email.com">
+        <!-- Adicionado [(ngModel)] e name -->
+        <input type="email" class="form-control" placeholder="seu@email.com" [(ngModel)]="dados.email" name="email">
       </div>
 
       <div class="mb-2">
         <label class="form-label">SENHA</label>
         <div class="input-group">
-          <input type="password" class="form-control border-end-0" placeholder="••••••••">
+          <!-- Adicionado [(ngModel)] e name -->
+          <input type="password" class="form-control border-end-0" placeholder="••••••••" [(ngModel)]="dados.senha" name="senha">
           <span class="input-group-text border-start-0">
             <i class="bi bi-eye"></i>
           </span>
@@ -30,14 +32,14 @@
       </div>
 
       <div class="form-check mb-4 d-flex align-items-start">
-        <!-- O evento (change) atualiza a variável lgpdAceito no seu login.ts -->
-        <input class="form-check-input me-2 mt-1" type="checkbox" id="lgpdCheck" (change)="lgpdAceito = !lgpdAceito">
+        <input class="form-check-input me-2 mt-1" type="checkbox" id="lgpdCheck" [(ngModel)]="lgpdAceito" name="lgpdAceito" [disabled]="!podeAceitarLgpd">
         <label class="form-check-label text-muted-custom" for="lgpdCheck">
-          Li e concordo com a <a href="#" class="accent-link">Política de Privacidade</a> e autorizo o tratamento dos meus dados pessoais conforme a <span class="accent-link">LGPD</span>.
+          Li e concordo com a <a href="#" class="accent-link" (click)="abrirPolitica($event)">Política de Privacidade</a> e autorizo o tratamento dos meus dados pessoais conforme a <span >LGPD</span>.
         </label>
       </div>
 
-      <button type="button" (click)="entrar()" [disabled]="!lgpdAceito" class="btn btn-primary-custom w-100 fw-bold py-2 mb-4">
+      
+      <button type="button" (click)="entrar()" [disabled]="!loginValido" class="btn btn-primary-custom w-100 fw-bold py-2 mb-4">
         ENTRAR
       </button>
     </form>

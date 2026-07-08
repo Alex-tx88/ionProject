@@ -1,24 +1,42 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule], 
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
-  lgpdAceito:boolean= false;
   
+ 
+  dados = {
+    email: '',
+    senha: ''
+  };
+
+  lgpdAceito: boolean = false;
+  podeAceitarLgpd: boolean = false; 
+
   constructor(private router: Router) {}
 
-  entrar() {
-    if(this.lgpdAceito){
-    this.router.navigate(['/dashboard']);
-    }
+  
+  get loginValido(): boolean {
+    return !!(this.dados.email && this.dados.senha && this.lgpdAceito);
+  }
+  
+  abrirPolitica(event: Event) {
+    event.preventDefault(); 
+    this.podeAceitarLgpd = true; 
+    alert('Simulação: Abrindo o texto da Política de Privacidade...\n\nAgora o checkbox foi liberado para você marcar.');
   }
 
-
+  entrar() {
+    if (this.loginValido) {
+      this.router.navigate(['/dashboard']);
+    }
+  }
 }
