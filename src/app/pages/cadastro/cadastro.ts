@@ -63,7 +63,7 @@ export class Cadastro {
 
   finalizarCadastro() {
     if (this.passo2Valido) {
-      localStorage.setItem('ion_session', 'true');
+      sessionStorage.setItem('ion_session', 'true');
       this.router.navigate(['/dashboard']);
     }
   }

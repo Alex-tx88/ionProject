@@ -3,7 +3,8 @@ import { CanActivateFn, Router } from '@angular/router';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  const isLogado = localStorage.getItem('ion_session') === 'true';
+  // TROCADO AQUI: localStorage por sessionStorage
+  const isLogado = sessionStorage.getItem('ion_session') === 'true';
 
   if (isLogado) {
     return true; 
