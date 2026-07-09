@@ -1,1 +1,142 @@
-<p>dashboard works!</p>
+<div class="dashboard-layout">
+  
+  <!-- BARRA LATERAL (SIDEBAR) -->
+  <aside class="sidebar d-flex flex-column align-items-center py-4">
+    <div class="brand-icon mb-5 text-neon">
+      <i class="bi bi-lightning-charge-fill fs-3"></i>
+    </div>
+    <nav class="nav-menu d-flex flex-column gap-4">
+      <a href="#" class="nav-link active"><i class="bi bi-house-door"></i></a>
+      <a href="#" class="nav-link"><i class="bi bi-map"></i></a>
+      <a href="#" class="nav-link"><i class="bi bi-car-front"></i></a>
+      <a href="#" class="nav-link"><i class="bi bi-star"></i></a>
+    </nav>
+    <div class="mt-auto">
+      <a href="#" class="nav-link"><i class="bi bi-gear"></i></a>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="main-content">
+    
+    <!-- HEADER -->
+    <header class="header d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex align-items-center gap-3">
+        <!-- O Nome 'Alex' é preenchido dinamicamente se você tiver o controle de login, senão deixamos estático por enquanto -->
+        <h4 class="m-0 fw-normal text-muted-custom">Olá, <span class="text-white fw-bold">Alex</span></h4>
+        <span class="text-muted-custom fs-7"><i class="bi bi-diamond-fill" style="font-size: 6px;"></i> &nbsp; Qua, 09 Jul 2026</span>
+      </div>
+
+      <!-- Barra de Busca -->
+      <div class="search-bar">
+        <i class="bi bi-search text-muted-custom"></i>
+        <input type="text" placeholder="Buscar endereço em Salvador..." class="bg-transparent border-0 text-white w-100">
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <!-- Badge da API DINÂMICO -->
+        <span class="badge-status-api"><span class="dot-neon"></span> {{ totalEstacoes }} ativas</span>
+        <div class="avatar-circle">AX</div>
+      </div>
+    </header>
+
+    <!-- CARDS SUPERIORES -->
+    <div class="top-cards-grid mb-5">
+      
+      <!-- Card 1: Raio de 5km (DINÂMICO) -->
+      <div class="dash-card p-4 d-flex flex-column justify-content-between">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="icon-box"><i class="bi bi-geo-alt-fill text-neon"></i></div>
+          <span class="badge-dark-outline text-neon">raio 5 km</span>
+        </div>
+        <div>
+          <!-- Valor preenchido pela API -->
+          <h1 class="display-4 fw-bold text-white mb-0">{{ estacoesRaio5km }}</h1>
+          <span class="text-muted-custom">Estações em um raio de 5 km</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Veículo (Tirado do objeto no TS) -->
+      <div class="dash-card p-4 d-flex flex-column justify-content-between">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="icon-box text-muted-custom"><i class="bi bi-car-front-fill"></i></div>
+          <div class="d-flex gap-2">
+            <!-- Renderiza os conectores do array do TS -->
+            <span *ngFor="let plug of veiculoAtual.conectores" class="badge-dark-outline text-blue">{{ plug }}</span>
+          </div>
+        </div>
+        <div>
+          <!-- Nome e Modelo dinâmicos -->
+          <h4 class="fw-bold text-white mb-1">{{ veiculoAtual.marca }} {{ veiculoAtual.modelo }}</h4>
+          <span class="text-muted-custom">Veículo selecionado</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Botão Abrir Mapa -->
+      <div class="dash-card card-green p-4 d-flex flex-column justify-content-between" (click)="abrirMapa()" style="cursor: pointer;">
+        <div class="icon-box icon-dark"><i class="bi bi-geo-alt"></i></div>
+        <div>
+          <h3 class="fw-bold text-dark mb-1">Abrir Mapa</h3>
+          <span class="text-dark opacity-75">Encontrar postos próximos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LISTA RECENTES (AGORA DINÂMICA) -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <span class="text-muted-custom fw-bold text-uppercase fs-7 tracking-wider">Postos Próximos</span>
+      <a href="#" class="text-neon text-decoration-none fw-semibold">Ver todos</a>
+    </div>
+
+    <div class="list-container d-flex flex-column gap-2 mb-5">
+      
+      <!-- O Angular repete essa div para cada item que a API retornou no array postosRecentes -->
+      <div *ngFor="let posto of postosRecentes" class="list-item dash-card d-flex align-items-center p-3">
+        <!-- Ícone padronizado -->
+        <div class="icon-box-sm text-neon me-3"><i class="bi bi-lightning-charge"></i></div>
+        
+        <!-- Nome e Endereço -->
+        <div class="flex-grow-1">
+          <h6 class="text-white fw-semibold mb-0">{{ posto.nome }}</h6>
+          <span class="text-muted-custom fs-7">{{ posto.endereco }}</span>
+        </div>
+        
+        <!-- Tag e Distância -->
+        <div class="d-flex align-items-center gap-3">
+          <!-- A cor e o texto do badge mudam sozinhos dependendo do tipo de posto -->
+          <span class="badge-dark-outline" [ngClass]="posto.tagColor">{{ posto.tag }}</span>
+          <span class="text-muted-custom fs-7">{{ posto.distancia }} km <i class="bi bi-chevron-right ms-1"></i></span>
+        </div>
+      </div>
+
+      <!-- Mensagem de carregamento (Opcional, mas boa prática de UX) -->
+      <div *ngIf="postosRecentes.length === 0" class="text-center py-4">
+        <span class="text-muted-custom">Buscando postos próximos...</span>
+      </div>
+
+    </div>
+
+    <!-- CARDS INFERIORES (DINÂMICOS) -->
+    <div class="row g-3">
+      <div class="col-4">
+        <div class="dash-card d-flex justify-content-between p-3 align-items-center">
+          <span class="text-muted-custom">Total na base</span>
+          <span class="text-white fw-bold fs-5">{{ totalEstacoes }}</span>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="dash-card d-flex justify-content-between p-3 align-items-center">
+          <span class="text-muted-custom">Shoppings</span>
+          <span class="text-purple fw-bold fs-5">{{ shoppings }}</span>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="dash-card d-flex justify-content-between p-3 align-items-center">
+          <span class="text-muted-custom">Rede Rápida (DC)</span>
+          <span class="text-blue fw-bold fs-5">{{ redeRapidaDC }}</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>

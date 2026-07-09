@@ -251,3 +251,172 @@ footer .footer-copy {
   box-shadow: 0 0 0 0.2rem rgba(0, 229, 155, 0.15) !important;
   color: #ffffff !important;
 }
+
+/* RESET E FUNDO GERAL */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #0B1114; /* Fundo sólido do design */
+  font-family: 'Inter', sans-serif;
+}
+
+/* SIDEBAR (MENU LATERAL) */
+.sidebar {
+  width: 80px;
+  background-color: #0B1114;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  flex-shrink: 0;
+}
+
+.nav-link {
+  color: #4c566a;
+  font-size: 1.4rem;
+  transition: all 0.2s;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.nav-link:hover { color: #fff; }
+
+.nav-link.active {
+  color: #00E59B;
+  background-color: rgba(0, 229, 155, 0.1);
+  border-left: 3px solid #00E59B;
+  border-radius: 0 8px 8px 0;
+}
+
+/* ÁREA PRINCIPAL */
+.main-content {
+  flex-grow: 1;
+  padding: 2.5rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* CORES PERSONALIZADAS */
+.text-neon { color: #00E59B; }
+.text-blue { color: #3b82f6; }
+.text-purple { color: #a855f7; }
+.text-muted-custom { color: #6e7681; }
+
+.fs-7 { font-size: 0.8rem; }
+.tracking-wider { letter-spacing: 0.05rem; }
+
+/* HEADER E BARRA DE BUSCA */
+.search-bar {
+  background-color: #161B22;
+  border-radius: 20px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 400px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.search-bar input:focus {
+  outline: none;
+}
+
+.badge-status-api {
+  background-color: rgba(0, 229, 155, 0.1);
+  color: #00E59B;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot-neon {
+  width: 8px;
+  height: 8px;
+  background-color: #00E59B;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00E59B;
+}
+
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 229, 155, 0.2);
+  color: #00E59B;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* CARDS GERAIS */
+.dash-card {
+  background-color: #161B22;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* GRID DOS CARDS SUPERIORES */
+.top-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  height: 200px; /* Mantém todos com a mesma altura */
+}
+
+/* CARD VERDE (ABRIR MAPA) */
+.card-green {
+  background: linear-gradient(135deg, #00E59B, #00c885);
+  box-shadow: 0 8px 24px rgba(0, 229, 155, 0.2);
+  border: none;
+  transition: transform 0.2s;
+}
+
+.card-green:hover {
+  transform: translateY(-4px);
+}
+
+.icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.icon-dark {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #0B1114;
+}
+
+/* BADGES (ETIQUETAS) */
+.badge-dark-outline {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* LISTA */
+.list-item {
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+.list-item:hover {
+  background-color: #1c2128;
+}
+
+.icon-box-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
