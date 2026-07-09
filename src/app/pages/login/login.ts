@@ -19,7 +19,8 @@ export class Login {
   };
 
   lgpdAceito: boolean = false;
-  podeAceitarLgpd: boolean = false; 
+  podeAceitarLgpd: boolean = false;
+  senhaOculta: boolean = true;
 
   constructor(private router: Router) {}
 
@@ -40,4 +41,8 @@ export class Login {
       this.router.navigate(['/dashboard']);
     }
   }
+
+alternarSenha() {
+  this.senhaOculta = !this.senhaOculta;
+}
 }

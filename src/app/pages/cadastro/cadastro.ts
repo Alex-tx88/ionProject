@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cadastro',
@@ -13,30 +13,52 @@ import { FormsModule } from '@angular/forms';
 export class Cadastro {
   passoAtual: number = 1;
 
- 
+  // Objeto de dados agora inclui marca e modelo do carro
   dados = {
     nome: '',
     email: '',
     telefone: '',
     cpf: '',
     senha: '',
-    confirmarSenha: ''
+    confirmarSenha: '',
+    marca: '',   // <-- NOVO
+    modelo: ''   // <-- NOVO
   };
 
   veiculoSelecionado: string = '';
-  
- 
   lgpdAceito: boolean = false;
   podeAceitarLgpd: boolean = false;
+  
+  senhaOculta: boolean = true;
+  confirmarSenhaOculta: boolean = true;
 
   constructor(private router: Router) {}
+  aplicarMascaraTelefone(valor: string) {
+    valor = valor.replace(/\D/g, '');
+    valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2');
+    valor = valor.replace(/(\d)(\d{4})$/, '$1-$2');
+    this.dados.telefone = valor;
+  }
+
+  aplicarMascaraCPF(valor: string) {
+    valor = valor.replace(/\D/g, '');
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    this.dados.cpf = valor;
+  }
+  
 
   get passo1Valido(): boolean {
-    return !!(this.dados.nome && this.dados.email && this.dados.telefone && this.dados.cpf);
+    return !!(this.dados.nome && this.dados.email && this.dados.telefone.length >= 14 && this.dados.cpf.length === 14);
   }
 
   get passo2Valido(): boolean {
-    return !!(this.dados.senha && this.dados.confirmarSenha && this.veiculoSelecionado && this.lgpdAceito);
+
+    const carroValido = this.veiculoSelecionado === 'NONE' || 
+                       (this.veiculoSelecionado !== '' && this.dados.marca && this.dados.modelo);
+
+    return !!(this.dados.senha && this.dados.confirmarSenha && this.veiculoSelecionado && carroValido && this.lgpdAceito);
   }
 
   proximoPasso() {
@@ -53,12 +75,24 @@ export class Cadastro {
 
   selecionarVeiculo(tipo: string) {
     this.veiculoSelecionado = tipo;
+    if (tipo === 'NONE') {
+      this.dados.marca = '';
+      this.dados.modelo = '';
+    }
   }
 
   abrirPolitica(event: Event) {
     event.preventDefault();
     this.podeAceitarLgpd = true;
     alert('Simulação: Abrindo o texto da Política de Privacidade...\n\nAgora o checkbox foi liberado para você marcar no seu cadastro.');
+  }
+
+  alternarSenha() {
+    this.senhaOculta = !this.senhaOculta;
+  }
+
+  alternarConfirmarSenha() {
+    this.confirmarSenhaOculta = !this.confirmarSenhaOculta;
   }
 
   finalizarCadastro() {
