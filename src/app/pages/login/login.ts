@@ -36,6 +36,7 @@ export class Login {
 
   entrar() {
     if (this.loginValido) {
+      localStorage.setItem('ion_session', 'true');
       this.router.navigate(['/dashboard']);
     }
   }
