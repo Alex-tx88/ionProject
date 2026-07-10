@@ -1,25 +1,25 @@
 <div class="dashboard-layout">
-  
-  <!-- SIDEBAR (Vira Bottom Bar no Celular) -->
-  <aside class="sidebar d-flex flex-column align-items-center py-4">
-    <div class="brand-icon mb-5 text-neon" title="Íon Dashboard">
-      <i class="bi bi-lightning-charge-fill fs-2" style="filter: drop-shadow(0 0 10px rgba(0, 229, 155, 0.4));"></i>
-    </div>
-    
-    <nav class="nav-menu d-flex flex-column gap-3 w-100 align-items-center">
-      <a href="javascript:void(0)" class="nav-link active" title="Início"><i class="bi bi-house-door"></i></a>
-      <a href="javascript:void(0)" class="nav-link" title="Ir para o Mapa" (click)="abrirMapa()"><i class="bi bi-map"></i></a>
-      <a href="javascript:void(0)" class="nav-link" title="Minha Garagem"><i class="bi bi-car-front"></i></a>
-      <a href="javascript:void(0)" class="nav-link" title="Postos Favoritos"><i class="bi bi-star"></i></a>
-    </nav>
-    
-    <div class="mt-auto w-100 d-flex justify-content-center">
-      <a href="javascript:void(0)" class="nav-link btn-logout" title="Sair da Conta" (click)="sair()">
-        <i class="bi bi-box-arrow-right"></i>
-      </a>
-    </div>
-  </aside>
+ <aside class="sidebar d-flex flex-column align-items-center py-4 flex-shrink-0 z-3 shadow-lg" 
+           style="width: 80px; border-right: 1px solid rgba(255,255,255,0.05); background-color: #0B1114;">
+      
+      <div class="brand-icon mb-5 text-neon" title="Íon Dashboard">
+        <i class="bi bi-lightning-charge-fill fs-3" style="filter: drop-shadow(0 0 10px rgba(0, 229, 155, 0.4));"></i>
+      </div>
+      
+      <nav class="nav-menu d-flex flex-column gap-4 w-100 align-items-center mt-3">
+        <a href="javascript:void(0)" class="nav-link active fs-5 text-neon" title="Início"><i class="bi bi-house-door"></i></a>
+        <a href="javascript:void(0)" class="nav-link fs-5 text-muted-custom" title="Ir para o Mapa" (click)="abrirMapa()"><i class="bi bi-map"></i></a>
+        <a href="javascript:void(0)" class="nav-link fs-5 text-muted-custom" title="Minha Garagem"><i class="bi bi-car-front"></i></a>
+        <a href="javascript:void(0)" class="nav-link fs-5 text-muted-custom" title="Postos Favoritos"><i class="bi bi-star"></i></a>
+      </nav>
 
+      <div class="mt-auto w-100 d-flex justify-content-center">
+        <a href="javascript:void(0)" class="nav-link btn-logout fs-5 text-muted-custom" title="Sair da Conta" (click)="sair()">
+          <i class="bi bi-box-arrow-right"></i>
+        </a>
+      </div>
+    </aside>
+ 
   <main class="main-content d-flex flex-column" style="min-height: 100vh;">
     
     <!-- HEADER -->
