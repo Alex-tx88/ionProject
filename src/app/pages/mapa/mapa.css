@@ -1,0 +1,132 @@
+@import url('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+
+.pointer-events-none { pointer-events: none; }
+.pointer-events-auto { pointer-events: auto; }
+.input-busca:focus { outline: none !important; }
+
+/* Menu Nav Styles */
+.nav-link { transition: color 0.2s; }
+.nav-link:hover { color: white !important; }
+
+/* Botão List Hovery */
+.hover-btn-neon { transition: all 0.2s ease; color: #6e7681; }
+.hover-btn-neon:hover { border-color: #00E59B !important; color: #00E59B !important; }
+
+/* ========================================= */
+/* EFEITO DA GAVETA DA LISTA (DESLIZANTE)    */
+/* ========================================= */
+.side-panel-map {
+  transform: translateX(-100%); /* Esconde a lista para a esquerda */
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.side-panel-map.panel-open {
+  transform: translateX(0); /* Desliza a lista para a tela */
+}
+
+/* Custom Scrollbar da Lista */
+.posto-list::-webkit-scrollbar { width: 6px; }
+.posto-list::-webkit-scrollbar-track { background: transparent; }
+.posto-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+.posto-list::-webkit-scrollbar-thumb:hover { background: rgba(0, 229, 155, 0.5); }
+
+.hover-bg-dark:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(0, 229, 155, 0.3) !important;
+  transform: translateX(4px);
+}
+.transition-all { transition: all 0.2s ease-in-out; }
+.cursor-pointer { cursor: pointer; }
+
+/* ========================================= */
+/* MARCADORES E CONTROLES DO MAPA LEAFLET    */
+/* ========================================= */
+/* Marcador Padrão (Verde Sólido com Raio Branco) */
+.neon-marker {
+  background-color: #00E59B; /* Verde Vibrante */
+  color: #ffffff; /* Raio Branco */
+  border: 2px solid #ffffff; /* Borda branca para destacar */
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-size: 22px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Variação Azul (Carga Rápida) */
+.neon-marker.fast {
+  background-color: #3b82f6;
+  border-color: #ffffff;
+}
+
+/* Variação Roxa (Shopping) */
+.neon-marker.shopping {
+  background-color: #a855f7;
+  border-color: #ffffff;
+}
+
+/* Efeito de aumento ao passar o mouse */
+.neon-marker:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+.leaflet-popup-content-wrapper {
+  background-color: white;
+  color: #0B1114;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+.leaflet-popup-tip { background-color: white; }
+
+.leaflet-control-zoom {
+  margin-bottom: 30px !important;
+  margin-right: 20px !important;
+  border: none !important;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5) !important;
+
+}
+
+/* Força os marcadores a ficarem sempre visíveis */
+.leaflet-marker-icon {
+    z-index: 1000 !important;
+}
+
+/* Garante que o painel aberto fique por cima do mapa */
+.panel-open {
+    display: flex !important;
+    z-index: 1000 !important;
+}
+
+/* ========================================= */
+/* MOBILE (Bottom Nav Bar)                   */
+/* ========================================= */
+@media (max-width: 768px) {
+  .vw-100 { flex-direction: column !important; }
+  
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100% !important;
+    height: 70px;
+    flex-direction: row !important;
+    padding: 0 1.5rem !important;
+    border-right: none !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+    justify-content: space-around;
+  }
+  
+  .brand-icon { display: none; }
+  .nav-menu { flex-direction: row !important; margin-top: 0 !important; justify-content: space-around; }
+  
+  main { padding-bottom: 70px; }
+
+  /* Lista Ocupa a tela inteira no celular quando abrir */
+  .side-panel-map {
+    width: 100% !important;
+  }
+}

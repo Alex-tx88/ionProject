@@ -1,5 +1,6 @@
 <div class="dashboard-layout">
   
+  <!-- SIDEBAR (Vira Bottom Bar no Celular) -->
   <aside class="sidebar d-flex flex-column align-items-center py-4">
     <div class="brand-icon mb-5 text-neon" title="Íon Dashboard">
       <i class="bi bi-lightning-charge-fill fs-2" style="filter: drop-shadow(0 0 10px rgba(0, 229, 155, 0.4));"></i>
@@ -21,50 +22,47 @@
 
   <main class="main-content d-flex flex-column" style="min-height: 100vh;">
     
-    <header class="header d-flex justify-content-between align-items-center mb-5 pb-3 border-bottom border-secondary border-opacity-10">
+    <!-- HEADER -->
+    <header class="header d-flex flex-wrap justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-10 gap-3">
       <div class="d-flex align-items-center gap-3">
         <div class="avatar-circle" style="width: 50px; height: 50px; font-size: 1.2rem;">AL</div>
         <div>
-          <h4 class="m-0 fw-normal text-muted-custom">Olá, <span class="text-white fw-bold">Alex</span></h4>
-          <div class="d-flex align-items-center gap-2 mt-1">
+          <h4 class="m-0 fw-normal text-muted-custom fs-5 fs-md-4">Olá, <span class="text-white fw-bold">Alex</span></h4>
+          <div class="d-flex flex-wrap align-items-center gap-2 mt-1">
             <span class="badge-status-api px-2 py-1 fs-7" style="background: rgba(0, 229, 155, 0.1); color: #00E59B; border-radius: 6px;">
               <i class="bi bi-car-front-fill me-1"></i> {{ veiculoAtual.marca }} {{ veiculoAtual.modelo }}
             </span>
-            <span class="text-muted-custom fs-7"><i class="bi bi-plug"></i> Conectores: {{ veiculoAtual.conectores.join(', ') }}</span>
+            <span class="text-muted-custom fs-7"><i class="bi bi-plug"></i> {{ veiculoAtual.conectores.join(', ') }}</span>
           </div>
         </div>
       </div>
 
-      <div class="d-flex align-items-center gap-4">
-        <span class="text-muted-custom fs-7"><i class="bi bi-calendar3 me-2"></i> Qui, 09 Jul 2026</span>
+      <div class="d-flex align-items-center gap-3 gap-md-4 ms-auto ms-md-0">
+        <span class="text-muted-custom fs-7 d-none d-sm-block"><i class="bi bi-calendar3 me-2"></i> Qui, 09 Jul 2026</span>
         
+        <!-- BOTÃO DE NOTIFICAÇÃO -->
         <div class="notification-wrapper">
-          
           <button class="btn btn-dark border border-secondary border-opacity-25 rounded-circle position-relative d-flex align-items-center justify-content-center" 
                   style="width: 45px; height: 45px; background-color: transparent;" 
                   (click)="toggleNotificacoes()">
             <i class="bi bi-bell text-muted-custom fs-5"></i>
-            
             <span *ngIf="notificacoesNaoLidas > 0" 
                   class="position-absolute top-0 start-100 translate-middle border border-dark rounded-circle" 
                   style="background-color: #00E59B; width: 10px; height: 10px; margin-top: 8px; margin-left: -8px;">
             </span>
           </button>
 
+          <!-- DROPDOWN DE NOTIFICAÇÕES -->
           <div *ngIf="mostrarNotificacoes" class="notification-dropdown">
-            
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom border-secondary border-opacity-10 position-relative z-1" style="background-color: transparent;">
               <h6 class="m-0 text-white fw-semibold">Notificações</h6>
-              <a href="javascript:void(0)" class="text-neon fs-7 text-decoration-none" (click)="marcarComoLidas()" *ngIf="notificacoesNaoLidas > 0">
-                Marcar como lidas
-              </a>
+              <a href="javascript:void(0)" class="text-neon fs-7 text-decoration-none" (click)="marcarComoLidas()" *ngIf="notificacoesNaoLidas > 0">Lidas</a>
             </div>
 
             <div class="notification-list position-relative z-1">
               <div *ngIf="notificacoes.length === 0" class="p-4 text-center text-muted-custom fs-7">
-                Nenhuma notificação no momento.
+                Nenhuma notificação.
               </div>
-              
               <div *ngFor="let notif of notificacoes" 
                    class="p-3 border-bottom border-secondary border-opacity-10 d-flex gap-3 align-items-start transition-all hover-bg-dark" 
                    [ngClass]="{'bg-dark bg-opacity-25': !notif.lida}">
@@ -78,18 +76,18 @@
                 </div>
               </div>
             </div>
-
             <div class="p-2 text-center border-top border-secondary border-opacity-10 position-relative z-1">
-              <a href="javascript:void(0)" class="text-muted-custom fs-7 text-decoration-none hover-text-white">Ver todas as atividades</a>
+              <a href="javascript:void(0)" class="text-muted-custom fs-7 text-decoration-none hover-text-white">Ver atividades</a>
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </header>
 
+    <!-- CARDS SUPERIORES -->
     <div class="top-cards-grid mb-5">
       <div class="dash-card p-4 d-flex flex-column justify-content-between">
-        <div class="d-flex justify-content-between align-items-start">
+        <div class="d-flex justify-content-between align-items-start mb-3 mb-md-0">
           <div class="icon-box"><i class="bi bi-geo-alt-fill text-neon"></i></div>
           <span class="badge-dark-outline text-neon">raio 5 km</span>
         </div>
@@ -100,7 +98,7 @@
       </div>
 
       <div class="dash-card p-4 d-flex flex-column justify-content-between">
-        <div class="d-flex justify-content-between align-items-start">
+        <div class="d-flex justify-content-between align-items-start mb-3 mb-md-0">
           <div class="icon-box text-muted-custom" style="background-color: rgba(59, 130, 246, 0.1); color: #3b82f6 !important;">
             <i class="bi bi-ev-station-fill"></i>
           </div>
@@ -108,12 +106,12 @@
         </div>
         <div>
           <h1 class="display-4 fw-bold text-white mb-0">{{ totalEstacoes }}</h1>
-          <span class="text-muted-custom">Total de postos mapeados</span>
+          <span class="text-muted-custom">Total mapeados</span>
         </div>
       </div>
 
       <div class="dash-card card-green p-4 d-flex flex-column justify-content-between" (click)="abrirMapa()" style="cursor: pointer;" title="Ir para o Mapa Interativo">
-        <div class="icon-box icon-dark"><i class="bi bi-map-fill"></i></div>
+        <div class="icon-box icon-dark mb-3 mb-md-0"><i class="bi bi-map-fill"></i></div>
         <div>
           <h3 class="fw-bold text-dark mb-1">Abrir Mapa</h3>
           <span class="text-dark opacity-75">Navegar pelos pontos</span>
@@ -121,21 +119,24 @@
       </div>
     </div>
 
+    <!-- LISTA DE POSTOS -->
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <span class="text-muted-custom fw-bold text-uppercase fs-7 tracking-wider">Postos em Salvador e Região</span>
+      <span class="text-muted-custom fw-bold text-uppercase fs-7 tracking-wider">Postos na Região</span>
       <a href="javascript:void(0)" class="text-neon text-decoration-none fw-semibold" (click)="alternarVerTodos($event)">
         {{ mostrarTodos ? 'Ver menos' : 'Ver todos' }}
       </a>
     </div>
 
     <div class="list-container d-flex flex-column gap-2 mb-5" [class.expanded-list]="mostrarTodos">
-      <div *ngFor="let posto of postosExibidos" class="list-item dash-card d-flex align-items-center p-3">
-        <div class="icon-box-sm text-neon me-3"><i class="bi bi-lightning-charge"></i></div>
-        <div class="flex-grow-1">
-          <h6 class="text-white fw-semibold mb-0">{{ posto.nome }}</h6>
-          <span class="text-muted-custom fs-7">{{ posto.endereco }}</span>
+      <div *ngFor="let posto of postosExibidos" class="list-item dash-card d-flex flex-column flex-sm-row align-items-start align-items-sm-center p-3 gap-3">
+        <div class="d-flex align-items-center gap-3 flex-grow-1">
+          <div class="icon-box-sm text-neon flex-shrink-0"><i class="bi bi-lightning-charge"></i></div>
+          <div>
+            <h6 class="text-white fw-semibold mb-0">{{ posto.nome }}</h6>
+            <span class="text-muted-custom fs-7">{{ posto.endereco }}</span>
+          </div>
         </div>
-        <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-3 ms-sm-auto mt-2 mt-sm-0">
           <span class="badge-dark-outline" [ngClass]="posto.tagColor">{{ posto.tag }}</span>
           <span class="text-muted-custom fs-7">{{ posto.distancia }} km <i class="bi bi-chevron-right ms-1"></i></span>
         </div>
@@ -143,24 +144,25 @@
       
       <div *ngIf="postosExibidos.length === 0" class="text-center py-5 dash-card">
         <i class="bi bi-radar text-muted-custom fs-2 mb-2"></i>
-        <p class="text-muted-custom m-0">Buscando eletropostos na região...</p>
+        <p class="text-muted-custom m-0">Buscando eletropostos...</p>
       </div>
     </div>
 
+    <!-- CARDS INFERIORES -->
     <div class="row g-3 mb-5">
-      <div class="col-4">
+      <div class="col-12 col-md-4">
         <div class="dash-card d-flex justify-content-between p-3 align-items-center">
-          <span class="text-muted-custom">Compatíveis com BYD</span>
+          <span class="text-muted-custom">Compatíveis (BYD)</span>
           <span class="text-neon fw-bold fs-5"><i class="bi bi-check-circle-fill me-1"></i> 100%</span>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-12 col-md-4">
         <div class="dash-card d-flex justify-content-between p-3 align-items-center">
           <span class="text-muted-custom">Shoppings</span>
           <span class="text-purple fw-bold fs-5">{{ shoppings }}</span>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-12 col-md-4">
         <div class="dash-card d-flex justify-content-between p-3 align-items-center">
           <span class="text-muted-custom">Rede Rápida (DC)</span>
           <span class="text-blue fw-bold fs-5">{{ redeRapidaDC }}</span>

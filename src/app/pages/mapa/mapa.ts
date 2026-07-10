@@ -1,45 +1,28 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import * as L from 'leaflet';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-mapa',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.css']
+  templateUrl: './mapa.html',
+  styleUrls: ['./mapa.css']
 })
-export class Dashboard implements OnInit {
+export class Mapa implements OnInit, AfterViewInit {
+  private map: any;
+  private marcadoresMapa: L.Marker[] = [];
+
   totalEstacoes: number = 0;
-  estacoesRaio5km: number = 0;
-  shoppings: number = 0;
-  redeRapidaDC: number = 0;
+  postosOrdenados: any[] = [];
+  mostrarLista: boolean = false;
 
-  todosOsPostos: any[] = [];
-  postosExibidos: any[] = [];
-  mostrarTodos: boolean = false;
-
-  veiculoAtual = {
-    marca: 'BYD',
-    modelo: 'Dolphin',
-    conectores: ['Tipo 2', 'CCS2']
-  };
-
-  // ==========================================
-  // SISTEMA DE NOTIFICAÇÕES
-  // ==========================================
-  mostrarNotificacoes: boolean = false;
-  notificacoes = [
-    { titulo: 'Novo posto adicionado', mensagem: 'O Íon mapeou uma nova estação perto do Salvador Shopping.', tempo: 'Há 10 min', lida: false },
-    { titulo: 'Bateria ideal', mensagem: 'Lembre-se de manter a carga do seu BYD entre 20% e 80% para preservar a bateria.', tempo: 'Há 2h', lida: false },
-    { titulo: 'Bem-vindo ao Íon', mensagem: 'Seu perfil foi configurado com sucesso.', tempo: 'Ontem', lida: true }
-  ];
-
- // Localização do Campus do SENAI Cimatec (Fallback de Segurança)
+  // Localização do Campus do SENAI Cimatec (Fallback)
   private latUsuario = -12.93815293615882; 
   private lonUsuario = -38.387176444288;
 
-  // Banco de Dados com GPS de alta precisão
+  // Banco de Dados com GPS de alta precisão (Atualizado com seus dados)
   private postosSalvador = [
     { lat: -12.977049863575994, lon: -38.45523139478341, nome: 'Eletroposto Salvador Shopping', endereco: 'Av. Tancredo Neves, 3133', isShopping: true, isFast: false },
     { lat: -12.981060367578994, lon: -38.464886730568125, nome: 'Recarga Shopping da Bahia', endereco: 'Av. Tancredo Neves, 148', isShopping: true, isFast: true },
@@ -48,7 +31,7 @@ export class Dashboard implements OnInit {
     { lat: -12.887350713571314, lon: -38.31854761004745, nome: 'EZVolt Parque Shopping Bahia', endereco: 'R. Maria Tavares de Resende, 82', isShopping: true, isFast: true },
     { lat: -12.91547265239023, lon: -38.33508930543007, nome: 'Neoenergia Aeroporto', endereco: 'Praça Gago Coutinho, s/n', isShopping: false, isFast: true },
     { lat: -12.976565596401521, lon: -38.470048690383194, nome: 'Concessionária BYD Eurovia', endereco: 'Av. Antônio Carlos Magalhães, 3213', isShopping: false, isFast: true },
-    { lat: -12.964267, lon: -38.472772, nome: 'GWM Morena Veículos', endereco: 'Av. Barros Reis, 1876', isShopping: false, isFast: true }, // Mantido da lista anterior
+    { lat: -12.964267, lon: -38.472772, nome: 'GWM Morena Veículos', endereco: 'Av. Barros Reis, 1876', isShopping: false, isFast: true },
     { lat: -13.006795748195456, lon: -38.49289286125157, nome: 'Hospital Mater Dei', endereco: 'Rio Vermelho / Vasco da Gama', isShopping: false, isFast: false },
     { lat: -12.97598727410513, lon: -38.51365722077102, nome: 'Fera Palace Hotel', endereco: 'R. Chile, 20', isShopping: false, isFast: false },
     { lat: -12.988091802574289, lon: -38.44843652743008, nome: 'Pão de Açúcar Costa Azul', endereco: 'R. Arthur de Azevêdo Machado, 1475', isShopping: false, isFast: false },
@@ -59,25 +42,19 @@ export class Dashboard implements OnInit {
 
   constructor(private router: Router, private zone: NgZone) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.processarEstacoes();
     this.buscarLocalizacaoReal();
   }
 
-  // ==== Funções de Notificação ====
-  get notificacoesNaoLidas() {
-    return this.notificacoes.filter(n => !n.lida).length;
+  ngAfterViewInit() {
+    this.iniciarMapa();
   }
 
-  toggleNotificacoes() {
-    this.mostrarNotificacoes = !this.mostrarNotificacoes;
+  toggleLista() {
+    this.mostrarLista = !this.mostrarLista;
   }
 
-  marcarComoLidas() {
-    this.notificacoes.forEach(n => n.lida = true);
-  }
-
-  // ==== Restante do Código ====
   private buscarLocalizacaoReal(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -88,11 +65,7 @@ export class Dashboard implements OnInit {
             this.processarEstacoes(); 
           });
         },
-        (error) => {
-          this.zone.run(() => {
-            console.warn('GPS não funcionou, usando fallback Cimatec.');
-          });
-        },
+        (error) => console.warn('GPS bloqueado. Usando Cimatec.'),
         { enableHighAccuracy: false, timeout: 5000, maximumAge: 0 }
       );
     }
@@ -100,46 +73,62 @@ export class Dashboard implements OnInit {
 
   private processarEstacoes(): void {
     this.totalEstacoes = this.postosSalvador.length;
-
-    const postosProcessados = this.postosSalvador.map((posto: any) => {
+    const postos = this.postosSalvador.map(posto => {
       const distanciaKm = this.calcularDistancia(this.latUsuario, this.lonUsuario, posto.lat, posto.lon);
-      
       let tag = 'Público';
       let tagColor = 'text-neon';
       if (posto.isShopping) { tag = 'Shopping'; tagColor = 'text-purple'; }
       else if (posto.isFast) { tag = 'Carga Rápida'; tagColor = 'text-blue'; }
-
-      return {
-        nome: posto.nome,
-        endereco: posto.endereco,
-        distanciaNum: distanciaKm,
-        distancia: distanciaKm.toFixed(1), 
-        tag: tag,
-        tagColor: tagColor
-      };
+      return { ...posto, distanciaNum: distanciaKm, distancia: distanciaKm.toFixed(1), tag: tag, tagColor: tagColor };
     });
-
-    this.estacoesRaio5km = postosProcessados.filter((p: any) => p.distanciaNum <= 5).length;
-    this.shoppings = postosProcessados.filter((p: any) => p.tag === 'Shopping').length;
-    this.redeRapidaDC = postosProcessados.filter((p: any) => p.tag === 'Carga Rápida').length;
-
-    this.todosOsPostos = postosProcessados.sort((a: any, b: any) => a.distanciaNum - b.distanciaNum);
-    
-    this.atualizarListaExibida();
+    this.postosOrdenados = postos.sort((a, b) => a.distanciaNum - b.distanciaNum);
   }
 
-  alternarVerTodos(event: Event) {
-    event.preventDefault();
-    this.mostrarTodos = !this.mostrarTodos;
-    this.atualizarListaExibida();
+private iniciarMapa(): void {
+    // 1. Inicializa o mapa
+    this.map = L.map('map', { zoomControl: false }).setView([-12.9714, -38.5114], 12);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    L.control.zoom({ position: 'bottomright' }).addTo(this.map);
+
+    // 2. Aguarda um curto intervalo para garantir que o contêiner do mapa está pronto
+    setTimeout(() => {
+        this.map.invalidateSize();
+        
+        // 3. Desenha os marcadores
+        this.postosOrdenados.forEach((posto) => {
+            let cssClass = 'neon-marker';
+            if (posto.isShopping) cssClass += ' shopping';
+            else if (posto.isFast) cssClass += ' fast';
+
+            const iconeCustomizado = L.divIcon({
+                className: 'custom-icon',
+                html: `<div class="${cssClass}"><i class="bi bi-lightning-charge-fill text-white"></i></div>`,
+                iconSize: [48, 48],
+                iconAnchor: [24, 24],
+                popupAnchor: [0, -24]
+            });
+
+            const marker = L.marker([posto.lat, posto.lon], { icon: iconeCustomizado })
+                .addTo(this.map)
+                .bindPopup(`<b style="color: black;">${posto.nome}</b><br><span style="color: #6e7681; font-size: 13px;">${posto.endereco}</span>`);
+            
+            this.marcadoresMapa.push(marker);
+        });
+    }, 300);
   }
 
-  atualizarListaExibida() {
-    if (this.mostrarTodos) {
-      this.postosExibidos = this.todosOsPostos;
-    } else {
-      this.postosExibidos = this.todosOsPostos.slice(0, 3);
-    }
+  focarNoPosto(lat: number, lon: number, index: number) {
+    this.map.flyTo([lat, lon], 16, { animate: true, duration: 1.5 });
+    setTimeout(() => {
+      this.marcadoresMapa[index].openPopup();
+      if (window.innerWidth <= 768) {
+        this.mostrarLista = false;
+      }
+    }, 1500);
   }
 
   private calcularDistancia(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -153,9 +142,10 @@ export class Dashboard implements OnInit {
     return R * c; 
   }
 
-  abrirMapa() {
-    this.router.navigate(['/mapa']);
+  voltar() {
+    this.router.navigate(['/dashboard']);
   }
+
   sair() {
     if (confirm('Tem certeza que deseja sair do Íon?')) {
       sessionStorage.clear();

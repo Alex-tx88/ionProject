@@ -54,6 +54,10 @@
   cursor: pointer;
 }
 
+/* ========================================= */
+/* CAIXA DE NOTIFICAÇÕES                     */
+/* ========================================= */
+
 @keyframes slideDownFade {
   from {
     opacity: 0;
@@ -62,5 +66,151 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + 15px);
+  right: 0;
+  width: 380px;
+  background-color: #12181C;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  animation: slideDownFade 0.2s ease-out forwards;
+}
+
+.notification-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 14px;
+  width: 12px;
+  height: 12px;
+  background-color: #12181C;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  transform: rotate(45deg);
+}
+
+.notification-list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.notification-list::-webkit-scrollbar {
+  width: 6px;
+}
+.notification-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.notification-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.notification-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 229, 155, 0.5);
+}
+
+.hover-bg-dark:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  cursor: pointer;
+}
+/* ========================================= */
+/* DESIGN RESPONSIVO (MOBILE & TABLET)       */
+/* ========================================= */
+
+@media (max-width: 768px) {
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: auto;
+    width: 100%;
+    height: 70px;
+    flex-direction: row !important;
+    padding: 0 1.5rem !important;
+    background-color: #0B1114;
+    border-right: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 1000;
+    justify-content: space-between;
+  }
+
+  .brand-icon {
+    display: none;
+  }
+
+  .nav-menu {
+    flex-direction: row !important;
+    gap: 0 !important;
+    width: 100% !important;
+    justify-content: space-around;
+  }
+
+  .mt-auto {
+    margin-top: 0 !important;
+    width: auto !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 1.5rem 1rem 90px 1rem !important;
+  }
+
+  /* 1. O SEGREDO DOS CARDS: Força a altura a ser flexível */
+  .top-cards-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem;
+    height: auto !important; 
+  }
+
+  /* Permite que o card em si cresça se necessário */
+  .dash-card {
+    height: auto !important;
+    min-height: 120px;
+  }
+
+  /* 2. ALINHAMENTO DA LISTA NO CELULAR: Separa as tags da distância */
+  .list-item {
+    align-items: flex-start !important;
+  }
+  
+  .list-item > div:last-child {
+    width: 100%;
+    justify-content: space-between !important;
+    margin-top: 0.8rem;
+  }
+
+  /* 3. NOTIFICAÇÕES: Ajuste fino para não colar na borda */
+  .notification-dropdown {
+    width: 300px;
+    right: -20px;
+  }
+  
+  .notification-dropdown::before {
+    right: 32px;
+  }
+}
+
+/* Telas muito pequenas (ex: iPhone SE) */
+@media (max-width: 400px) {
+  .notification-dropdown {
+    width: 270px;
+    right: -10px;
+  }
+  .notification-dropdown::before {
+    right: 22px;
   }
 }
