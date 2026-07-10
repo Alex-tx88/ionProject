@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
+import { Component, OnInit, AfterViewInit, NgZone, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
@@ -6,6 +6,7 @@ import * as L from 'leaflet';
 @Component({
   selector: 'app-mapa',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   imports: [CommonModule],
   templateUrl: './mapa.html',
   styleUrls: ['./mapa.css']
