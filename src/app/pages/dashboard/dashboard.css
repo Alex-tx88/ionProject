@@ -1,0 +1,66 @@
+
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: calc(100% + 15px); /* Dá uma margem de respiro abaixo do botão */
+  right: 0;
+  width: 380px;
+  background-color: #12181C; /* Fundo escuro sólido */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); /* Sombra 3D profunda */
+  z-index: 9999; /* Força ficar na frente de TODOS os cards da tela */
+  animation: slideDownFade 0.2s ease-out forwards;
+}
+
+/* O 'triângulo' apontando para o sino */
+.notification-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 14px; /* Alinhado com o centro do botão do sino */
+  width: 12px;
+  height: 12px;
+  background-color: #12181C;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  transform: rotate(45deg);
+}
+
+.notification-list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.notification-list::-webkit-scrollbar {
+  width: 6px;
+}
+.notification-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.notification-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.notification-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 229, 155, 0.5); /* Fica neon no hover */
+}
+
+.hover-bg-dark:hover {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  cursor: pointer;
+}
+
+@keyframes slideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

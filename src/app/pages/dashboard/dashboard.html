@@ -37,11 +37,54 @@
 
       <div class="d-flex align-items-center gap-4">
         <span class="text-muted-custom fs-7"><i class="bi bi-calendar3 me-2"></i> Qui, 09 Jul 2026</span>
-        <button class="btn btn-dark border border-secondary border-opacity-25 rounded-circle p-2 position-relative" style="width: 40px; height: 40px;">
-          <i class="bi bi-bell text-muted-custom"></i>
-          <span class="position-absolute top-0 start-100 translate-middle p-1 border border-dark rounded-circle" style="background-color: #00E59B;"></span>
-        </button>
-      </div>
+        
+        <div class="notification-wrapper">
+          
+          <button class="btn btn-dark border border-secondary border-opacity-25 rounded-circle position-relative d-flex align-items-center justify-content-center" 
+                  style="width: 45px; height: 45px; background-color: transparent;" 
+                  (click)="toggleNotificacoes()">
+            <i class="bi bi-bell text-muted-custom fs-5"></i>
+            
+            <span *ngIf="notificacoesNaoLidas > 0" 
+                  class="position-absolute top-0 start-100 translate-middle border border-dark rounded-circle" 
+                  style="background-color: #00E59B; width: 10px; height: 10px; margin-top: 8px; margin-left: -8px;">
+            </span>
+          </button>
+
+          <div *ngIf="mostrarNotificacoes" class="notification-dropdown">
+            
+            <div class="d-flex justify-content-between align-items-center p-3 border-bottom border-secondary border-opacity-10 position-relative z-1" style="background-color: transparent;">
+              <h6 class="m-0 text-white fw-semibold">Notificações</h6>
+              <a href="javascript:void(0)" class="text-neon fs-7 text-decoration-none" (click)="marcarComoLidas()" *ngIf="notificacoesNaoLidas > 0">
+                Marcar como lidas
+              </a>
+            </div>
+
+            <div class="notification-list position-relative z-1">
+              <div *ngIf="notificacoes.length === 0" class="p-4 text-center text-muted-custom fs-7">
+                Nenhuma notificação no momento.
+              </div>
+              
+              <div *ngFor="let notif of notificacoes" 
+                   class="p-3 border-bottom border-secondary border-opacity-10 d-flex gap-3 align-items-start transition-all hover-bg-dark" 
+                   [ngClass]="{'bg-dark bg-opacity-25': !notif.lida}">
+                <div class="icon-box-sm flex-shrink-0 mt-1" [ngClass]="notif.lida ? 'text-muted-custom' : 'text-neon'">
+                  <i class="bi" [ngClass]="notif.lida ? 'bi-bell' : 'bi-bell-fill'"></i>
+                </div>
+                <div>
+                  <h6 class="mb-1 text-white fs-7" [ngClass]="{'fw-bold': !notif.lida}">{{ notif.titulo }}</h6>
+                  <p class="mb-1 text-muted-custom" style="font-size: 13px; line-height: 1.4;">{{ notif.mensagem }}</p>
+                  <span class="text-muted-custom opacity-75" style="font-size: 11px;">{{ notif.tempo }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2 text-center border-top border-secondary border-opacity-10 position-relative z-1">
+              <a href="javascript:void(0)" class="text-muted-custom fs-7 text-decoration-none hover-text-white">Ver todas as atividades</a>
+            </div>
+          </div>
+        </div>
+        </div>
     </header>
 
     <div class="top-cards-grid mb-5">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -25,10 +25,22 @@ export class Dashboard implements OnInit {
     conectores: ['Tipo 2', 'CCS2']
   };
 
-  private latSalvador = -12.9714;
-  private lonSalvador = -38.5114;
+  // ==========================================
+  // SISTEMA DE NOTIFICAÇÕES
+  // ==========================================
+  mostrarNotificacoes: boolean = false;
+  notificacoes = [
+    { titulo: 'Novo posto adicionado', mensagem: 'O Íon mapeou uma nova estação perto do Salvador Shopping.', tempo: 'Há 10 min', lida: false },
+    { titulo: 'Bateria ideal', mensagem: 'Lembre-se de manter a carga do seu BYD entre 20% e 80% para preservar a bateria.', tempo: 'Há 2h', lida: false },
+    { titulo: 'Bem-vindo ao Íon', mensagem: 'Seu perfil foi configurado com sucesso.', tempo: 'Ontem', lida: true }
+  ];
 
-  // BANCO DE DADOS LOCAL EMBUTIDO (Garante 100% de funcionamento sem falhas de API)
+  // ==========================================
+  // COORDENADAS E DADOS
+  // ==========================================
+  private latUsuario = -12.9351;
+  private lonUsuario = -38.3496;
+
   private postosSalvador = [
     { lat: -12.9786, lon: -38.4544, nome: 'Eletroposto Salvador Shopping', endereco: 'Av. Tancredo Neves, 3133', isShopping: true, isFast: false },
     { lat: -12.9801, lon: -38.4554, nome: 'Recarga Shopping da Bahia', endereco: 'Av. Tancredo Neves, 148', isShopping: true, isFast: true },
@@ -46,19 +58,52 @@ export class Dashboard implements OnInit {
     { lat: -12.9863, lon: -38.4411, nome: 'Assaí Atacadista Rótula', endereco: 'Rótula do Abacaxi', isShopping: false, isFast: false }
   ];
 
-  // Repare que removemos a injeção do 'EstacaoService' daqui
-  constructor(private router: Router) {}
+  constructor(private router: Router, private zone: NgZone) {}
 
   ngOnInit(): void {
-    this.carregarDados();
+    this.processarEstacoes();
+    this.buscarLocalizacaoReal();
   }
 
-  private carregarDados(): void {
+  // ==== Funções de Notificação ====
+  get notificacoesNaoLidas() {
+    return this.notificacoes.filter(n => !n.lida).length;
+  }
+
+  toggleNotificacoes() {
+    this.mostrarNotificacoes = !this.mostrarNotificacoes;
+  }
+
+  marcarComoLidas() {
+    this.notificacoes.forEach(n => n.lida = true);
+  }
+
+  // ==== Restante do Código ====
+  private buscarLocalizacaoReal(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.zone.run(() => {
+            this.latUsuario = position.coords.latitude;
+            this.lonUsuario = position.coords.longitude;
+            this.processarEstacoes(); 
+          });
+        },
+        (error) => {
+          this.zone.run(() => {
+            console.warn('GPS não funcionou, usando fallback Cimatec.');
+          });
+        },
+        { enableHighAccuracy: false, timeout: 5000, maximumAge: 0 }
+      );
+    }
+  }
+
+  private processarEstacoes(): void {
     this.totalEstacoes = this.postosSalvador.length;
 
-    // Processa os dados locais na hora (sem atrasos de rede)
     const postosProcessados = this.postosSalvador.map((posto: any) => {
-      const distanciaKm = this.calcularDistancia(this.latSalvador, this.lonSalvador, posto.lat, posto.lon);
+      const distanciaKm = this.calcularDistancia(this.latUsuario, this.lonUsuario, posto.lat, posto.lon);
       
       let tag = 'Público';
       let tagColor = 'text-neon';
@@ -69,7 +114,7 @@ export class Dashboard implements OnInit {
         nome: posto.nome,
         endereco: posto.endereco,
         distanciaNum: distanciaKm,
-        distancia: distanciaKm.toFixed(1),
+        distancia: distanciaKm.toFixed(1), 
         tag: tag,
         tagColor: tagColor
       };
