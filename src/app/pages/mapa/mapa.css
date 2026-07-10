@@ -75,6 +75,131 @@
   box-shadow: 0 5px 15px rgba(0,0,0,0.5) !important;
 }
 
+.map-legend {
+  transition: all 0.3s ease;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .vw-100 { flex-direction: column !important; }
+  .sidebar { position: fixed; bottom: 0; left: 0; width: 100% !important; height: 70px; flex-direction: row !important; padding: 0 1.5rem !important; border-top: 1px solid rgba(255, 255, 255, 0.05); z-index: 9999; }
+  .brand-icon { display: none; }
+  .nav-menu { flex-direction: row !important; margin-top: 0 !important; justify-content: space-around; }
+  .btn-logout { display: none; }
+  main { padding-bottom: 70px; }
+  .side-panel-map { width: 100% !important; padding-top: 100px !important; }
+  
+  /* Sobe a legenda no celular para não esconder atrás da Bottom Bar */
+  .map-legend {
+    bottom: 80px !important; 
+    margin: 15px !important;
+  }
+}
+
+.nav-link { transition: color 0.2s; }
+.nav-link:hover { color: white !important; }
+
+/* ======================================================= */
+/* MARCADOR DO USUÁRIO & ANIMAÇÃO DE ROTA                  */
+/* ======================================================= */
+::ng-deep .user-marker {
+  background-color: #12181C;
+  color: #fff;
+  border: 3px solid #00E59B;
+  border-radius: 50%;
+  width: 38px; height: 38px;
+  display: flex !important;
+  align-items: center; justify-content: center;
+  box-shadow: 0 0 15px rgba(0, 229, 155, 0.6);
+  font-size: 20px;
+  z-index: 999;
+}
+
+/* Anima a linha da rota traçada pra dar efeito GPS */
+::ng-deep path.leaflet-interactive {
+  animation: dash 20s linear infinite;
+}
+@keyframes dash {
+  to { stroke-dashoffset: -1000; }
+}
+
+/* ======================================================= */
+/* PAINEL DE DETALHES (DESKTOP: DIREITA | MOBILE: BAIXO)   */
+/* ======================================================= */
+.details-panel {
+  position: absolute;
+  top: 100px;
+  right: 20px;
+  width: 420px;
+  height: calc(100vh - 120px);
+  background-color: rgba(18, 24, 28, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  z-index: 1000;
+  transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.details-panel.show-panel {
+  transform: translateX(0);
+}
+
+.btn-close-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.2s;
+}
+.btn-close-panel:hover {
+  background: rgba(255,255,255,0.3);
+  transform: rotate(90deg);
+}
+
+/* Scroll Galeria de Imagens */
+.image-scroller {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 12px;
+  scrollbar-width: none; /* Esconde barra Firefox */
+}
+.image-scroller::-webkit-scrollbar { display: none; } /* Esconde barra Chrome */
+
+.image-scroller img {
+  scroll-snap-align: center;
+  width: 85%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 16px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Estilo do Botão Iniciar Rota */
+.btn-action-route {
+  background-color: #00E59B;
+  color: #0B1114;
+  border-radius: 14px;
+  border: none;
+  transition: all 0.2s;
+}
+.btn-action-route:hover {
+  background-color: #00c987;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 229, 155, 0.3) !important;
+}
+
 /* MOBILE */
 @media (max-width: 768px) {
   .vw-100 { flex-direction: column !important; }
@@ -86,5 +211,5 @@
   .side-panel-map { width: 100% !important; padding-top: 100px !important; }
 }
 
-.nav-link { transition: color 0.2s; }
-.nav-link:hover { color: white !important; }
+
+

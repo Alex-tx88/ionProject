@@ -214,3 +214,13 @@
     right: 22px;
   }
 }
+
+.sidebar .nav-link {
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar .nav-link.text-muted-custom:hover,
+.sidebar .nav-link:hover i {
+  color: #ffffff !important;
+  transform: scale(1.1); /* Dá um leve e elegante efeito de aumento no ícone */
+}

@@ -1,6 +1,6 @@
 <div class="dashboard-layout">
  <aside class="sidebar d-flex flex-column align-items-center py-4 flex-shrink-0 z-3 shadow-lg" 
-           style="width: 80px; border-right: 1px solid rgba(255,255,255,0.05); background-color: #0B1114;">
+           style="width: 80px; height: 100vh; position: sticky; top: 0; border-right: 1px solid rgba(255,255,255,0.05); background-color: #0B1114;">
       
       <div class="brand-icon mb-5 text-neon" title="Íon Dashboard">
         <i class="bi bi-lightning-charge-fill fs-3" style="filter: drop-shadow(0 0 10px rgba(0, 229, 155, 0.4));"></i>
@@ -13,7 +13,7 @@
         <a href="javascript:void(0)" class="nav-link fs-5 text-muted-custom" title="Postos Favoritos"><i class="bi bi-star"></i></a>
       </nav>
 
-      <div class="mt-auto w-100 d-flex justify-content-center">
+      <div class="mt-auto w-100 d-flex justify-content-center mb-2">
         <a href="javascript:void(0)" class="nav-link btn-logout fs-5 text-muted-custom" title="Sair da Conta" (click)="sair()">
           <i class="bi bi-box-arrow-right"></i>
         </a>
@@ -167,6 +167,39 @@
           <span class="text-muted-custom">Rede Rápida (DC)</span>
           <span class="text-blue fw-bold fs-5">{{ redeRapidaDC }}</span>
         </div>
+      </div>
+    </div>
+
+    <div class="details-panel shadow-lg d-flex flex-column" [class.show-panel]="postoSelecionado != null">
+      
+      <button class="btn-close-panel" (click)="fecharDetalhes()" *ngIf="postoSelecionado">
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <div *ngIf="postoSelecionado" class="p-3 p-md-4 d-flex flex-column h-100 overflow-y-auto w-100">
+        
+        <div class="image-scroller mb-4 mt-2">
+          <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=600&q=80" alt="Recarga 1">
+          <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=600&q=80" alt="Recarga 2">
+          <img src="https://images.unsplash.com/photo-1654160086620-80c441ed4c79?auto=format&fit=crop&w=600&q=80" alt="Recarga 3">
+        </div>
+
+        <h4 class="text-white fw-bold mb-1">{{ postoSelecionado.nome }}</h4>
+        <span class="text-muted-custom fs-7 mb-3 d-block"><i class="bi bi-geo-alt-fill me-1"></i> {{ postoSelecionado.endereco }}</span>
+
+        <div class="d-flex gap-2 mb-3 flex-wrap">
+          <span class="badge-dark-outline fw-semibold px-3 py-2" [ngClass]="postoSelecionado.tagColor" style="border: 1px solid rgba(255,255,255,0.1);">{{ postoSelecionado.tag }}</span>
+          <span class="badge-dark-outline text-white px-3 py-2" style="border: 1px solid rgba(255,255,255,0.1);"><i class="bi bi-plug"></i> Tipo 2 / CCS2</span>
+          <span class="badge-dark-outline px-3 py-2" style="border: 1px solid rgba(255,255,255,0.1); color: #00E59B;"><i class="bi bi-clock"></i> 24 Horas</span>
+        </div>
+
+        <p class="text-muted-custom fs-7 mb-4 flex-grow-1" style="line-height: 1.6;">
+          Este eletroposto é de fácil acesso e oferece total conveniência enquanto você recarrega o seu veículo. Monitorado e seguro 24 horas por dia. O sistema dispõe de controle de estabilidade de carga e suporta adaptadores para os principais modelos de EV do mercado.
+        </p>
+
+        <button class="btn btn-action-route w-100 py-3 fw-bold shadow-lg d-flex align-items-center justify-content-center gap-2" (click)="tracarRota()">
+          <i class="bi bi-cursor-fill fs-5"></i> Iniciar Rota Automática <span class="fw-normal opacity-75 ms-1">({{ postoSelecionado.distancia }} km)</span>
+        </button>
       </div>
     </div>
 

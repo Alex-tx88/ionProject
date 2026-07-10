@@ -17,6 +17,10 @@ export class Mapa implements OnInit, AfterViewInit {
   totalEstacoes: number = 0;
   postosOrdenados: any[] = [];
   mostrarLista: boolean = false;
+  
+  // Controle do novo Painel de Detalhes e Rotas
+  postoSelecionado: any = null;
+  rotaAtual: L.Polyline | null = null;
 
   private latUsuario = -12.93815293615882; 
   private lonUsuario = -38.387176444288;
@@ -63,7 +67,7 @@ export class Mapa implements OnInit, AfterViewInit {
             this.processarEstacoes(); 
           });
         },
-        (error) => console.warn('GPS bloqueado.'),
+        (error) => console.warn('GPS bloqueado. Usando Cimatec.'),
         { enableHighAccuracy: false, timeout: 5000, maximumAge: 0 }
       );
     }
@@ -91,39 +95,96 @@ export class Mapa implements OnInit, AfterViewInit {
 
     L.control.zoom({ position: 'bottomright' }).addTo(this.map);
 
+    // Adicionar Marcador do Usuário
+    const userIcon = L.divIcon({
+      className: 'custom-marker-container',
+      html: `<div class="user-marker"><i class="bi bi-person-fill"></i></div>`,
+      iconSize: [38, 38], iconAnchor: [19, 19]
+    });
+    L.marker([this.latUsuario, this.lonUsuario], { icon: userIcon }).addTo(this.map);
+
+    // Adicionar Postos
     this.postosOrdenados.forEach((posto) => {
       let cssClass = 'neon-marker';
       if (posto.isShopping) cssClass += ' shopping';
       else if (posto.isFast) cssClass += ' fast';
 
       const iconeCustomizado = L.divIcon({
-        className: 'custom-marker-container', // <-- A MÁGICA ACONTECE AQUI
+        className: 'custom-marker-container',
         html: `<div class="${cssClass}"><i class="bi bi-lightning-charge-fill text-white"></i></div>`,
-        iconSize: [48, 48],
-        iconAnchor: [24, 24],
-        popupAnchor: [0, -24]
+        iconSize: [48, 48], iconAnchor: [24, 24]
       });
 
-      const marker = L.marker([posto.lat, posto.lon], { icon: iconeCustomizado })
-        .addTo(this.map)
-        .bindPopup(`<b style="color: black;">${posto.nome}</b><br><span style="color: #6e7681; font-size: 13px;">${posto.endereco}</span>`);
+      const marker = L.marker([posto.lat, posto.lon], { icon: iconeCustomizado }).addTo(this.map);
+      
+      // Quando clicar no pino, abre o Novo Painel!
+      marker.on('click', () => {
+        this.zone.run(() => { this.abrirDetalhes(posto); });
+      });
       
       this.marcadoresMapa.push(marker);
     });
 
-    setTimeout(() => {
-      this.map.invalidateSize();
-    }, 500);
+    setTimeout(() => { this.map.invalidateSize(); }, 500);
   }
 
   focarNoPosto(lat: number, lon: number, index: number) {
-    this.map.flyTo([lat, lon], 16, { animate: true, duration: 1.5 });
-    setTimeout(() => {
-      this.marcadoresMapa[index].openPopup();
-      if (window.innerWidth <= 768) {
-        this.mostrarLista = false;
-      }
-    }, 1500);
+    this.abrirDetalhes(this.postosOrdenados[index]);
+  }
+
+  // ========================================================
+  // LÓGICA DO NOVO PAINEL DE DETALHES E ROTA
+  // ========================================================
+  abrirDetalhes(posto: any) {
+    this.postoSelecionado = posto;
+    this.mostrarLista = false; // Fecha a gaveta da esquerda se estiver aberta
+    this.map.flyTo([posto.lat, posto.lon], 16, { animate: true, duration: 1.5 });
+  }
+
+  fecharDetalhes() {
+    this.postoSelecionado = null;
+    if (this.rotaAtual) {
+      this.map.removeLayer(this.rotaAtual);
+      this.rotaAtual = null;
+    }
+  }
+
+  async tracarRota() {
+    if (!this.postoSelecionado) return;
+
+    // Limpa a rota antiga se o usuário já tiver gerado uma
+    if (this.rotaAtual) {
+      this.map.removeLayer(this.rotaAtual);
+    }
+
+    // Coordenadas: OSRM usa formato [Longitude, Latitude] na URL
+    const start = `${this.lonUsuario},${this.latUsuario}`;
+    const end = `${this.postoSelecionado.lon},${this.postoSelecionado.lat}`;
+    const url = `https://router.project-osrm.org/route/v1/driving/${start};${end}?overview=full&geometries=geojson`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+
+      // O GeoJSON inverte para [Lon, Lat], o Leaflet precisa de [Lat, Lon]
+      const routeCoordinates = data.routes[0].geometry.coordinates.map((c: any) => [c[1], c[0]]);
+
+      // Desenha a linha da rota no mapa
+      this.rotaAtual = L.polyline(routeCoordinates, {
+        color: '#00E59B', // Verde Neon do sistema
+        weight: 6,
+        opacity: 0.9,
+        lineCap: 'round',
+        lineJoin: 'round',
+        dashArray: '10, 15' // Efeito tracejado animado
+      }).addTo(this.map);
+
+      // Ajusta o zoom do mapa para mostrar toda a rota do carro até o posto
+      this.map.fitBounds(this.rotaAtual.getBounds(), { padding: [50, 50] });
+
+    } catch (error) {
+      alert("Erro ao buscar a rota. Verifique sua conexão com a internet.");
+    }
   }
 
   private calcularDistancia(lat1: number, lon1: number, lat2: number, lon2: number): number {
