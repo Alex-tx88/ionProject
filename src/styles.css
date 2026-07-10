@@ -420,3 +420,25 @@ footer .footer-copy {
   align-items: center;
   justify-content: center;
 }
+
+/* Efeito de transição suave global */
+.transition-all {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Efeito Hover nos links do rodapé */
+.hover-text-white:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+/* Customização do Botão de Sair na Sidebar */
+.btn-logout {
+  color: #6e7681 !important; /* Cor padrão discreta */
+}
+
+.btn-logout:hover {
+  color: #ff4d4d !important; /* Fica vermelho ao passar o mouse */
+  background-color: rgba(255, 77, 77, 0.1) !important;
+  border-left: 3px solid #ff4d4d !important;
+}
