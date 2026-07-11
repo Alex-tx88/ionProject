@@ -26,8 +26,10 @@ export class Dashboard implements OnInit {
   };
 
   // ==========================================
-  // SISTEMA DE NOTIFICAÇÕES (Focado na Ford)
+  // DATA DINÂMICA
   // ==========================================
+  dataAtualFormatada: string = '';
+
   mostrarNotificacoes: boolean = false;
   notificacoes = [
     { titulo: 'Novo posto adicionado', mensagem: 'O Íon mapeou uma nova estação perto do Salvador Shopping.', tempo: 'Há 10 min', lida: false },
@@ -35,13 +37,10 @@ export class Dashboard implements OnInit {
     { titulo: 'Bem-vindo ao Íon', mensagem: 'Seu perfil foi configurado com sucesso.', tempo: 'Ontem', lida: true }
   ];
 
-  // ==========================================
-  // FIX: COORDENADAS PADRÃO (CENTRO DE SALVADOR)
-  // ==========================================
+  // Coordenadas Padrão (Centro de Salvador)
   private latUsuario = -12.9714; 
   private lonUsuario = -38.5104;
 
-  // Banco de Dados com Concessionárias Ford
   private postosSalvador = [
     { lat: -12.9770498, lon: -38.4552313, nome: 'Eletroposto Salvador Shopping', endereco: 'Av. Tancredo Neves, 3133', isShopping: true, isFast: false },
     { lat: -12.9810603, lon: -38.4648867, nome: 'Recarga Shopping da Bahia', endereco: 'Av. Tancredo Neves, 148', isShopping: true, isFast: true },
@@ -62,11 +61,25 @@ export class Dashboard implements OnInit {
   constructor(private router: Router, private zone: NgZone) {}
 
   ngOnInit(): void {
-    this.processarEstacoes(); // Roda com o centro de Salvador primeiro
-    this.buscarLocalizacaoReal(); // Tenta pegar a real
+    this.atualizarData();
+    this.processarEstacoes(); 
+    this.buscarLocalizacaoReal(); 
   }
 
-  // ==== Funções de Notificação ====
+  // Gera a data atual do sistema formatada (Ex: Ter, 05 Dez 2023)
+  atualizarData() {
+    const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    
+    const data = new Date();
+    const diaSemana = diasSemana[data.getDay()];
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = meses[data.getMonth()];
+    const ano = data.getFullYear();
+    
+    this.dataAtualFormatada = `${diaSemana}, ${dia} ${mes} ${ano}`;
+  }
+
   get notificacoesNaoLidas() {
     return this.notificacoes.filter(n => !n.lida).length;
   }
@@ -79,7 +92,6 @@ export class Dashboard implements OnInit {
     this.notificacoes.forEach(n => n.lida = true);
   }
 
-  // ==== Restante do Código ====
   private buscarLocalizacaoReal(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -87,7 +99,7 @@ export class Dashboard implements OnInit {
           this.zone.run(() => {
             this.latUsuario = position.coords.latitude;
             this.lonUsuario = position.coords.longitude;
-            this.processarEstacoes(); // Se o GPS for liberado, recalcula
+            this.processarEstacoes(); 
           });
         },
         (error) => {
@@ -95,7 +107,7 @@ export class Dashboard implements OnInit {
             console.warn('GPS bloqueado. Usando centro de Salvador como padrão.');
             this.latUsuario = -12.9714; 
             this.lonUsuario = -38.5104;
-            this.processarEstacoes(); // Força o recálculo para garantir que os cards e a lista atualizem
+            this.processarEstacoes(); 
           });
         },
         { enableHighAccuracy: false, timeout: 5000, maximumAge: 0 }
