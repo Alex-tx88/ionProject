@@ -21,10 +21,14 @@ export class Mapa implements OnInit, AfterViewInit {
   
   postoSelecionado: any = null;
   rotaAtual: any = null; 
-  tempoRota: string | null = null; // Variável nova para guardar o tempo estimado
+  tempoRota: string | null = null; 
 
-  private latUsuario = -12.938152; 
-  private lonUsuario = -38.387176;
+  // ==========================================
+  // FIX: COORDENADAS PADRÃO (CENTRO DE SALVADOR)
+  // Agora a bolinha não vai engolir o Senai Cimatec se o GPS falhar
+  // ==========================================
+  private latUsuario = -12.9714; 
+  private lonUsuario = -38.5104;
 
   imagemAtualIndex: number = 0;
   carrosselInterval: any;
@@ -41,8 +45,8 @@ export class Mapa implements OnInit, AfterViewInit {
     { lat: -12.9356626, lon: -38.3947840, nome: 'Eletroposto Shopping Paralela', endereco: 'Av. Luís Viana Filho, 8544', isShopping: true, isFast: false, potencia: '22 kW', conector: 'Tipo 2' },
     { lat: -12.8873507, lon: -38.3185476, nome: 'EZVolt Parque Shopping Bahia', endereco: 'R. Maria Tavares de Resende, 82', isShopping: true, isFast: true, potencia: '50 kW', conector: 'CCS2' },
     { lat: -12.9154726, lon: -38.3350893, nome: 'Neoenergia Aeroporto', endereco: 'Praça Gago Coutinho, s/n', isShopping: false, isFast: true, potencia: '50 kW', conector: 'CCS2' },
-    { lat: -12.9765655, lon: -38.4700486, nome: 'Concessionária BYD Eurovia', endereco: 'Av. Antônio Carlos Magalhães, 3213', isShopping: false, isFast: true, potencia: '120 kW', conector: 'CCS2' },
-    { lat: -12.964267, lon: -38.472772, nome: 'GWM Morena Veículos', endereco: 'Av. Barros Reis, 1876', isShopping: false, isFast: true, potencia: '100 kW', conector: 'CCS2' },
+    { lat: -12.9765655, lon: -38.4700486, nome: 'Concessionária Ford Indiana', endereco: 'Av. Antônio Carlos Magalhães, 3213', isShopping: false, isFast: true, potencia: '120 kW', conector: 'CCS2' },
+    { lat: -12.964267, lon: -38.472772, nome: 'Concessionária Ford Slaviero', endereco: 'Av. Barros Reis, 1876', isShopping: false, isFast: true, potencia: '100 kW', conector: 'CCS2' },
     { lat: -13.0067957, lon: -38.4928928, nome: 'Hospital Mater Dei', endereco: 'Rio Vermelho', isShopping: false, isFast: false, potencia: '22 kW', conector: 'Tipo 2' },
     { lat: -12.9759872, lon: -38.5136572, nome: 'Fera Palace Hotel', endereco: 'R. Chile, 20', isShopping: false, isFast: false, potencia: '7 kW', conector: 'Tipo 2' },
     { lat: -12.9880918, lon: -38.4484365, nome: 'Pão de Açúcar Costa Azul', endereco: 'R. Arthur Machado, 1475', isShopping: false, isFast: false, potencia: '22 kW', conector: 'Tipo 2' },
@@ -81,7 +85,7 @@ export class Mapa implements OnInit, AfterViewInit {
             this.processarEstacoes(); 
           });
         },
-        (error) => console.warn('GPS bloqueado.'),
+        (error) => console.warn('GPS bloqueado pelo usuário. Usando localização padrão.'),
         { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
       );
     }
@@ -150,14 +154,14 @@ export class Mapa implements OnInit, AfterViewInit {
     this.postoSelecionado = posto;
     this.mostrarLista = false;
     this.imagemAtualIndex = 0; 
-    this.tempoRota = null; // Reseta o tempo quando abrir um posto novo
+    this.tempoRota = null; 
     this.iniciarCarrossel();   
     this.map.flyTo([posto.lat, posto.lon + 0.015], 14, { animate: true, duration: 1.5 });
   }
 
   fecharDetalhes() {
     this.postoSelecionado = null;
-    this.tempoRota = null; // Zera a estimativa de tempo
+    this.tempoRota = null; 
     this.pararCarrossel();
     if (this.rotaAtual) {
       this.map.removeLayer(this.rotaAtual);
@@ -204,9 +208,6 @@ export class Mapa implements OnInit, AfterViewInit {
       const data = await response.json();
       const routeCoordinates = data.routes[0].geometry.coordinates.map((c: any) => [c[1], c[0]]);
 
-      // =====================================
-      // CÁLCULO DE TEMPO ESTIMADO (ETA)
-      // =====================================
       const duracaoSegundos = data.routes[0].duration;
       const minutos = Math.round(duracaoSegundos / 60);
 

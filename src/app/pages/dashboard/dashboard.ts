@@ -26,7 +26,7 @@ export class Dashboard implements OnInit {
   };
 
   // ==========================================
-  // SISTEMA DE NOTIFICAÇÕES
+  // SISTEMA DE NOTIFICAÇÕES (Focado na Ford)
   // ==========================================
   mostrarNotificacoes: boolean = false;
   notificacoes = [
@@ -35,33 +35,35 @@ export class Dashboard implements OnInit {
     { titulo: 'Bem-vindo ao Íon', mensagem: 'Seu perfil foi configurado com sucesso.', tempo: 'Ontem', lida: true }
   ];
 
- // Localização do Campus do SENAI Cimatec (Fallback de Segurança)
-  private latUsuario = -12.93815293615882; 
-  private lonUsuario = -38.387176444288;
+  // ==========================================
+  // FIX: COORDENADAS PADRÃO (CENTRO DE SALVADOR)
+  // ==========================================
+  private latUsuario = -12.9714; 
+  private lonUsuario = -38.5104;
 
-  // Banco de Dados com GPS de alta precisão
+  // Banco de Dados com Concessionárias Ford
   private postosSalvador = [
-    { lat: -12.977049863575994, lon: -38.45523139478341, nome: 'Eletroposto Salvador Shopping', endereco: 'Av. Tancredo Neves, 3133', isShopping: true, isFast: false },
-    { lat: -12.981060367578994, lon: -38.464886730568125, nome: 'Recarga Shopping da Bahia', endereco: 'Av. Tancredo Neves, 148', isShopping: true, isFast: true },
-    { lat: -13.006866204557813, lon: -38.52539175294331, nome: 'Tupinambá Shopping Barra', endereco: 'Av. Centenário, 2992', isShopping: true, isFast: false },
-    { lat: -12.935662659926377, lon: -38.39478408824208, nome: 'Eletroposto Shopping Paralela', endereco: 'Av. Luís Viana Filho, 8544', isShopping: true, isFast: false },
-    { lat: -12.887350713571314, lon: -38.31854761004745, nome: 'EZVolt Parque Shopping Bahia', endereco: 'R. Maria Tavares de Resende, 82', isShopping: true, isFast: true },
-    { lat: -12.91547265239023, lon: -38.33508930543007, nome: 'Neoenergia Aeroporto', endereco: 'Praça Gago Coutinho, s/n', isShopping: false, isFast: true },
-    { lat: -12.976565596401521, lon: -38.470048690383194, nome: 'Concessionária BYD Eurovia', endereco: 'Av. Antônio Carlos Magalhães, 3213', isShopping: false, isFast: true },
-    { lat: -12.964267, lon: -38.472772, nome: 'GWM Morena Veículos', endereco: 'Av. Barros Reis, 1876', isShopping: false, isFast: true }, // Mantido da lista anterior
-    { lat: -13.006795748195456, lon: -38.49289286125157, nome: 'Hospital Mater Dei', endereco: 'Rio Vermelho / Vasco da Gama', isShopping: false, isFast: false },
-    { lat: -12.97598727410513, lon: -38.51365722077102, nome: 'Fera Palace Hotel', endereco: 'R. Chile, 20', isShopping: false, isFast: false },
-    { lat: -12.988091802574289, lon: -38.44843652743008, nome: 'Pão de Açúcar Costa Azul', endereco: 'R. Arthur de Azevêdo Machado, 1475', isShopping: false, isFast: false },
-    { lat: -12.93815293615882, lon: -38.387176444288, nome: 'Senai Cimatec', endereco: 'Av. Orlando Gomes, 1845', isShopping: false, isFast: true },
-    { lat: -12.824732790786019, lon: -38.26757339008946, nome: 'Outlet Premium Salvador', endereco: 'Estrada do Coco, Camaçari', isShopping: true, isFast: true },
-    { lat: -12.970573485539708, lon: -38.48104656125183, nome: 'Assaí Atacadista Rótula', endereco: 'Rótula do Abacaxi', isShopping: false, isFast: false }
+    { lat: -12.9770498, lon: -38.4552313, nome: 'Eletroposto Salvador Shopping', endereco: 'Av. Tancredo Neves, 3133', isShopping: true, isFast: false },
+    { lat: -12.9810603, lon: -38.4648867, nome: 'Recarga Shopping da Bahia', endereco: 'Av. Tancredo Neves, 148', isShopping: true, isFast: true },
+    { lat: -13.0068662, lon: -38.5253917, nome: 'Tupinambá Shopping Barra', endereco: 'Av. Centenário, 2992', isShopping: true, isFast: false },
+    { lat: -12.9356626, lon: -38.3947840, nome: 'Eletroposto Shopping Paralela', endereco: 'Av. Luís Viana Filho, 8544', isShopping: true, isFast: false },
+    { lat: -12.8873507, lon: -38.3185476, nome: 'EZVolt Parque Shopping Bahia', endereco: 'R. Maria Tavares de Resende, 82', isShopping: true, isFast: true },
+    { lat: -12.9154726, lon: -38.3350893, nome: 'Neoenergia Aeroporto', endereco: 'Praça Gago Coutinho, s/n', isShopping: false, isFast: true },
+    { lat: -12.9765655, lon: -38.4700486, nome: 'Concessionária Ford Indiana', endereco: 'Av. Antônio Carlos Magalhães, 3213', isShopping: false, isFast: true },
+    { lat: -12.964267, lon: -38.472772, nome: 'Concessionária Ford Slaviero', endereco: 'Av. Barros Reis, 1876', isShopping: false, isFast: true },
+    { lat: -13.0067957, lon: -38.4928928, nome: 'Hospital Mater Dei', endereco: 'Rio Vermelho', isShopping: false, isFast: false },
+    { lat: -12.9759872, lon: -38.5136572, nome: 'Fera Palace Hotel', endereco: 'R. Chile, 20', isShopping: false, isFast: false },
+    { lat: -12.9880918, lon: -38.4484365, nome: 'Pão de Açúcar Costa Azul', endereco: 'R. Arthur Machado, 1475', isShopping: false, isFast: false },
+    { lat: -12.9381529, lon: -38.3871764, nome: 'Senai Cimatec', endereco: 'Av. Orlando Gomes, 1845', isShopping: false, isFast: true },
+    { lat: -12.8247327, lon: -38.2675733, nome: 'Outlet Premium Salvador', endereco: 'Estrada do Coco', isShopping: true, isFast: true },
+    { lat: -12.9705734, lon: -38.4810465, nome: 'Assaí Atacadista Rótula', endereco: 'Rótula do Abacaxi', isShopping: false, isFast: false }
   ];
 
   constructor(private router: Router, private zone: NgZone) {}
 
   ngOnInit(): void {
-    this.processarEstacoes();
-    this.buscarLocalizacaoReal();
+    this.processarEstacoes(); // Roda com o centro de Salvador primeiro
+    this.buscarLocalizacaoReal(); // Tenta pegar a real
   }
 
   // ==== Funções de Notificação ====
@@ -85,12 +87,15 @@ export class Dashboard implements OnInit {
           this.zone.run(() => {
             this.latUsuario = position.coords.latitude;
             this.lonUsuario = position.coords.longitude;
-            this.processarEstacoes(); 
+            this.processarEstacoes(); // Se o GPS for liberado, recalcula
           });
         },
         (error) => {
           this.zone.run(() => {
-            console.warn('GPS não funcionou, usando fallback Cimatec.');
+            console.warn('GPS bloqueado. Usando centro de Salvador como padrão.');
+            this.latUsuario = -12.9714; 
+            this.lonUsuario = -38.5104;
+            this.processarEstacoes(); // Força o recálculo para garantir que os cards e a lista atualizem
           });
         },
         { enableHighAccuracy: false, timeout: 5000, maximumAge: 0 }
@@ -156,6 +161,7 @@ export class Dashboard implements OnInit {
   abrirMapa() {
     this.router.navigate(['/mapa']);
   }
+  
   sair() {
     if (confirm('Tem certeza que deseja sair do Íon?')) {
       sessionStorage.clear();
