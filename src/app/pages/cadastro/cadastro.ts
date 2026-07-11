@@ -31,6 +31,8 @@ export class Cadastro {
   senhaOculta: boolean = true;
   confirmarSenhaOculta: boolean = true;
 
+  mostrarModalPolitica: boolean = false; // Controle do Modal
+
   constructor(private router: Router) {}
   
   aplicarMascaraTelefone(valor: string) {
@@ -81,8 +83,17 @@ export class Cadastro {
 
   abrirPolitica(event: Event) {
     event.preventDefault();
-    this.podeAceitarLgpd = true;
-    alert('Simulação: Abrindo o texto da Política de Privacidade...\n\nAgora o checkbox foi liberado para você marcar no seu cadastro.');
+    this.mostrarModalPolitica = true; // Abre o Modal
+  }
+
+  fecharPolitica() {
+    this.mostrarModalPolitica = false;
+  }
+
+  aceitarPoliticaModal() {
+    this.podeAceitarLgpd = true; 
+    this.lgpdAceito = true;      
+    this.fecharPolitica();       
   }
 
   alternarSenha() {
@@ -94,7 +105,6 @@ export class Cadastro {
   }
 
   finalizarCadastro() {
-
-    alert("Cadastro realizado com sucesso! (Simulação)");
+    alert("Botão clicado! \n\nNo entanto, este é um ambiente mockado. O cadastro não será efetuado no banco de dados e a tela não irá avançar.");
   }
 }

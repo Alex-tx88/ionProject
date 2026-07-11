@@ -20,9 +20,10 @@ export class Login {
   lgpdAceito: boolean = false;
   podeAceitarLgpd: boolean = false;
   senhaOculta: boolean = true;
-  
-  // Variável para controlar a mensagem de erro
   erroLogin: boolean = false;
+  
+  // Controle do Modal
+  mostrarModalPolitica: boolean = false;
 
   constructor(private router: Router) {}
 
@@ -32,18 +33,26 @@ export class Login {
   
   abrirPolitica(event: Event) {
     event.preventDefault(); 
-    this.podeAceitarLgpd = true; 
-    alert('Simulação: Abrindo o texto da Política de Privacidade...\n\nAgora o checkbox foi liberado para você marcar.');
+    this.mostrarModalPolitica = true; // Abre a janela da LGPD
+  }
+
+  fecharPolitica() {
+    this.mostrarModalPolitica = false;
+  }
+
+  aceitarPoliticaModal() {
+    this.podeAceitarLgpd = true; // Destrava o checkbox
+    this.lgpdAceito = true;      // Já marca automático pro usuário
+    this.fecharPolitica();       // Fecha a janela
   }
 
   entrar() {
-    // LÓGICA MOCKADA: Só entra se for o admin, senão mostra erro.
     if (this.dados.email === 'admin@ion.com' && this.dados.senha === 'admin123') {
       this.erroLogin = false;
       sessionStorage.setItem('ion_session', 'true');
       this.router.navigate(['/dashboard']);
     } else {
-      this.erroLogin = true; // Dispara a mensagem de erro na tela
+      this.erroLogin = true; 
     }
   }
 
