@@ -20,8 +20,8 @@ export class Dashboard implements OnInit {
   mostrarTodos: boolean = false;
 
   veiculoAtual = {
-    marca: 'BYD',
-    modelo: 'Dolphin',
+    marca: 'Ford',
+    modelo: 'Mustang Mach-E',
     conectores: ['Tipo 2', 'CCS2']
   };
 
@@ -31,7 +31,7 @@ export class Dashboard implements OnInit {
   mostrarNotificacoes: boolean = false;
   notificacoes = [
     { titulo: 'Novo posto adicionado', mensagem: 'O Íon mapeou uma nova estação perto do Salvador Shopping.', tempo: 'Há 10 min', lida: false },
-    { titulo: 'Bateria ideal', mensagem: 'Lembre-se de manter a carga do seu BYD entre 20% e 80% para preservar a bateria.', tempo: 'Há 2h', lida: false },
+    { titulo: 'Bateria ideal', mensagem: 'Agende a revisão programada do seu veículo na concessionária Ford.' , tempo: 'Há 2h', lida: false },
     { titulo: 'Bem-vindo ao Íon', mensagem: 'Seu perfil foi configurado com sucesso.', tempo: 'Ontem', lida: true }
   ];
 
