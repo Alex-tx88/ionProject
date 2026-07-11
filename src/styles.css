@@ -2,10 +2,18 @@
 /* Customização de Variáveis de Cores do Protótipo */
 @import "leaflet/dist/leaflet.css";
 
-body {
+/* ======================================================= */
+/* TRAVA DE SEGURANÇA: MATA O SCROLL HORIZONTAL            */
+/* ======================================================= */
+html, body {
   background-color: #0b1114 !important;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   color: #ffffff;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
 }
 
 .auth-container {
@@ -223,27 +231,18 @@ footer .footer-copy {
 }
 
 .auth-container {
-
   background-image: linear-gradient(rgba(11, 17, 20, 0.8), rgba(11, 17, 20, 0.9)), url('/bg-cidade.jpg');
-  
-
   background-size: cover;
-  
   background-position: center;
-  
   background-repeat: no-repeat;
-  
   min-height: 100vh;
 }
 
 .auth-card {
   width: 440px;
   background-color: #161b22;
-  
   border: 1px solid rgba(0, 229, 155, 0.3);
-  
   box-shadow: 0 8px 32px rgba(0, 229, 155, 0.05), 0 0 10px rgba(0, 229, 155, 0.02) inset;
-  
   border-radius: 16px;
 }
 
@@ -258,13 +257,16 @@ footer .footer-copy {
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
-  background-color: #0B1114; /* Fundo sólido do design */
+  background-color: #0B1114;
   font-family: 'Inter', sans-serif;
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100vw !important;
 }
 
-/* SIDEBAR (MENU LATERAL) */
+/* SIDEBAR (MENU LATERAL DESKTOP) */
 .sidebar {
-  width: 80px;
+  width: 240px;
   background-color: #0B1114;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   flex-shrink: 0;
@@ -316,9 +318,7 @@ footer .footer-copy {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.search-bar input:focus {
-  outline: none;
-}
+.search-bar input:focus { outline: none; }
 
 .badge-status-api {
   background-color: rgba(0, 229, 155, 0.1);
@@ -363,7 +363,7 @@ footer .footer-copy {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  height: 200px; /* Mantém todos com a mesma altura */
+  height: 200px;
 }
 
 /* CARD VERDE (ABRIR MAPA) */
@@ -374,9 +374,7 @@ footer .footer-copy {
   transition: transform 0.2s;
 }
 
-.card-green:hover {
-  transform: translateY(-4px);
-}
+.card-green:hover { transform: translateY(-4px); }
 
 .icon-box {
   width: 40px;
@@ -409,9 +407,7 @@ footer .footer-copy {
   transition: background-color 0.2s;
   cursor: pointer;
 }
-.list-item:hover {
-  background-color: #1c2128;
-}
+.list-item:hover { background-color: #1c2128; }
 
 .icon-box-sm {
   width: 32px;
@@ -423,24 +419,17 @@ footer .footer-copy {
   justify-content: center;
 }
 
-/* Efeito de transição suave global */
-.transition-all {
-  transition: all 0.2s ease-in-out;
-}
+.transition-all { transition: all 0.2s ease-in-out; }
 
-/* Efeito Hover nos links do rodapé */
 .hover-text-white:hover {
   color: #ffffff !important;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
 /* Customização do Botão de Sair na Sidebar */
-.btn-logout {
-  color: #6e7681 !important; /* Cor padrão discreta */
-}
-
+.btn-logout { color: #6e7681 !important; }
 .btn-logout:hover {
-  color: #ff4d4d !important; /* Fica vermelho ao passar o mouse */
+  color: #ff4d4d !important;
   background-color: rgba(255, 77, 77, 0.1) !important;
   border-left: 3px solid #ff4d4d !important;
 }
@@ -473,14 +462,11 @@ footer .footer-copy {
   overflow-y: auto;
   padding-right: 15px;
   text-align: justify;
-  font-size: 16px; /* Aumentou o texto! */
-  line-height: 1.6; /* Deu respiro entre as linhas! */
+  font-size: 16px; 
+  line-height: 1.6; 
 }
 
-.modal-body-lgpd p {
-  margin-bottom: 1rem;
-}
-
+.modal-body-lgpd p { margin-bottom: 1rem; }
 .modal-body-lgpd::-webkit-scrollbar { width: 6px; }
 .modal-body-lgpd::-webkit-scrollbar-track { background: transparent; }
 .modal-body-lgpd::-webkit-scrollbar-thumb { background: rgba(0, 229, 155, 0.5); border-radius: 10px; }
@@ -491,15 +477,12 @@ footer .footer-copy {
 /* ======================================================= */
 /* FIX: BUG DO CLIQUE DUPLO E FOCUS NA BARRA LATERAL       */
 /* ======================================================= */
-
-/* 1. Impede a seleção de texto e remove o piscar no celular */
 .sidebar .nav-link {
   user-select: none !important;
   -webkit-user-select: none !important;
   -webkit-tap-highlight-color: transparent !important;
 }
 
-/* 2. Mata a borda de foco de todos os navegadores modernos */
 .sidebar .nav-link:focus,
 .sidebar .nav-link:active,
 .sidebar .nav-link:focus-visible {
@@ -507,7 +490,6 @@ footer .footer-copy {
   outline: none !important;
 }
 
-/* 3. Trava a cor Neon e o fundo, ignorando qualquer estado de clique */
 .sidebar .nav-link.active,
 .sidebar .nav-link.active:focus,
 .sidebar .nav-link.active:active,
@@ -519,42 +501,161 @@ footer .footer-copy {
 /* ======================================================= */
 /* UPGRADE DE LEITURA E TAMANHO DE FONTES (DASH E MAPA)    */
 /* ======================================================= */
-
-/* 1. Aumenta textos secundários (Endereços, datas, descrições) */
 .text-muted-custom {
-  font-size: 0.95rem !important; /* Aumentado de ~12px para ~15px */
+  font-size: 0.95rem !important; 
   line-height: 1.5 !important;
 }
 
-/* 2. Aumenta a classe de textos menores (Distância, subtítulos) */
-.fs-7 {
-  font-size: 0.95rem !important; /* Aumentado de ~12px para ~15px */
-}
+.fs-7 { font-size: 0.95rem !important; }
 
-/* 3. Aumenta os textos e ícones da Barra Lateral */
 .sidebar .nav-link span {
   font-size: 1.05rem !important; 
   font-weight: 600 !important;
 }
-.sidebar .nav-link i {
-  font-size: 1.4rem !important;
-}
 
-/* 4. Aumenta os títulos dos Postos nas listas */
-.list-item h6 {
-  font-size: 1.15rem !important;
-}
+.sidebar .nav-link i { font-size: 1.4rem !important; }
+.list-item h6 { font-size: 1.15rem !important; }
 
-/* 5. Aumenta as etiquetas coloridas (Shopping, Carga Rápida) */
 .badge-dark-outline {
   font-size: 0.85rem !important;
   padding: 6px 14px !important;
 }
 
-/* 6. Aumenta o texto das notificações e dos cards inferiores */
-.notification-list p {
-  font-size: 0.95rem !important;
-}
-.dash-card span.fs-5 {
-  font-size: 1.35rem !important;
+.notification-list p { font-size: 0.95rem !important; }
+.dash-card span.fs-5 { font-size: 1.35rem !important; }
+
+/* ======================================================= */
+/* RESPONSIVIDADE FINAL E ABSOLUTA (TELEMÓVEL E TABLET)    */
+/* ======================================================= */
+@media (max-width: 768px) {
+  
+  /* 1. MATA O OVERFLOW HORIZONTAL (TELA NÃO VAZA MAIS) */
+  html, body, .dashboard-layout {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 2. CONSERTA LOGIN E CADASTRO */
+  .auth-card {
+    width: 90% !important;
+    max-width: 360px !important;
+    margin: 0 auto !important;
+    padding: 1.5rem !important;
+  }
+
+  /* 3. TRANSFORMA LAYOUT EM COLUNA (DASHBOARD EM CIMA, MENU EMBAIXO) */
+  .dashboard-layout {
+    flex-direction: column !important;
+  }
+
+  /* 4. BARRA LATERAL VOLTA A SER O MENU INFERIOR FIXO (APP NATIVO) */
+  .sidebar {
+    position: fixed !important;
+    bottom: 0 !important;
+    top: auto !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 70px !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding: 0 10px !important;
+    border-right: none !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(11, 17, 20, 0.98) !important;
+    backdrop-filter: blur(10px) !important;
+    z-index: 9999 !important;
+  }
+
+  /* Oculta os textos da barra e a logo */
+  .sidebar .brand-icon,
+  .sidebar .nav-link span,
+  .sidebar .btn-logout span,
+  .sidebar .btn-logout {
+    display: none !important;
+  }
+
+  /* Alinha os ícones na horizontal */
+  .sidebar .nav-menu {
+    flex-direction: row !important;
+    width: 100% !important;
+    justify-content: space-around !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Botões confortáveis para toque */
+  .sidebar .nav-link {
+    padding: 12px !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+  }
+
+  /* 5. CONTEÚDO PRINCIPAL (DASHBOARD) */
+  .main-content {
+    /* 90px de padding embaixo para a tela não sumir atrás do menu */
+    padding: 1.5rem 1rem 90px 1rem !important; 
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+
+  /* Empilha os cartões maiores */
+  .top-cards-grid {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+    gap: 16px !important;
+  }
+
+  /* Remove as margens negativas do Bootstrap na classe .row */
+  .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .row > div {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+  }
+
+  /* 6. CABEÇALHO (HEADER) DA DASHBOARD */
+  .header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 15px !important;
+  }
+
+  .header > div {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  /* 7. CAIXA DE NOTIFICAÇÕES (MODAL FLUTUANTE À PROVA DE FALHAS) */
+  .notification-wrapper {
+    position: static !important; /* Desprende a caixa do botão */
+  }
+
+  .notification-dropdown {
+    position: fixed !important;
+    top: 145px !important; /* Exatamente abaixo do cabeçalho */
+    left: 50% !important; /* Empurra para o meio */
+    transform: translateX(-50%) !important; /* Centraliza perfeitamente na geometria da tela */
+    width: 92vw !important; /* 92% da largura do celular */
+    max-width: 380px !important;
+    z-index: 9999 !important; /* Coloca acima de tudo */
+    background-color: #161B22 !important;
+    border: 1px solid rgba(0, 229, 155, 0.4) !important; /* Borda verde neon */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.9) !important; /* Sombra forte para destacar do fundo */
+    border-radius: 16px !important;
+  }
 }
