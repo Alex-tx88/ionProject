@@ -9,16 +9,20 @@
       <p class="subtitle text-uppercase">Mobilidade Sustentável</p>
     </div>
 
+    <div *ngIf="erroLogin" class="alert alert-danger py-2 text-center" style="font-size: 14px; border-radius: 10px;">
+      E-mail ou senha incorretos!
+    </div>
+
     <form>
       <div class="mb-4">
         <label class="form-label">E-MAIL</label>
-        <input type="email" class="form-control" placeholder="seu@email.com" [(ngModel)]="dados.email" name="email">
+        <input type="email" class="form-control" placeholder="EMAIL" [(ngModel)]="dados.email" name="email">
       </div>
 
       <div class="mb-2">
         <label class="form-label">SENHA</label>
         <div class="input-group">
-          <input [type]="senhaOculta ? 'password' : 'text'" class="form-control border-end-0" placeholder="••••••••" [(ngModel)]="dados.senha" name="senha">
+          <input [type]="senhaOculta ? 'password' : 'text'" class="form-control border-end-0" placeholder="SENHA" [(ngModel)]="dados.senha" name="senha">
           
           <span class="input-group-text border-start-0" (click)="alternarSenha()" style="cursor: pointer;">
             <i class="bi" [ngClass]="senhaOculta ? 'bi-eye' : 'bi-eye-slash'"></i>

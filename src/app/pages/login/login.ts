@@ -12,7 +12,6 @@ import { FormsModule } from '@angular/forms';
 })
 export class Login {
   
- 
   dados = {
     email: '',
     senha: ''
@@ -21,10 +20,12 @@ export class Login {
   lgpdAceito: boolean = false;
   podeAceitarLgpd: boolean = false;
   senhaOculta: boolean = true;
+  
+  // Variável para controlar a mensagem de erro
+  erroLogin: boolean = false;
 
   constructor(private router: Router) {}
 
-  
   get loginValido(): boolean {
     return !!(this.dados.email && this.dados.senha && this.lgpdAceito);
   }
@@ -36,13 +37,17 @@ export class Login {
   }
 
   entrar() {
-    if (this.loginValido) {
+    // LÓGICA MOCKADA: Só entra se for o admin, senão mostra erro.
+    if (this.dados.email === 'admin@ion.com' && this.dados.senha === 'admin123') {
+      this.erroLogin = false;
       sessionStorage.setItem('ion_session', 'true');
       this.router.navigate(['/dashboard']);
+    } else {
+      this.erroLogin = true; // Dispara a mensagem de erro na tela
     }
   }
 
-alternarSenha() {
-  this.senhaOculta = !this.senhaOculta;
-}
+  alternarSenha() {
+    this.senhaOculta = !this.senhaOculta;
+  }
 }

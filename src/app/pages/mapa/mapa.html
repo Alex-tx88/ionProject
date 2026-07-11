@@ -129,8 +129,19 @@
           <p class="text-muted-custom mb-4 flex-grow-1" style="font-size: 13px; line-height: 1.5; overflow-y: auto;">Este eletroposto é de fácil acesso e oferece total conveniência enquanto você recarrega o seu veículo. O sistema é robusto e suporta adaptadores para os principais modelos de EV do mercado.</p>
 
           <div class="mt-auto">
-            <button class="btn btn-action-route w-100 py-3 fw-bold shadow-lg d-flex align-items-center justify-content-center gap-2" (click)="tracarRota()">
-              <i class="bi bi-cursor-fill fs-5"></i> Iniciar Rota Automática <span class="fw-normal opacity-75 ms-1">({{ postoSelecionado.distancia }} km)</span>
+            <button class="btn w-100 py-3 fw-bold shadow-lg d-flex align-items-center justify-content-center gap-2" 
+                    [ngClass]="tempoRota ? 'btn-light' : 'btn-action-route'"
+                    style="transition: all 0.3s ease; border-radius: 12px;"
+                    (click)="tracarRota()">
+              
+              <i class="bi fs-5" [ngClass]="tempoRota ? 'bi-sign-turn-right-fill text-dark' : 'bi-cursor-fill'"></i> 
+              
+              <span *ngIf="!tempoRota">Iniciar Rota Automática <span class="fw-normal opacity-75 ms-1">({{ postoSelecionado.distancia }} km)</span></span>
+              
+              <span *ngIf="tempoRota" class="text-dark">
+                Caminho Gerado <span class="ms-1 px-2 py-1 rounded" style="background: rgba(0,0,0,0.1); font-size: 13px;">{{ postoSelecionado.distancia }} km • <b>~{{ tempoRota }}</b></span>
+              </span>
+
             </button>
           </div>
 

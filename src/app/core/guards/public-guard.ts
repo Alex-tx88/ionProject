@@ -3,13 +3,14 @@ import { CanActivateFn, Router } from '@angular/router';
 
 export const publicGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  // TROCADO AQUI: localStorage por sessionStorage
-  const isLogado = sessionStorage.getItem('ion_session') === 'true';
+  
+  const isLogged = sessionStorage.getItem('ion_session') === 'true';
 
-  if (isLogado) {
-    router.navigate(['/dashboard']); 
+  if (isLogged) {
+    // Se já está logado, não tem por que ver a tela de login. Joga pro Dashboard.
+    router.navigate(['/dashboard']);
     return false; 
   } else {
-    return true; 
+    return true; // Se não está logado, a tela de login tá liberada.
   }
 };

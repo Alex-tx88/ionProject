@@ -13,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 export class Cadastro {
   passoAtual: number = 1;
 
-  // Objeto de dados agora inclui marca e modelo do carro
   dados = {
     nome: '',
     email: '',
@@ -21,8 +20,8 @@ export class Cadastro {
     cpf: '',
     senha: '',
     confirmarSenha: '',
-    marca: '',   // <-- NOVO
-    modelo: ''   // <-- NOVO
+    marca: '',   
+    modelo: ''   
   };
 
   veiculoSelecionado: string = '';
@@ -33,6 +32,7 @@ export class Cadastro {
   confirmarSenhaOculta: boolean = true;
 
   constructor(private router: Router) {}
+  
   aplicarMascaraTelefone(valor: string) {
     valor = valor.replace(/\D/g, '');
     valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2');
@@ -48,13 +48,11 @@ export class Cadastro {
     this.dados.cpf = valor;
   }
   
-
   get passo1Valido(): boolean {
     return !!(this.dados.nome && this.dados.email && this.dados.telefone.length >= 14 && this.dados.cpf.length === 14);
   }
 
   get passo2Valido(): boolean {
-
     const carroValido = this.veiculoSelecionado === 'NONE' || 
                        (this.veiculoSelecionado !== '' && this.dados.marca && this.dados.modelo);
 
@@ -96,9 +94,7 @@ export class Cadastro {
   }
 
   finalizarCadastro() {
-    if (this.passo2Valido) {
-      sessionStorage.setItem('ion_session', 'true');
-      this.router.navigate(['/dashboard']);
-    }
+
+    alert("Cadastro realizado com sucesso! (Simulação)");
   }
 }

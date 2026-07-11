@@ -21,13 +21,11 @@ export class Mapa implements OnInit, AfterViewInit {
   
   postoSelecionado: any = null;
   rotaAtual: any = null; 
+  tempoRota: string | null = null; // Variável nova para guardar o tempo estimado
 
   private latUsuario = -12.938152; 
   private lonUsuario = -38.387176;
 
-  // ==========================================
-  // LÓGICA DO CARROSSEL (COM SUAS IMAGENS LOCAIS)
-  // ==========================================
   imagemAtualIndex: number = 0;
   carrosselInterval: any;
   imagensCarrossel: string[] = [
@@ -152,12 +150,14 @@ export class Mapa implements OnInit, AfterViewInit {
     this.postoSelecionado = posto;
     this.mostrarLista = false;
     this.imagemAtualIndex = 0; 
+    this.tempoRota = null; // Reseta o tempo quando abrir um posto novo
     this.iniciarCarrossel();   
     this.map.flyTo([posto.lat, posto.lon + 0.015], 14, { animate: true, duration: 1.5 });
   }
 
   fecharDetalhes() {
     this.postoSelecionado = null;
+    this.tempoRota = null; // Zera a estimativa de tempo
     this.pararCarrossel();
     if (this.rotaAtual) {
       this.map.removeLayer(this.rotaAtual);
@@ -203,6 +203,22 @@ export class Mapa implements OnInit, AfterViewInit {
       const response = await fetch(url);
       const data = await response.json();
       const routeCoordinates = data.routes[0].geometry.coordinates.map((c: any) => [c[1], c[0]]);
+
+      // =====================================
+      // CÁLCULO DE TEMPO ESTIMADO (ETA)
+      // =====================================
+      const duracaoSegundos = data.routes[0].duration;
+      const minutos = Math.round(duracaoSegundos / 60);
+
+      if (minutos < 1) {
+        this.tempoRota = '< 1 min';
+      } else if (minutos >= 60) {
+        const horas = Math.floor(minutos / 60);
+        const minsRestantes = minutos % 60;
+        this.tempoRota = `${horas}h ${minsRestantes}min`;
+      } else {
+        this.tempoRota = `${minutos} min`;
+      }
 
       this.rotaAtual = L.polyline(routeCoordinates, {
         color: '#00E59B', weight: 6, opacity: 0.9, lineCap: 'round', lineJoin: 'round', dashArray: '10, 15'
