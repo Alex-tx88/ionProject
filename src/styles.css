@@ -487,3 +487,74 @@ footer .footer-copy {
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* ======================================================= */
+/* FIX: BUG DO CLIQUE DUPLO E FOCUS NA BARRA LATERAL       */
+/* ======================================================= */
+
+/* 1. Impede a seleção de texto e remove o piscar no celular */
+.sidebar .nav-link {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* 2. Mata a borda de foco de todos os navegadores modernos */
+.sidebar .nav-link:focus,
+.sidebar .nav-link:active,
+.sidebar .nav-link:focus-visible {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* 3. Trava a cor Neon e o fundo, ignorando qualquer estado de clique */
+.sidebar .nav-link.active,
+.sidebar .nav-link.active:focus,
+.sidebar .nav-link.active:active,
+.sidebar .nav-link.active:focus-visible {
+  color: #00E59B !important;
+  background-color: rgba(0, 229, 155, 0.1) !important;
+}
+
+/* ======================================================= */
+/* UPGRADE DE LEITURA E TAMANHO DE FONTES (DASH E MAPA)    */
+/* ======================================================= */
+
+/* 1. Aumenta textos secundários (Endereços, datas, descrições) */
+.text-muted-custom {
+  font-size: 0.95rem !important; /* Aumentado de ~12px para ~15px */
+  line-height: 1.5 !important;
+}
+
+/* 2. Aumenta a classe de textos menores (Distância, subtítulos) */
+.fs-7 {
+  font-size: 0.95rem !important; /* Aumentado de ~12px para ~15px */
+}
+
+/* 3. Aumenta os textos e ícones da Barra Lateral */
+.sidebar .nav-link span {
+  font-size: 1.05rem !important; 
+  font-weight: 600 !important;
+}
+.sidebar .nav-link i {
+  font-size: 1.4rem !important;
+}
+
+/* 4. Aumenta os títulos dos Postos nas listas */
+.list-item h6 {
+  font-size: 1.15rem !important;
+}
+
+/* 5. Aumenta as etiquetas coloridas (Shopping, Carga Rápida) */
+.badge-dark-outline {
+  font-size: 0.85rem !important;
+  padding: 6px 14px !important;
+}
+
+/* 6. Aumenta o texto das notificações e dos cards inferiores */
+.notification-list p {
+  font-size: 0.95rem !important;
+}
+.dash-card span.fs-5 {
+  font-size: 1.35rem !important;
+}

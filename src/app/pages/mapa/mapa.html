@@ -1,15 +1,47 @@
 <div class="d-flex vw-100 vh-100 overflow-hidden" style="background-color: #0B1114;">
-
-  <aside class="sidebar d-flex flex-column align-items-center py-4 flex-shrink-0 z-3 shadow-lg" style="width: 80px; border-right: 1px solid rgba(255,255,255,0.05); background-color: #0B1114;">
-    <div class="brand-icon mb-5 text-neon"><i class="bi bi-lightning-charge-fill fs-3" style="filter: drop-shadow(0 0 10px rgba(0, 229, 155, 0.4));"></i></div>
-    <nav class="nav-menu d-flex flex-column gap-4 w-100 align-items-center mt-3">
-      <a href="javascript:void(0)" class="nav-link fs-5 text-muted-custom" (click)="voltar()"><i class="bi bi-house-door"></i></a>
-      <a href="javascript:void(0)" class="nav-link active fs-5 text-neon"><i class="bi bi-map"></i></a>
-      <a href="javascript:void(0)" class="nav-link fs-5 text-muted-custom"><i class="bi bi-car-front"></i></a>
-      <a href="javascript:void(0)" class="nav-link fs-5 text-muted-custom"><i class="bi bi-star"></i></a>
+<!-- BARRA LATERAL FIXA EXPANDIDA -->
+  <aside class="sidebar d-flex flex-column py-4 flex-shrink-0 z-3 shadow-lg" 
+         style="width: 240px; border-right: 1px solid rgba(255,255,255,0.05); background-color: #0B1114;">
+    
+    <!-- Logo Expandida -->
+    <div class="brand-icon mb-5 d-flex align-items-center gap-3 px-4 w-100">
+      <i class="bi bi-lightning-charge-fill fs-3 text-neon" style="filter: drop-shadow(0 0 10px rgba(0, 229, 155, 0.4));"></i>
+      <span class="fs-4 fw-bold text-white d-none d-md-block tracking-wider">ÍON</span>
+    </div>
+    
+    <!-- Menu de Navegação -->
+    <nav class="nav-menu d-flex flex-column gap-2 w-100 px-3 mt-2">
+      <!-- 1. Página Inicial -->
+      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" (click)="voltar()" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
+        <i class="bi bi-house-door fs-5"></i>
+        <span class="fw-semibold d-none d-md-block">Página Inicial</span>
+      </a>
+      
+      <!-- 2. Mapa -->
+      <a href="javascript:void(0)" class="nav-link active text-neon d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 text-decoration-none" style="background: rgba(0, 229, 155, 0.1);">
+        <i class="bi bi-map fs-5"></i>
+        <span class="fw-semibold d-none d-md-block">Mapa</span>
+      </a>
+      
+      <!-- 3. Meus Carros -->
+      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
+        <i class="bi bi-car-front fs-5"></i>
+        <span class="fw-semibold d-none d-md-block">Meus Carros</span>
+      </a>
+      
+      <!-- 4. Comunidade -->
+      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
+        <i class="bi bi-people fs-5"></i>
+        <span class="fw-semibold d-none d-md-block">Comunidade</span>
+      </a>
     </nav>
-    <div class="mt-auto w-100 d-flex justify-content-center">
-      <a href="javascript:void(0)" class="nav-link btn-logout fs-5 text-muted-custom" (click)="sair()"><i class="bi bi-box-arrow-right"></i></a>
+
+    <!-- Logout -->
+    <div class="mt-auto w-100 px-3 mb-2">
+      <a href="javascript:void(0)" class="nav-link btn-logout text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" (click)="sair()" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
+        <i class="bi bi-box-arrow-right fs-5"></i>
+        <span class="fw-semibold d-none d-md-block">Sair</span>
+      </a>
     </div>
   </aside>
 
