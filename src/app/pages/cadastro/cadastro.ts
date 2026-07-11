@@ -20,8 +20,8 @@ export class Cadastro {
     cpf: '',
     senha: '',
     confirmarSenha: '',
-    marca: '',   
-    modelo: ''   
+    marca: '',
+    modelo: ''
   };
 
   veiculoSelecionado: string = '';
@@ -31,7 +31,7 @@ export class Cadastro {
   senhaOculta: boolean = true;
   confirmarSenhaOculta: boolean = true;
 
-  mostrarModalPolitica: boolean = false; // Controle do Modal
+  mostrarModalPolitica: boolean = false; 
 
   constructor(private router: Router) {}
   
@@ -83,7 +83,7 @@ export class Cadastro {
 
   abrirPolitica(event: Event) {
     event.preventDefault();
-    this.mostrarModalPolitica = true; // Abre o Modal
+    this.mostrarModalPolitica = true;
   }
 
   fecharPolitica() {

@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
+import { EstacaoService } from '../../core/services/estacao';
+import { Estacao } from '../../core/models/estacao.model';
 
 @Component({
   selector: 'app-mapa',
@@ -11,97 +13,90 @@ import * as L from 'leaflet';
   styleUrls: ['./mapa.css']
 })
 export class Mapa implements OnInit, AfterViewInit {
-  private map: any;
+  
+  // Propriedades do Leaflet e UI
+  private map!: L.Map;
   private marcadoresMapa: L.Marker[] = [];
-  private userMarker: any = null;
+  private userMarker: L.Marker | null = null;
+  private rotaAtual: L.Polyline | null = null; 
 
   totalEstacoes: number = 0;
-  postosOrdenados: any[] = [];
+  postosOrdenados: Estacao[] = [];
   mostrarLista: boolean = false;
-  
-  postoSelecionado: any = null;
-  rotaAtual: any = null; 
+  postoSelecionado: Estacao | null = null;
   tempoRota: string | null = null; 
 
-  // ==========================================
-  // FIX: COORDENADAS PADRÃO (CENTRO DE SALVADOR)
-  // Agora a bolinha não vai engolir o Senai Cimatec se o GPS falhar
-  // ==========================================
-  private latUsuario = -12.9714; 
-  private lonUsuario = -38.5104;
-
+  // Controle do Carrossel de Imagens
   imagemAtualIndex: number = 0;
-  carrosselInterval: any;
-  imagensCarrossel: string[] = [
-    'images.jpg',
-    'imagem.jpg',
-    'imagen.jpg'
-  ];
+  carrosselInterval: ReturnType<typeof setInterval> | null = null;
+  imagensCarrossel: string[] = ['images.jpg', 'imagem.jpg', 'imagen.jpg'];
 
-  private postosSalvador = [
-    { lat: -12.9770498, lon: -38.4552313, nome: 'Eletroposto Salvador Shopping', endereco: 'Av. Tancredo Neves, 3133', isShopping: true, isFast: false, potencia: '22 kW', conector: 'Tipo 2' },
-    { lat: -12.9810603, lon: -38.4648867, nome: 'Recarga Shopping da Bahia', endereco: 'Av. Tancredo Neves, 148', isShopping: true, isFast: true, potencia: '150 kW', conector: 'CCS2' },
-    { lat: -13.0068662, lon: -38.5253917, nome: 'Tupinambá Shopping Barra', endereco: 'Av. Centenário, 2992', isShopping: true, isFast: false, potencia: '22 kW', conector: 'Tipo 2' },
-    { lat: -12.9356626, lon: -38.3947840, nome: 'Eletroposto Shopping Paralela', endereco: 'Av. Luís Viana Filho, 8544', isShopping: true, isFast: false, potencia: '22 kW', conector: 'Tipo 2' },
-    { lat: -12.8873507, lon: -38.3185476, nome: 'EZVolt Parque Shopping Bahia', endereco: 'R. Maria Tavares de Resende, 82', isShopping: true, isFast: true, potencia: '50 kW', conector: 'CCS2' },
-    { lat: -12.9154726, lon: -38.3350893, nome: 'Neoenergia Aeroporto', endereco: 'Praça Gago Coutinho, s/n', isShopping: false, isFast: true, potencia: '50 kW', conector: 'CCS2' },
-    { lat: -12.9765655, lon: -38.4700486, nome: 'Concessionária Ford Indiana', endereco: 'Av. Antônio Carlos Magalhães, 3213', isShopping: false, isFast: true, potencia: '120 kW', conector: 'CCS2' },
-    { lat: -12.964267, lon: -38.472772, nome: 'Concessionária Ford Slaviero', endereco: 'Av. Barros Reis, 1876', isShopping: false, isFast: true, potencia: '100 kW', conector: 'CCS2' },
-    { lat: -13.0067957, lon: -38.4928928, nome: 'Hospital Mater Dei', endereco: 'Rio Vermelho', isShopping: false, isFast: false, potencia: '22 kW', conector: 'Tipo 2' },
-    { lat: -12.9759872, lon: -38.5136572, nome: 'Fera Palace Hotel', endereco: 'R. Chile, 20', isShopping: false, isFast: false, potencia: '7 kW', conector: 'Tipo 2' },
-    { lat: -12.9880918, lon: -38.4484365, nome: 'Pão de Açúcar Costa Azul', endereco: 'R. Arthur Machado, 1475', isShopping: false, isFast: false, potencia: '22 kW', conector: 'Tipo 2' },
-    { lat: -12.9381529, lon: -38.3871764, nome: 'Senai Cimatec', endereco: 'Av. Orlando Gomes, 1845', isShopping: false, isFast: true, potencia: '150 kW', conector: 'CCS2' },
-    { lat: -12.8247327, lon: -38.2675733, nome: 'Outlet Premium Salvador', endereco: 'Estrada do Coco', isShopping: true, isFast: true, potencia: '50 kW', conector: 'CCS2' },
-    { lat: -12.9705734, lon: -38.4810465, nome: 'Assaí Atacadista Rótula', endereco: 'Rótula do Abacaxi', isShopping: false, isFast: false, potencia: '22 kW', conector: 'Tipo 2' }
-  ];
+  // Coordenadas de Fallback (Centro de Salvador)
+  private latUsuario: number = -12.9714; 
+  private lonUsuario: number = -38.5104;
 
-  constructor(private router: Router, private zone: NgZone) {}
+  constructor(
+    private router: Router, 
+    private zone: NgZone,
+    private estacaoService: EstacaoService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.processarEstacoes();
     this.buscarLocalizacaoReal();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.iniciarMapa();
   }
 
-  toggleLista() {
+  toggleLista(): void {
     this.mostrarLista = !this.mostrarLista;
     if (this.mostrarLista) this.fecharDetalhes();
   }
 
   private buscarLocalizacaoReal(): void {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.zone.run(() => {
-            this.latUsuario = position.coords.latitude;
-            this.lonUsuario = position.coords.longitude;
-            
-            if (this.userMarker) {
-              this.userMarker.setLatLng([this.latUsuario, this.lonUsuario]);
-            }
-            this.processarEstacoes(); 
-          });
-        },
-        (error) => console.warn('GPS bloqueado pelo usuário. Usando localização padrão.'),
-        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-      );
-    }
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.zone.run(() => {
+          this.latUsuario = position.coords.latitude;
+          this.lonUsuario = position.coords.longitude;
+          
+          if (this.userMarker) {
+            this.userMarker.setLatLng([this.latUsuario, this.lonUsuario]);
+          }
+          this.processarEstacoes(); 
+        });
+      },
+      () => console.warn('GPS bloqueado pelo usuário. Utilizando fallback.'),
+      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+    );
   }
 
   private processarEstacoes(): void {
-    this.totalEstacoes = this.postosSalvador.length;
-    const postos = this.postosSalvador.map(posto => {
-      const distanciaKm = this.calcularDistancia(this.latUsuario, this.lonUsuario, posto.lat, posto.lon);
+    const postosBrutos = this.estacaoService.getEstacoes();
+    this.totalEstacoes = postosBrutos.length;
+
+    const postosProc = postosBrutos.map(posto => {
+      const distanciaKm = this.estacaoService.calcularDistancia(this.latUsuario, this.lonUsuario, posto.lat, posto.lon);
       let tag = 'Público';
       let tagColor = 'text-neon';
+      
       if (posto.isShopping) { tag = 'Shopping'; tagColor = 'text-purple'; }
       else if (posto.isFast) { tag = 'Carga Rápida'; tagColor = 'text-blue'; }
-      return { ...posto, distanciaNum: distanciaKm, distancia: distanciaKm.toFixed(1), tag: tag, tagColor: tagColor };
+
+      return { 
+        ...posto, 
+        distanciaNum: distanciaKm, 
+        distancia: distanciaKm.toFixed(1), 
+        tag, 
+        tagColor 
+      };
     });
-    this.postosOrdenados = postos.sort((a, b) => a.distanciaNum - b.distanciaNum);
+
+    this.postosOrdenados = postosProc.sort((a, b) => a.distanciaNum! - b.distanciaNum!);
   }
 
   private iniciarMapa(): void {
@@ -123,6 +118,7 @@ export class Mapa implements OnInit, AfterViewInit {
       iconSize: [20, 20], 
       iconAnchor: [10, 10]
     });
+    
     this.userMarker = L.marker([this.latUsuario, this.lonUsuario], { icon: userIcon, zIndexOffset: 9999 }).addTo(this.map);
 
     this.postosOrdenados.forEach((posto) => {
@@ -143,23 +139,25 @@ export class Mapa implements OnInit, AfterViewInit {
       this.marcadoresMapa.push(marker);
     });
 
+    // Invalida o tamanho do mapa após o render final do CSS para evitar áreas cinzas
     setTimeout(() => { this.map.invalidateSize(); }, 500);
   }
 
-  focarNoPosto(lat: number, lon: number, index: number) {
+  focarNoPosto(lat: number, lon: number, index: number): void {
     this.abrirDetalhes(this.postosOrdenados[index]);
   }
 
-  abrirDetalhes(posto: any) {
+  abrirDetalhes(posto: Estacao): void {
     this.postoSelecionado = posto;
     this.mostrarLista = false;
     this.imagemAtualIndex = 0; 
     this.tempoRota = null; 
     this.iniciarCarrossel();   
+    // Anima o mapa compensando a largura do painel lateral direito
     this.map.flyTo([posto.lat, posto.lon + 0.015], 14, { animate: true, duration: 1.5 });
   }
 
-  fecharDetalhes() {
+  fecharDetalhes(): void {
     this.postoSelecionado = null;
     this.tempoRota = null; 
     this.pararCarrossel();
@@ -169,33 +167,32 @@ export class Mapa implements OnInit, AfterViewInit {
     }
   }
 
-  iniciarCarrossel() {
+  iniciarCarrossel(): void {
     this.pararCarrossel(); 
-    this.carrosselInterval = setInterval(() => {
-      this.nextImage();
-    }, 3000); 
+    this.carrosselInterval = setInterval(() => { this.nextImage(); }, 3000); 
   }
 
-  pararCarrossel() {
+  pararCarrossel(): void {
     if (this.carrosselInterval) {
       clearInterval(this.carrosselInterval);
+      this.carrosselInterval = null;
     }
   }
 
-  nextImage() {
+  nextImage(): void {
     this.imagemAtualIndex = (this.imagemAtualIndex + 1) % this.imagensCarrossel.length;
   }
 
-  prevImage() {
+  prevImage(): void {
     this.imagemAtualIndex = (this.imagemAtualIndex - 1 + this.imagensCarrossel.length) % this.imagensCarrossel.length;
   }
 
-  setImagem(index: number) {
+  setImagem(index: number): void {
     this.imagemAtualIndex = index;
     this.iniciarCarrossel(); 
   }
 
-  async tracarRota() {
+  async tracarRota(): Promise<void> {
     if (!this.postoSelecionado) return;
     if (this.rotaAtual) { this.map.removeLayer(this.rotaAtual); }
 
@@ -211,38 +208,24 @@ export class Mapa implements OnInit, AfterViewInit {
       const duracaoSegundos = data.routes[0].duration;
       const minutos = Math.round(duracaoSegundos / 60);
 
-      if (minutos < 1) {
-        this.tempoRota = '< 1 min';
-      } else if (minutos >= 60) {
-        const horas = Math.floor(minutos / 60);
-        const minsRestantes = minutos % 60;
-        this.tempoRota = `${horas}h ${minsRestantes}min`;
-      } else {
-        this.tempoRota = `${minutos} min`;
-      }
+      this.tempoRota = minutos < 1 ? '< 1 min' : minutos >= 60 ? `${Math.floor(minutos / 60)}h ${minutos % 60}min` : `${minutos} min`;
 
-      this.rotaAtual = L.polyline(routeCoordinates, {
+      this.rotaAtual = L.polyline(routeCoordinates as L.LatLngExpression[], {
         color: '#00E59B', weight: 6, opacity: 0.9, lineCap: 'round', lineJoin: 'round', dashArray: '10, 15'
       }).addTo(this.map);
 
       this.map.fitBounds(this.rotaAtual.getBounds(), { padding: [50, 50] });
     } catch (error) {
       alert("Não foi possível traçar a rota online.");
+      console.error(error);
     }
   }
 
-  private calcularDistancia(lat1: number, lon1: number, lat2: number, lon2: number): number {
-    const R = 6371; 
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c; 
+  voltar(): void { 
+    this.router.navigate(['/dashboard']); 
   }
-
-  voltar() { this.router.navigate(['/dashboard']); }
   
-  sair() {
+  sair(): void {
     if (confirm('Sair do Íon?')) {
       sessionStorage.clear();
       localStorage.clear();
