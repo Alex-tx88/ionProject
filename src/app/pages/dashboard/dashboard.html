@@ -1,40 +1,46 @@
 <div class="dashboard-layout">
+<!-- BARRA LATERAL DA DASHBOARD -->
   <aside class="sidebar d-flex flex-column py-4 flex-shrink-0 z-3 shadow-lg" 
-         style="width: 240px; height: 100vh; position: sticky; top: 0; border-right: 1px solid rgba(255,255,255,0.05); background-color: #0B1114;">
+         style="width: 240px; border-right: 1px solid rgba(255,255,255,0.05); background-color: #0B1114;">
     
-    <div class="brand-icon mb-5 d-flex align-items-center gap-3 px-4 w-100" title="Íon Dashboard">
+    <div class="brand-icon mb-5 d-flex align-items-center gap-3 px-4 w-100">
       <i class="bi bi-lightning-charge-fill fs-3 text-neon" style="filter: drop-shadow(0 0 10px rgba(0, 229, 155, 0.4));"></i>
       <span class="fs-4 fw-bold text-white d-none d-md-block tracking-wider">ÍON</span>
     </div>
     
-    <nav class="nav-menu d-flex flex-column gap-2 w-100 px-3 mt-2">
-      <a href="javascript:void(0)" class="nav-link active text-neon d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 text-decoration-none" style="background: rgba(0, 229, 155, 0.1);" title="Página Inicial">
+    <nav class="nav-menu d-flex flex-column gap-2 w-100 px-3 mt-2 flex-grow-1">
+      
+      <!-- PÁGINA INICIAL (Ativa) -->
+      <a routerLink="/dashboard" class="nav-link active text-neon d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 text-decoration-none" style="background: rgba(0, 229, 155, 0.1);">
         <i class="bi bi-house-door fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Página Inicial</span>
       </a>
       
-      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" title="Mapa" (click)="abrirMapa()" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
+      <!-- MAPA -->
+      <a routerLink="/mapa" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-map fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Mapa</span>
       </a>
       
-      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" title="Meus Carros" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
+      <!-- MEUS CARROS -->
+      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-car-front fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Meus Carros</span>
       </a>
       
-      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" title="Comunidade" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
+      <!-- COMUNIDADE -->
+      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-people fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Comunidade</span>
       </a>
-    </nav>
 
-    <div class="mt-auto w-100 px-3 mb-2">
-      <a href="javascript:void(0)" class="nav-link btn-logout text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" title="Sair da Conta" (click)="sair()" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
+      <!-- LOGOUT -->
+      <a href="javascript:void(0)" class="nav-link btn-logout text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none mt-md-auto" (click)="sair()" onmouseover="this.style.backgroundColor='rgba(255,77,77,0.1)'; this.style.color='#ff4d4d';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-box-arrow-right fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Sair</span>
       </a>
-    </div>
+      
+    </nav>
   </aside>
   
   <main class="main-content d-flex flex-column" style="min-height: 100vh;">

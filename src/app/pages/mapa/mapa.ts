@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import * as L from 'leaflet';
 import { EstacaoService } from '../../core/services/estacao';
 import { Estacao } from '../../core/models/estacao.model';
@@ -8,7 +9,7 @@ import { Estacao } from '../../core/models/estacao.model';
 @Component({
   selector: 'app-mapa',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './mapa.html',
   styleUrls: ['./mapa.css']
 })
