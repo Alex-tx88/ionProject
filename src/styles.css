@@ -1,8 +1,5 @@
 @import "leaflet/dist/leaflet.css";
 
-/* ======================================================= */
-/* TRAVA DE SEGURANÇA: MATA O SCROLL HORIZONTAL            */
-/* ======================================================= */
 html, body {
   background-color: #0b1114 !important;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -129,7 +126,6 @@ footer .footer-copy { color: #484f58; font-size: 0.7rem; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-/* FIX: BUG DO CLIQUE DUPLO */
 .sidebar .nav-link { user-select: none !important; -webkit-user-select: none !important; -webkit-tap-highlight-color: transparent !important; }
 .sidebar .nav-link:focus, .sidebar .nav-link:active, .sidebar .nav-link:focus-visible { box-shadow: none !important; outline: none !important; }
 .sidebar .nav-link.active, .sidebar .nav-link.active:focus, .sidebar .nav-link.active:active, .sidebar .nav-link.active:focus-visible { color: #00E59B !important; background-color: rgba(0, 229, 155, 0.1) !important; }
@@ -162,17 +158,14 @@ footer .footer-copy { color: #484f58; font-size: 0.7rem; }
     padding: 0 !important; margin: 0 !important; z-index: 9999 !important; display: flex !important;
   }
 
-  /* Some com os textos e a logo (Mas deixa os 5 botões intocados!) */
   .sidebar .brand-icon, .sidebar .nav-link span { display: none !important; }
 
-  /* Força os 5 ícones a se distribuírem perfeitamente na horizontal */
   .sidebar .nav-menu {
     display: flex !important; flex-direction: row !important; width: 100% !important; height: 100% !important;
     justify-content: space-around !important; align-items: center !important;
     margin: 0 !important; padding: 0 !important; gap: 0 !important;
   }
   
-  /* Ajuste para o dedo tocar confortavelmente no celular */
   .sidebar .nav-link { 
     padding: 15px !important; margin: 0 !important; display: flex !important; 
     align-items: center !important; justify-content: center !important; 

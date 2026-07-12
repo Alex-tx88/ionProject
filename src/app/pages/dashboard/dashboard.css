@@ -1,4 +1,3 @@
-
 .notification-wrapper {
   position: relative;
 }
@@ -168,7 +167,7 @@
     padding: 1.5rem 1rem 90px 1rem !important;
   }
 
-  /* 1. O SEGREDO DOS CARDS: Força a altura a ser flexível */
+  /* 1. O SEGREDO DOS CARDS */
   .top-cards-grid {
     display: flex !important;
     flex-direction: column !important;
@@ -193,7 +192,7 @@
     margin-top: 0.8rem;
   }
 
-  /* 3. NOTIFICAÇÕES: Ajuste fino para não colar na borda */
+  /* 3. NOTIFICAÇÕES: */
   .notification-dropdown {
     width: 300px;
     right: -20px;
@@ -204,7 +203,7 @@
   }
 }
 
-/* Telas muito pequenas (ex: iPhone SE) */
+/* Telas muito pequenas */
 @media (max-width: 400px) {
   .notification-dropdown {
     width: 270px;
@@ -222,5 +221,5 @@
 .sidebar .nav-link.text-muted-custom:hover,
 .sidebar .nav-link:hover i {
   color: #ffffff !important;
-  transform: scale(1.1); /* Dá um leve e elegante efeito de aumento no ícone */
+  transform: scale(1.1);
 }

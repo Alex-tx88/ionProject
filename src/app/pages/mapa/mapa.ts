@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule} from '@angular/router';
 import { RouterLink } from '@angular/router';
 import * as L from 'leaflet';
 import { EstacaoService } from '../../core/services/estacao';
@@ -9,7 +9,7 @@ import { Estacao } from '../../core/models/estacao.model';
 @Component({
   selector: 'app-mapa',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RouterModule],
   templateUrl: './mapa.html',
   styleUrls: ['./mapa.css']
 })
@@ -140,7 +140,6 @@ export class Mapa implements OnInit, AfterViewInit {
       this.marcadoresMapa.push(marker);
     });
 
-    // Invalida o tamanho do mapa após o render final do CSS para evitar áreas cinzas
     setTimeout(() => { this.map.invalidateSize(); }, 500);
   }
 
@@ -153,8 +152,7 @@ export class Mapa implements OnInit, AfterViewInit {
     this.mostrarLista = false;
     this.imagemAtualIndex = 0; 
     this.tempoRota = null; 
-    this.iniciarCarrossel();   
-    // Anima o mapa compensando a largura do painel lateral direito
+    this.iniciarCarrossel();
     this.map.flyTo([posto.lat, posto.lon + 0.015], 14, { animate: true, duration: 1.5 });
   }
 
