@@ -66,25 +66,6 @@ Bash
 ng serve
 Abra o seu navegador e aceda a http://localhost:4200/. A aplicação irá recarregar automaticamente se fizer alterações no código.
 
-📁 Estrutura Base do Projeto
-
-src/
- ├── app/
- │   ├── core/
- │   │   ├── guards/       # Proteção de rotas (Auth)
- │   │   ├── models/       # Interfaces e Tipos (ex: estacao.model.ts)
- │   │   └── services/     # Serviços de lógica e dados (ex: estacao.ts)
- │   ├── pages/
- │   │   ├── login/        # Tela de Autenticação
- │   │   ├── cadastro/     # Registo e LGPD
- │   │   ├── dashboard/    # Visão geral e atalhos rápidos
- │   │   └── mapa/         # Core da aplicação (Leaflet + Rotas)
- │   ├── app.routes.ts     # Configuração do RouterLink
- │   └── app.ts            # Componente Root
- ├── public/               # Assets, imagens (bg-cidade.jpg, etc.) e ícones
- ├── styles.css            # CSS Global (Reset, Responsividade Mobile e Cores Neon)
- └── index.html            # Ponto de entrada (Imports do Leaflet via CDN)
-
 👨‍💻 Autor
 Desenvolvido por Alex Teixeira de Jesus
 Estudante e entusiasta de Infraestrutura, Suporte de TI e Desenvolvimento Frontend.
