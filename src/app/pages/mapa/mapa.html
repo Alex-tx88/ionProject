@@ -70,11 +70,11 @@
       </div>
     </div>
 
-    <div class="details-panel shadow-lg d-flex flex-column pointer-events-auto" [class.show-panel]="postoSelecionado != null">
+    <div class="details-panel shadow-lg d-flex flex-column pointer-events-auto mobile-details-card" [class.show-panel]="postoSelecionado != null">
       @if (postoSelecionado) {
         <div class="d-flex flex-column h-100 overflow-y-auto" style="scrollbar-width: none;">
           
-          <div class="position-relative w-100 flex-shrink-0" style="height: 220px; border-radius: 20px 20px 0 0; overflow: hidden;"
+          <div class="position-relative w-100 flex-shrink-0 img-carrossel-container" style="border-radius: 20px 20px 0 0; overflow: hidden;"
                (mouseenter)="pararCarrossel()" (mouseleave)="iniciarCarrossel()">
             <img [src]="imagensCarrossel[imagemAtualIndex]" alt="Posto" class="w-100 h-100 object-fit-cover" style="transition: all 0.5s ease-in-out;">
             <button class="btn-carousel left" (click)="prevImage()" aria-label="Imagem Anterior"><i class="bi bi-chevron-left"></i></button>
