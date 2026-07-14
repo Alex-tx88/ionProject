@@ -60,7 +60,6 @@
 }
 .side-panel-map.panel-open { transform: translateX(0); }
 
-/* CORREÇÃO 1: FICA TOTALMENTE INVISÍVEL QUANDO FECHADO */
 .details-panel {
   position: absolute; top: 100px; right: 20px; transform: translateX(150%);
   width: 100%; max-width: 400px;
@@ -109,7 +108,6 @@
     visibility: visible !important;
   }
 
-  /* CORREÇÃO 2: O CARD FLUTUANTE AGORA COMPACTO NO CELULAR */
   .mobile-details-card {
     position: fixed !important;
     top: auto !important;
@@ -118,11 +116,11 @@
     right: auto !important;
     width: 92vw !important;
     height: auto !important;
-    max-height: 52vh !important; /* Limita a altura do card pra não tomar a tela */
+    max-height: 52vh !important; 
     border-radius: 20px !important;
     border: 1px solid var(--ion-border) !important;
     transform: translate(-50%, 50px) !important;
-    opacity: 0 !important; /* APAGA TOTALMENTE O TRAÇO QUANDO FECHADO */
+    opacity: 0 !important;
     visibility: hidden !important;
     z-index: 9998 !important;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7) !important;

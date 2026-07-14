@@ -40,7 +40,7 @@ export class Cadastro {
   // LÓGICA DE MÁSCARAS (CPF E TELEFONE)
   // =========================================
   onCpfChange(valor: string) {
-    let v = valor.replace(/\D/g, ''); // Remove tudo que não for número
+    let v = valor.replace(/\D/g, ''); 
     if (v.length > 11) v = v.substring(0, 11);
     
     if (v.length === 0) {
@@ -57,16 +57,16 @@ export class Cadastro {
   }
 
   onTelefoneChange(valor: string) {
-    let v = valor.replace(/\D/g, ''); // Remove tudo que não for número
+    let v = valor.replace(/\D/g, ''); 
     if (v.length > 11) v = v.substring(0, 11);
     
     if (v.length === 0) {
       this.dados.telefone = '';
     } else if (v.length <= 2) {
       this.dados.telefone = `(${v}`;
-    } else if (v.length <= 7) { // (XX) XXXXX
+    } else if (v.length <= 7) {
       this.dados.telefone = `(${v.substring(0, 2)}) ${v.substring(2)}`;
-    } else { // (XX) XXXXX-XXXX
+    } else { 
       this.dados.telefone = `(${v.substring(0, 2)}) ${v.substring(2, 7)}-${v.substring(7)}`;
     }
   }

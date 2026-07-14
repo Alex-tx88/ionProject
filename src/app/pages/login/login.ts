@@ -10,7 +10,7 @@ import { LgpdModalComponent } from '../../shared/components/lgpd-modal/lgpd-moda
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, LgpdModalComponent],
   templateUrl: './login.html',
-  styleUrls: [] // Removemos o CSS redundante daqui, tudo foi para styles.css
+  styleUrls: []
 })
 export class Login {
   
@@ -33,7 +33,6 @@ export class Login {
   }
 
   entrar() {
-    // Validação mockada utilizando a arquitetura centralizada
     if (this.dados.email === 'admin@ion.com' && this.dados.senha === 'admin123') {
       this.erroLogin = false;
       this.authService.login();

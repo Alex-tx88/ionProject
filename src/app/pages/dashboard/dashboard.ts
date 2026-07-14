@@ -15,26 +15,21 @@ import { SidebarComponent } from '../../shared/components/sidebar/sidebar.compon
 })
 export class Dashboard implements OnInit {
   
-  // Injeções Modernas do Angular
   private router = inject(Router);
   private estacaoService = inject(EstacaoService);
   private authService = inject(AuthService);
 
-  // Dados do Usuário Centralizados
   usuario = this.authService.getUserInfo();
 
-  // Variáveis de Estado da Interface
   dataAtualFormatada: string = '';
   mostrarNotificacoes: boolean = false;
   mostrarTodos: boolean = false;
 
-  // Métricas do Dashboard
   totalEstacoes: number = 0;
   estacoesRaio5km: number = 0;
   shoppings: number = 0;
   redeRapidaDC: number = 0;
 
-  // Coleções de Dados (Tipagem Refatorada)
   todosOsPostos: EstacaoProcessada[] = [];
   postosExibidos: EstacaoProcessada[] = [];
   
@@ -101,7 +96,6 @@ export class Dashboard implements OnInit {
     const postosBrutos = this.estacaoService.getEstacoes();
     this.totalEstacoes = postosBrutos.length;
 
-    // Processamento com a interface EstacaoProcessada para evitar conflitos
     const postosProcessados: EstacaoProcessada[] = postosBrutos.map(posto => {
       const distanciaKm = this.estacaoService.calcularDistancia(this.latUsuario, this.lonUsuario, posto.lat, posto.lon);
       
@@ -123,8 +117,6 @@ export class Dashboard implements OnInit {
     this.estacoesRaio5km = postosProcessados.filter(p => p.distanciaNum <= 5).length;
     this.shoppings = postosProcessados.filter(p => p.isShopping).length;
     this.redeRapidaDC = postosProcessados.filter(p => p.isFast).length;
-
-    // Ordenação por distância mais próxima
     this.todosOsPostos = postosProcessados.sort((a, b) => a.distanciaNum - b.distanciaNum);
     this.atualizarListaExibida();
   }
@@ -144,7 +136,7 @@ export class Dashboard implements OnInit {
   }
 
   abrirNoMapa(nomeDoPosto: string): void {
-    // CORRIGIDO: Enviando o parâmetro 'posto' na URL para o mapa capturar
+
     this.router.navigate(['/mapa'], { queryParams: { posto: nomeDoPosto } });
   }
   
