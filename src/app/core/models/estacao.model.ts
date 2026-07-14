@@ -14,6 +14,22 @@ export interface Estacao {
   alertaAtual?: { tipo: string, tempo: string };
 }
 
+export interface EstacaoProcessada extends Estacao {
+  distanciaNum: number;
+  distancia: string;
+  tag: string;
+  tagColor: string;
+}
+
+
+export interface RouteResponse {
+  routes: Array<{
+    duration: number;
+    geometry: { coordinates: number[][] };
+  }>;
+}
+
+
 export interface Notificacao {
   titulo: string;
   mensagem: string;

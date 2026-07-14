@@ -1,39 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
+import { LgpdModalComponent } from '../../shared/components/lgpd-modal/lgpd-modal.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule], 
+  imports: [CommonModule, FormsModule, RouterLink, LgpdModalComponent],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrls: [] // Removemos o CSS redundante daqui, tudo foi para styles.css
 })
 export class Login {
   
-  dados = {
-    email: '',
-    senha: ''
-  };
+  private authService = inject(AuthService);
 
-  lgpdAceito: boolean = false;
-  podeAceitarLgpd: boolean = false;
+  dados = { email: '', senha: '' };
+  
   senhaOculta: boolean = true;
   erroLogin: boolean = false;
-  
-  // Controle do Modal
+  lgpdAceito: boolean = false;
+  podeAceitarLgpd: boolean = false;
   mostrarModalPolitica: boolean = false;
 
-  constructor(private router: Router) {}
+  alternarSenha() {
+    this.senhaOculta = !this.senhaOculta;
+  }
 
   get loginValido(): boolean {
     return !!(this.dados.email && this.dados.senha && this.lgpdAceito);
   }
-  
+
+  entrar() {
+    // Validação mockada utilizando a arquitetura centralizada
+    if (this.dados.email === 'admin@ion.com' && this.dados.senha === 'admin123') {
+      this.erroLogin = false;
+      this.authService.login();
+    } else {
+      this.erroLogin = true; 
+    }
+  }
+
   abrirPolitica(event: Event) {
-    event.preventDefault(); 
-    this.mostrarModalPolitica = true; // Abre a janela da LGPD
+    event.preventDefault();
+    this.mostrarModalPolitica = true;
   }
 
   fecharPolitica() {
@@ -41,22 +52,8 @@ export class Login {
   }
 
   aceitarPoliticaModal() {
-    this.podeAceitarLgpd = true; // Destrava o checkbox
-    this.lgpdAceito = true;      // Já marca automático pro usuário
-    this.fecharPolitica();       // Fecha a janela
-  }
-
-  entrar() {
-    if (this.dados.email === 'admin@ion.com' && this.dados.senha === 'admin123') {
-      this.erroLogin = false;
-      sessionStorage.setItem('ion_session', 'true');
-      this.router.navigate(['/dashboard']);
-    } else {
-      this.erroLogin = true; 
-    }
-  }
-
-  alternarSenha() {
-    this.senhaOculta = !this.senhaOculta;
+    this.podeAceitarLgpd = true;
+    this.lgpdAceito = true;
+    this.mostrarModalPolitica = false;
   }
 }

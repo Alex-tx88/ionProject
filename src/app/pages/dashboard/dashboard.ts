@@ -1,19 +1,28 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { EstacaoService } from '../../core/services/estacao';
-import { Estacao, Notificacao, Veiculo } from '../../core/models/estacao.model';
+import { AuthService } from '../../core/services/auth.service';
+import { EstacaoProcessada, Notificacao, Veiculo } from '../../core/models/estacao.model';
+import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, SidebarComponent],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
 export class Dashboard implements OnInit {
   
+  // Injeções Modernas do Angular
+  private router = inject(Router);
+  private estacaoService = inject(EstacaoService);
+  private authService = inject(AuthService);
+
+  // Dados do Usuário Centralizados
+  usuario = this.authService.getUserInfo();
+
   // Variáveis de Estado da Interface
   dataAtualFormatada: string = '';
   mostrarNotificacoes: boolean = false;
@@ -25,9 +34,9 @@ export class Dashboard implements OnInit {
   shoppings: number = 0;
   redeRapidaDC: number = 0;
 
-  // Coleções de Dados
-  todosOsPostos: Estacao[] = [];
-  postosExibidos: Estacao[] = [];
+  // Coleções de Dados (Tipagem Refatorada)
+  todosOsPostos: EstacaoProcessada[] = [];
+  postosExibidos: EstacaoProcessada[] = [];
   
   veiculoAtual: Veiculo = {
     marca: 'Ford',
@@ -44,12 +53,6 @@ export class Dashboard implements OnInit {
   // Coordenadas de Fallback (Centro de Salvador)
   private latUsuario: number = -12.9714; 
   private lonUsuario: number = -38.5104;
-
-  constructor(
-    private router: Router, 
-    private zone: NgZone,
-    private estacaoService: EstacaoService
-  ) {}
 
   ngOnInit(): void {
     this.atualizarData();
@@ -82,17 +85,13 @@ export class Dashboard implements OnInit {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.zone.run(() => {
-          this.latUsuario = position.coords.latitude;
-          this.lonUsuario = position.coords.longitude;
-          this.processarEstacoes(); 
-        });
+        this.latUsuario = position.coords.latitude;
+        this.lonUsuario = position.coords.longitude;
+        this.processarEstacoes(); 
       },
       () => {
-        this.zone.run(() => {
-          console.warn('GPS bloqueado/indisponível. Fallback para coordenadas padrão.');
-          this.processarEstacoes(); 
-        });
+        console.warn('GPS bloqueado/indisponível. Fallback para coordenadas padrão.');
+        this.processarEstacoes(); 
       },
       { enableHighAccuracy: false, timeout: 5000, maximumAge: 0 }
     );
@@ -102,11 +101,13 @@ export class Dashboard implements OnInit {
     const postosBrutos = this.estacaoService.getEstacoes();
     this.totalEstacoes = postosBrutos.length;
 
-    const postosProcessados = postosBrutos.map((posto: Estacao) => {
+    // Processamento com a interface EstacaoProcessada para evitar conflitos
+    const postosProcessados: EstacaoProcessada[] = postosBrutos.map(posto => {
       const distanciaKm = this.estacaoService.calcularDistancia(this.latUsuario, this.lonUsuario, posto.lat, posto.lon);
       
       let tag = 'Público';
       let tagColor = 'text-neon';
+      
       if (posto.isShopping) { tag = 'Shopping'; tagColor = 'text-purple'; }
       else if (posto.isFast) { tag = 'Carga Rápida'; tagColor = 'text-blue'; }
 
@@ -119,12 +120,12 @@ export class Dashboard implements OnInit {
       };
     });
 
-    this.estacoesRaio5km = postosProcessados.filter(p => p.distanciaNum! <= 5).length;
+    this.estacoesRaio5km = postosProcessados.filter(p => p.distanciaNum <= 5).length;
     this.shoppings = postosProcessados.filter(p => p.isShopping).length;
     this.redeRapidaDC = postosProcessados.filter(p => p.isFast).length;
 
     // Ordenação por distância mais próxima
-    this.todosOsPostos = postosProcessados.sort((a, b) => a.distanciaNum! - b.distanciaNum!);
+    this.todosOsPostos = postosProcessados.sort((a, b) => a.distanciaNum - b.distanciaNum);
     this.atualizarListaExibida();
   }
 
@@ -148,9 +149,7 @@ export class Dashboard implements OnInit {
   
   sair(): void {
     if (confirm('Tem certeza que deseja sair do Íon?')) {
-      sessionStorage.clear();
-      localStorage.clear();
-      this.router.navigate(['/login']);
+      this.authService.logout();
     }
   }
 }

@@ -1,36 +1,6 @@
-<div class="d-flex overflow-hidden" style="width: 100vw; height: 100vh; background-color: #0B1114;">
+<div class="d-flex overflow-hidden" style="width: 100vw; height: 100vh; background-color: var(--ion-bg);">
 
-  <aside class="sidebar d-flex flex-column py-4 flex-shrink-0 z-3 shadow-lg" 
-         style="width: 240px; border-right: 1px solid rgba(255,255,255,0.05); background-color: #0B1114;">
-    
-    <div class="brand-icon mb-5 d-flex align-items-center gap-3 px-4 w-100">
-      <i class="bi bi-lightning-charge-fill fs-3 text-neon" style="filter: drop-shadow(0 0 10px rgba(0, 229, 155, 0.4));"></i>
-      <span class="fs-4 fw-bold text-white d-none d-md-block tracking-wider">ÍON</span>
-    </div>
-    
-    <nav class="nav-menu d-flex flex-column gap-2 w-100 px-3 mt-2 flex-grow-1">
-      <a routerLink="/dashboard" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
-        <i class="bi bi-house-door fs-5"></i>
-        <span class="fw-semibold d-none d-md-block">Página Inicial</span>
-      </a>
-      <a routerLink="/mapa" class="nav-link active text-neon d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 text-decoration-none" style="background: rgba(0, 229, 155, 0.1);">
-        <i class="bi bi-map fs-5"></i>
-        <span class="fw-semibold d-none d-md-block">Mapa</span>
-      </a>
-      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
-        <i class="bi bi-car-front fs-5"></i>
-        <span class="fw-semibold d-none d-md-block">Meus Carros</span>
-      </a>
-      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
-        <i class="bi bi-people fs-5"></i>
-        <span class="fw-semibold d-none d-md-block">Comunidade</span>
-      </a>
-      <a href="javascript:void(0)" class="nav-link btn-logout text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none mt-md-auto" (click)="sair()" onmouseover="this.style.backgroundColor='rgba(255,77,77,0.1)'; this.style.color='#ff4d4d';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
-        <i class="bi bi-box-arrow-right fs-5"></i>
-        <span class="fw-semibold d-none d-md-block">Sair</span>
-      </a>
-    </nav>
-  </aside>
+  <app-sidebar></app-sidebar>
 
   <main class="flex-grow-1 position-relative overflow-hidden p-0 m-0 h-100">
     <div id="map" class="position-absolute top-0 start-0 w-100 h-100 z-0"></div>
@@ -38,12 +8,12 @@
     <header class="position-absolute top-0 start-0 w-100 p-3 p-md-4 z-3 pointer-events-none d-flex align-items-center justify-content-between gap-3">
       
       <div class="pointer-events-auto">
-         <button class="btn btn-dark shadow-lg d-flex align-items-center justify-content-center hover-btn-neon" style="width: 48px; height: 48px; background-color: rgba(18, 24, 28, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px;" (click)="toggleLista()">
+         <button class="btn btn-dark shadow-lg d-flex align-items-center justify-content-center hover-btn-neon" style="width: 48px; height: 48px; background-color: rgba(18, 24, 28, 0.95); backdrop-filter: blur(10px); border: 1px solid var(--ion-border); border-radius: 12px;" (click)="toggleLista()">
             <i class="bi fs-5 text-white" [ngClass]="mostrarLista ? 'bi-x-lg' : 'bi-card-list'"></i>
          </button>
       </div>
 
-      <div class="search-bar d-none d-md-flex align-items-center px-3 shadow-lg pointer-events-auto" style="background-color: rgba(18, 24, 28, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; height: 48px; flex: 1; max-width: 450px;">
+      <div class="search-bar d-none d-md-flex align-items-center px-3 shadow-lg pointer-events-auto" style="background-color: rgba(18, 24, 28, 0.95); backdrop-filter: blur(10px); border: 1px solid var(--ion-border); border-radius: 12px; height: 48px; flex: 1; max-width: 450px;">
          <i class="bi bi-search text-muted-custom me-2 fs-6"></i>
          <input type="text" placeholder="Buscar Shopping, Hotel ou Bairro..." 
                 class="bg-transparent border-0 text-white w-100 shadow-none input-busca" 
@@ -53,12 +23,12 @@
       </div>
 
       <div class="d-none d-md-flex align-items-center justify-content-end pointer-events-auto">
-         <div class="dash-card p-2 px-3 d-flex align-items-center gap-3 shadow-lg" style="border-radius: 12px; background-color: rgba(18, 24, 28, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05);">
+         <div class="dash-card p-2 px-3 d-flex align-items-center gap-3 shadow-lg" style="border-radius: 12px; background-color: rgba(18, 24, 28, 0.95); backdrop-filter: blur(10px); border: 1px solid var(--ion-border);">
             <div class="d-flex flex-column text-end">
-               <span class="text-white fw-bold mb-0" style="font-size: 14px; line-height: 1.2;">Olá, Alex</span>
+               <span class="text-white fw-bold mb-0" style="font-size: 14px; line-height: 1.2;">Olá, {{ usuario.nome }}</span>
                <span class="text-muted-custom" style="font-size: 12px;">{{ totalEstacoes }} ativos</span>
             </div>
-            <div class="rounded-circle d-flex align-items-center justify-content-center text-neon fw-bold" style="width: 38px; height: 38px; background-color: rgba(0, 229, 155, 0.1); border: 1px solid rgba(0, 229, 155, 0.2); font-size: 14px;">AX</div>
+            <div class="rounded-circle d-flex align-items-center justify-content-center text-neon fw-bold" style="width: 38px; height: 38px; background-color: rgba(0, 229, 155, 0.1); border: 1px solid rgba(0, 229, 155, 0.2); font-size: 14px;">{{ usuario.iniciais }}</div>
          </div>
       </div>
     </header>
@@ -68,134 +38,136 @@
 
       <div class="p-4 border-bottom border-secondary border-opacity-10 mt-4 mt-md-5">
         <h5 class="text-white fw-bold m-0">{{ postosFiltrados.length }} Postos Encontrados</h5>
-        <span class="text-muted-custom fs-7" *ngIf="termoBusca">Para: "{{ termoBusca }}"</span>
-        <span class="text-muted-custom fs-7" *ngIf="!termoBusca">Baseado na sua localização</span>
+        
+        @if (termoBusca) {
+          <span class="text-muted-custom fs-7">Para: "{{ termoBusca }}"</span>
+        } @else {
+          <span class="text-muted-custom fs-7">Baseado na sua localização</span>
+        }
       </div>
       
       <div class="posto-list flex-grow-1 overflow-y-auto p-3 d-flex flex-column gap-3">
-        <div *ngFor="let posto of postosFiltrados" class="list-item dash-card d-flex flex-column p-3 cursor-pointer hover-bg-dark transition-all" style="border: 1px solid rgba(255,255,255,0.05); background-color: #0B1114; border-radius: 12px;" (click)="abrirDetalhes(posto)">
-          <div class="d-flex align-items-start gap-3 w-100">
-            <div class="icon-box-sm text-neon flex-shrink-0 mt-1"><i class="bi bi-lightning-charge"></i></div>
-            <div class="flex-grow-1 min-w-0">
-              <h6 class="text-white fw-semibold mb-1 text-truncate">{{ posto.nome }}</h6>
-              <span class="text-muted-custom fs-7 d-block text-truncate mb-2">{{ posto.endereco }}</span>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="badge-dark-outline py-1 px-2 fs-7 rounded-pill" style="border: 1px solid rgba(255,255,255,0.1);" [ngClass]="posto.tagColor">{{ posto.tag }}</span>
-                <span class="text-neon fw-semibold fs-7">{{ posto.distancia }} km</span>
+        @for (posto of postosFiltrados; track posto.nome) {
+          <div class="list-item dash-card d-flex flex-column p-3 cursor-pointer hover-bg-dark transition-all" style="border: 1px solid var(--ion-border); background-color: var(--ion-bg); border-radius: 12px;" (click)="abrirDetalhes(posto)">
+            <div class="d-flex align-items-start gap-3 w-100">
+              <div class="icon-box-sm text-neon flex-shrink-0 mt-1"><i class="bi bi-lightning-charge"></i></div>
+              <div class="flex-grow-1 min-w-0">
+                <h6 class="text-white fw-semibold mb-1 text-truncate">{{ posto.nome }}</h6>
+                <span class="text-muted-custom fs-7 d-block text-truncate mb-2">{{ posto.endereco }}</span>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="badge-dark-outline py-1 px-2 fs-7 rounded-pill" [ngClass]="posto.tagColor">{{ posto.tag }}</span>
+                  <span class="text-neon fw-semibold fs-7">{{ posto.distancia }} km</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div *ngIf="postosFiltrados.length === 0" class="text-center mt-5">
-          <i class="bi bi-search text-muted-custom fs-1 mb-3 d-block"></i>
-          <span class="text-muted-custom d-block">Nenhum posto encontrado para esta pesquisa.</span>
-        </div>
-
+        } @empty {
+          <div class="text-center mt-5">
+            <i class="bi bi-search text-muted-custom fs-1 mb-3 d-block"></i>
+            <span class="text-muted-custom d-block">Nenhum posto encontrado para esta pesquisa.</span>
+          </div>
+        }
       </div>
     </div>
 
     <div class="details-panel shadow-lg d-flex flex-column pointer-events-auto" [class.show-panel]="postoSelecionado != null">
-      <div *ngIf="postoSelecionado" class="d-flex flex-column h-100 overflow-y-auto" style="scrollbar-width: none;">
-        
-        <div class="position-relative w-100 flex-shrink-0" style="height: 220px; border-radius: 20px 20px 0 0; overflow: hidden;"
-             (mouseenter)="pararCarrossel()" (mouseleave)="iniciarCarrossel()">
-          <img [src]="imagensCarrossel[imagemAtualIndex]" alt="Posto" class="w-100 h-100 object-fit-cover" style="transition: all 0.5s ease-in-out;">
-          <button class="btn-carousel left" (click)="prevImage()"><i class="bi bi-chevron-left"></i></button>
-          <button class="btn-carousel right" (click)="nextImage()"><i class="bi bi-chevron-right"></i></button>
+      @if (postoSelecionado) {
+        <div class="d-flex flex-column h-100 overflow-y-auto" style="scrollbar-width: none;">
           
-          <button class="btn-close-dark position-absolute" style="top: 15px; right: 15px; z-index: 10;" (click)="fecharDetalhes()"><i class="bi bi-x-lg"></i></button>
-        </div>
-
-        <div class="p-4 d-flex flex-column flex-grow-1" style="background-color: #0B1114; border-radius: 0 0 20px 20px;">
-          <h4 class="text-white fw-bold mb-1 w-100">{{ postoSelecionado.nome }}</h4>
-          <span class="text-muted-custom fs-7 mb-3 d-block"><i class="bi bi-geo-alt-fill me-1"></i> {{ postoSelecionado.endereco }}</span>
-          
-          <div class="d-flex gap-3 mb-4 text-white fw-semibold" style="font-size: 14px;">
-            <span><i class="bi bi-battery-charging text-muted-custom me-1"></i> {{ postoSelecionado.potencia }}</span>
-            <span><i class="bi bi-cursor text-muted-custom me-1"></i> {{ postoSelecionado.conector }}</span>
-          </div>
-
-          <div class="row g-3 mb-4">
-            <div class="col-6">
-              <div class="info-grid-card h-100">
-                <span class="text-muted-custom fs-7"><i class="bi bi-battery-charging me-1"></i> Potência</span>
-                <h5 class="text-white fw-bold m-0 mt-1">{{ postoSelecionado.potencia }}</h5>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="info-grid-card h-100">
-                <span class="text-muted-custom fs-7"><i class="bi bi-cursor me-1"></i> Conector</span>
-                <h5 class="text-white fw-bold m-0 mt-1">{{ postoSelecionado.conector }}</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="mb-4" *ngIf="postoSelecionado.comodidades && postoSelecionado.comodidades.length > 0">
-            <h6 class="text-white-50 mb-2 fs-6 fw-semibold" style="letter-spacing: 1px; font-size: 0.8rem !important;">AO REDOR (5 MIN A PÉ)</h6>
-            <div class="d-flex flex-wrap gap-2">
-              <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2" *ngIf="postoSelecionado.comodidades.includes('cafe')">☕ Bom Café</span>
-              <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2" *ngIf="postoSelecionado.comodidades.includes('wifi')">💻 Wi-Fi</span>
-              <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2" *ngIf="postoSelecionado.comodidades.includes('wc')">🚾 Banheiro</span>
-              <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2" *ngIf="postoSelecionado.comodidades.includes('food')">🍔 Alimentação</span>
-              <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2" *ngIf="postoSelecionado.comodidades.includes('pet')">🐕 Pet-Friendly</span>
-            </div>
-          </div>
-
-          <div class="mb-4 p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <span class="text-white-50 fw-semibold" style="font-size: 0.85rem;">AVISO DOS USUÁRIOS</span>
-              
-              <span *ngIf="postoSelecionado.alertaAtual" class="badge bg-danger text-white px-2 py-1 pulse-gps" style="box-shadow: 0 0 10px rgba(255,77,77,0.5);">
-                <i class="bi bi-exclamation-triangle-fill me-1"></i> {{postoSelecionado.alertaAtual.tipo}} ({{postoSelecionado.alertaAtual.tempo}})
-              </span>
-              <span *ngIf="!postoSelecionado.alertaAtual" class="badge text-dark px-2 py-1" style="background-color: #00E59B;">
-                <i class="bi bi-check-circle-fill me-1"></i> Posto Livre
-              </span>
-            </div>
+          <div class="position-relative w-100 flex-shrink-0" style="height: 220px; border-radius: 20px 20px 0 0; overflow: hidden;"
+               (mouseenter)="pararCarrossel()" (mouseleave)="iniciarCarrossel()">
+            <img [src]="imagensCarrossel[imagemAtualIndex]" alt="Posto" class="w-100 h-100 object-fit-cover" style="transition: all 0.5s ease-in-out;">
+            <button class="btn-carousel left" (click)="prevImage()" aria-label="Imagem Anterior"><i class="bi bi-chevron-left"></i></button>
+            <button class="btn-carousel right" (click)="nextImage()" aria-label="Próxima Imagem"><i class="bi bi-chevron-right"></i></button>
             
-            <div class="d-flex flex-wrap gap-2 mt-2">
-              <button class="btn btn-outline-success btn-report" (click)="reportarProblema('Posto Livre')">
-                ✅ Posto Livre
-              </button>
-              <button class="btn btn-outline-warning btn-report" (click)="reportarProblema('Fila Longa')">
-                ⏳ Fila Longa
-              </button>
-              <button class="btn btn-outline-danger btn-report" (click)="reportarProblema('Equipamento Avariado')">
-                ⚠️ Avariado
-              </button>
-              <button class="btn btn-outline-secondary text-light btn-report" (click)="reportarProblema('Vaga Ocupada (ICE)')">
-                🚨 Vaga Ocupada
+            <button class="btn-close-dark position-absolute" style="top: 15px; right: 15px; z-index: 10;" (click)="fecharDetalhes()" aria-label="Fechar Painel"><i class="bi bi-x-lg"></i></button>
+          </div>
+
+          <div class="p-4 d-flex flex-column flex-grow-1" style="background-color: var(--ion-bg); border-radius: 0 0 20px 20px;">
+            <h4 class="text-white fw-bold mb-1 w-100">{{ postoSelecionado.nome }}</h4>
+            <span class="text-muted-custom fs-7 mb-3 d-block"><i class="bi bi-geo-alt-fill me-1"></i> {{ postoSelecionado.endereco }}</span>
+            
+            <div class="d-flex gap-3 mb-4 text-white fw-semibold" style="font-size: 14px;">
+              <span><i class="bi bi-battery-charging text-muted-custom me-1"></i> {{ postoSelecionado.potencia }}</span>
+              <span><i class="bi bi-cursor text-muted-custom me-1"></i> {{ postoSelecionado.conector }}</span>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-6">
+                <div class="info-grid-card h-100">
+                  <span class="text-muted-custom fs-7"><i class="bi bi-battery-charging me-1"></i> Potência</span>
+                  <h5 class="text-white fw-bold m-0 mt-1">{{ postoSelecionado.potencia }}</h5>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="info-grid-card h-100">
+                  <span class="text-muted-custom fs-7"><i class="bi bi-cursor me-1"></i> Conector</span>
+                  <h5 class="text-white fw-bold m-0 mt-1">{{ postoSelecionado.conector }}</h5>
+                </div>
+              </div>
+            </div>
+
+            @if (postoSelecionado.comodidades && postoSelecionado.comodidades.length > 0) {
+              <div class="mb-4">
+                <h6 class="text-white-50 mb-2 fs-6 fw-semibold" style="letter-spacing: 1px; font-size: 0.8rem !important;">AO REDOR (5 MIN A PÉ)</h6>
+                <div class="d-flex flex-wrap gap-2">
+                  @if (postoSelecionado.comodidades.includes('cafe')) { <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2">☕ Bom Café</span> }
+                  @if (postoSelecionado.comodidades.includes('wifi')) { <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2">💻 Wi-Fi</span> }
+                  @if (postoSelecionado.comodidades.includes('wc')) { <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2">🚾 Banheiro</span> }
+                  @if (postoSelecionado.comodidades.includes('food')) { <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2">🍔 Alimentação</span> }
+                  @if (postoSelecionado.comodidades.includes('pet')) { <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2">🐕 Pet-Friendly</span> }
+                </div>
+              </div>
+            }
+
+            <div class="mb-4 p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--ion-border);">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-white-50 fw-semibold" style="font-size: 0.85rem;">AVISO DOS USUÁRIOS</span>
+                
+                @if (postoSelecionado.alertaAtual) {
+                  <span class="badge bg-danger text-white px-2 py-1 pulse-gps" style="box-shadow: 0 0 10px rgba(255,77,77,0.5);">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i> {{postoSelecionado.alertaAtual.tipo}} ({{postoSelecionado.alertaAtual.tempo}})
+                  </span>
+                } @else {
+                  <span class="badge text-dark px-2 py-1" style="background-color: var(--ion-neon);">
+                    <i class="bi bi-check-circle-fill me-1"></i> Posto Livre
+                  </span>
+                }
+              </div>
+              
+              <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-outline-success btn-report" (click)="reportarProblema('Posto Livre')">✅ Posto Livre</button>
+                <button class="btn btn-outline-warning btn-report" (click)="reportarProblema('Fila Longa')">⏳ Fila Longa</button>
+                <button class="btn btn-outline-danger btn-report" (click)="reportarProblema('Equipamento Avariado')">⚠️ Avariado</button>
+                <button class="btn btn-outline-secondary text-light btn-report" (click)="reportarProblema('Vaga Ocupada (ICE)')">🚨 Vaga Ocupada</button>
+              </div>
+            </div>
+
+            <div class="mt-auto">
+              <button class="btn w-100 py-3 fw-bold shadow-lg d-flex align-items-center justify-content-center gap-2" 
+                      [ngClass]="tempoRota ? 'btn-danger' : 'btn-action-route'"
+                      style="transition: all 0.3s ease; border-radius: 12px;"
+                      (click)="tempoRota ? fecharDetalhes() : tracarRota()">
+                
+                <i class="bi fs-5" [ngClass]="tempoRota ? 'bi-x-circle-fill' : 'bi-cursor-fill'"></i> 
+                
+                @if (!tempoRota) {
+                  <span>Iniciar Rota <span class="fw-normal opacity-75 ms-1">({{ postoSelecionado.distancia }} km)</span></span>
+                } @else {
+                  <span class="text-white">Encerrar Rota <span class="ms-1 px-2 py-1 rounded" style="background: rgba(0,0,0,0.2); font-size: 13px;">{{ postoSelecionado.distancia }} km • <b>~{{ tempoRota }}</b></span></span>
+                }
+                
               </button>
             </div>
           </div>
-
-          <div class="mt-auto">
-            <button class="btn w-100 py-3 fw-bold shadow-lg d-flex align-items-center justify-content-center gap-2" 
-                    [ngClass]="tempoRota ? 'btn-danger' : 'btn-action-route'"
-                    style="transition: all 0.3s ease; border-radius: 12px;"
-                    (click)="tempoRota ? encerrarRota() : tracarRota()">
-              
-              <i class="bi fs-5" [ngClass]="tempoRota ? 'bi-x-circle-fill' : 'bi-cursor-fill'"></i> 
-              
-              <span *ngIf="!tempoRota">
-                Iniciar Rota <span class="fw-normal opacity-75 ms-1">({{ postoSelecionado.distancia }} km)</span>
-              </span>
-              
-              <span *ngIf="tempoRota" class="text-white">
-                Encerrar Rota <span class="ms-1 px-2 py-1 rounded" style="background: rgba(0,0,0,0.2); font-size: 13px;">{{ postoSelecionado.distancia }} km • <b>~{{ tempoRota }}</b></span>
-              </span>
-              
-            </button>
-          </div>
         </div>
-      </div>
+      }
     </div>
 
-    <div class="map-legend position-absolute bottom-0 start-0 m-3 m-md-4 p-3 shadow-lg pointer-events-auto" style="background-color: rgba(18, 24, 28, 0.90); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; z-index: 1;">
+    <div class="map-legend position-absolute bottom-0 start-0 m-3 m-md-4 p-3 shadow-lg pointer-events-auto" style="background-color: rgba(18, 24, 28, 0.90); backdrop-filter: blur(10px); border: 1px solid var(--ion-border); border-radius: 12px; z-index: 1;">
       <span class="text-white fw-bold d-block mb-2 fs-7 text-uppercase tracking-wider" style="letter-spacing: 1px;">Tipos de Posto</span>
       <div class="d-flex flex-column gap-2">
-        <div class="d-flex align-items-center gap-2"><span class="rounded-circle" style="width: 12px; height: 12px; background-color: #00E59B; border: 2px solid #fff;"></span><span class="text-muted-custom fs-7">Público (AC)</span></div>
+        <div class="d-flex align-items-center gap-2"><span class="rounded-circle" style="width: 12px; height: 12px; background-color: var(--ion-neon); border: 2px solid #fff;"></span><span class="text-muted-custom fs-7">Público (AC)</span></div>
         <div class="d-flex align-items-center gap-2"><span class="rounded-circle" style="width: 12px; height: 12px; background-color: #3b82f6; border: 2px solid #fff;"></span><span class="text-muted-custom fs-7">Rápida (DC)</span></div>
         <div class="d-flex align-items-center gap-2"><span class="rounded-circle" style="width: 12px; height: 12px; background-color: #a855f7; border: 2px solid #fff;"></span><span class="text-muted-custom fs-7">Shoppings</span></div>
       </div>

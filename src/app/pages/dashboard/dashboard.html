@@ -1,51 +1,16 @@
 <div class="dashboard-layout">
-<aside class="sidebar d-flex flex-column py-4 flex-shrink-0 z-3 shadow-lg" 
-         style="width: 240px; border-right: 1px solid rgba(255,255,255,0.05); background-color: #0B1114;">
-    
-    <div class="brand-icon mb-5 d-flex align-items-center gap-3 px-4 w-100">
-      <i class="bi bi-lightning-charge-fill fs-3 text-neon" style="filter: drop-shadow(0 0 10px rgba(0, 229, 155, 0.4));"></i>
-      <span class="fs-4 fw-bold text-white d-none d-md-block tracking-wider">ÍON</span>
-    </div>
-    
-    <nav class="nav-menu d-flex flex-column gap-2 w-100 px-3 mt-2 flex-grow-1">
-      
-      <a routerLink="/dashboard" class="nav-link active text-neon d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 text-decoration-none" style="background: rgba(0, 229, 155, 0.1);">
-        <i class="bi bi-house-door fs-5"></i>
-        <span class="fw-semibold d-none d-md-block">Página Inicial</span>
-      </a>
-      
-      <a routerLink="/mapa" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
-        <i class="bi bi-map fs-5"></i>
-        <span class="fw-semibold d-none d-md-block">Mapa</span>
-      </a>
-      
-      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
-        <i class="bi bi-car-front fs-5"></i>
-        <span class="fw-semibold d-none d-md-block">Meus Carros</span>
-      </a>
-      
-      <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
-        <i class="bi bi-people fs-5"></i>
-        <span class="fw-semibold d-none d-md-block">Comunidade</span>
-      </a>
-
-      <a href="javascript:void(0)" class="nav-link btn-logout text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none mt-md-auto" (click)="sair()" onmouseover="this.style.backgroundColor='rgba(255,77,77,0.1)'; this.style.color='#ff4d4d';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
-        <i class="bi bi-box-arrow-right fs-5"></i>
-        <span class="fw-semibold d-none d-md-block">Sair</span>
-      </a>
-      
-    </nav>
-  </aside>
+  
+  <app-sidebar></app-sidebar>
   
   <main class="main-content d-flex flex-column" style="min-height: 100vh;">
     
     <header class="header d-flex flex-wrap justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-10 gap-3">
       <div class="d-flex align-items-center gap-3">
-        <div class="avatar-circle" style="width: 50px; height: 50px; font-size: 1.2rem;">AL</div>
+        <div class="avatar-circle" style="width: 50px; height: 50px; font-size: 1.2rem;">{{ usuario.iniciais }}</div>
         <div>
-          <h4 class="m-0 fw-normal text-muted-custom fs-5 fs-md-4">Olá, <span class="text-white fw-bold">Alex</span></h4>
+          <h4 class="m-0 fw-normal text-muted-custom fs-5 fs-md-4">Olá, <span class="text-white fw-bold">{{ usuario.nome }}</span></h4>
           <div class="d-flex flex-wrap align-items-center gap-2 mt-1">
-            <span class="badge-status-api px-2 py-1 fs-7" style="background: rgba(0, 229, 155, 0.1); color: #00E59B; border-radius: 6px;">
+            <span class="badge-status-api px-2 py-1 fs-7" style="border-radius: 6px;">
               <i class="bi bi-car-front-fill me-1"></i> {{ veiculoAtual.marca }} {{ veiculoAtual.modelo }}
             </span>
             <span class="text-muted-custom fs-7"><i class="bi bi-plug"></i> {{ veiculoAtual.conectores.join(', ') }}</span>
@@ -54,47 +19,55 @@
       </div>
 
       <div class="d-flex align-items-center gap-3 gap-md-4 ms-auto ms-md-0">
-        
         <span class="text-muted-custom fs-7 d-none d-sm-block"><i class="bi bi-calendar3 me-2"></i> {{ dataAtualFormatada }}</span>
         
         <div class="notification-wrapper">
           <button class="btn btn-dark border border-secondary border-opacity-25 rounded-circle position-relative d-flex align-items-center justify-content-center" 
                   style="width: 45px; height: 45px; background-color: transparent;" 
+                  aria-label="Notificações"
                   (click)="toggleNotificacoes()">
             <i class="bi bi-bell text-muted-custom fs-5"></i>
-            <span *ngIf="notificacoesNaoLidas > 0" 
-                  class="position-absolute top-0 start-100 translate-middle border border-dark rounded-circle" 
-                  style="background-color: #00E59B; width: 10px; height: 10px; margin-top: 8px; margin-left: -8px;">
-            </span>
+            
+            @if (notificacoesNaoLidas > 0) {
+              <span class="position-absolute top-0 start-100 translate-middle border border-dark rounded-circle" 
+                    style="background-color: var(--ion-neon); width: 10px; height: 10px; margin-top: 8px; margin-left: -8px;">
+              </span>
+            }
           </button>
 
-          <div *ngIf="mostrarNotificacoes" class="notification-dropdown">
-            <div class="d-flex justify-content-between align-items-center p-3 border-bottom border-secondary border-opacity-10 position-relative z-1" style="background-color: transparent;">
-              <h6 class="m-0 text-white fw-semibold">Notificações</h6>
-              <a href="javascript:void(0)" class="text-neon fs-7 text-decoration-none" (click)="marcarComoLidas()" *ngIf="notificacoesNaoLidas > 0">Lidas</a>
-            </div>
+          @if (mostrarNotificacoes) {
+            <div class="notification-dropdown">
+              <div class="d-flex justify-content-between align-items-center p-3 border-bottom border-secondary border-opacity-10 position-relative z-1" style="background-color: transparent;">
+                <h6 class="m-0 text-white fw-semibold">Notificações</h6>
+                @if (notificacoesNaoLidas > 0) {
+                  <a href="javascript:void(0)" class="text-neon fs-7 text-decoration-none" (click)="marcarComoLidas()">Lidas</a>
+                }
+              </div>
 
-            <div class="notification-list position-relative z-1">
-              <div *ngIf="notificacoes.length === 0" class="p-4 text-center text-muted-custom fs-7">
-                Nenhuma notificação.
+              <div class="notification-list position-relative z-1">
+                @for (notif of notificacoes; track notif.titulo) {
+                  <div class="p-3 border-bottom border-secondary border-opacity-10 d-flex gap-3 align-items-start transition-all hover-bg-dark" 
+                       [ngClass]="{'bg-dark bg-opacity-25': !notif.lida}">
+                    <div class="icon-box-sm flex-shrink-0 mt-1" [ngClass]="notif.lida ? 'text-muted-custom' : 'text-neon'">
+                      <i class="bi" [ngClass]="notif.lida ? 'bi-bell' : 'bi-bell-fill'"></i>
+                    </div>
+                    <div>
+                      <h6 class="mb-1 text-white fs-7" [ngClass]="{'fw-bold': !notif.lida}">{{ notif.titulo }}</h6>
+                      <p class="mb-1 text-muted-custom" style="font-size: 13px; line-height: 1.4;">{{ notif.mensagem }}</p>
+                      <span class="text-muted-custom opacity-75" style="font-size: 11px;">{{ notif.tempo }}</span>
+                    </div>
+                  </div>
+                } @empty {
+                  <div class="p-4 text-center text-muted-custom fs-7">
+                    Nenhuma notificação.
+                  </div>
+                }
               </div>
-              <div *ngFor="let notif of notificacoes" 
-                   class="p-3 border-bottom border-secondary border-opacity-10 d-flex gap-3 align-items-start transition-all hover-bg-dark" 
-                   [ngClass]="{'bg-dark bg-opacity-25': !notif.lida}">
-                <div class="icon-box-sm flex-shrink-0 mt-1" [ngClass]="notif.lida ? 'text-muted-custom' : 'text-neon'">
-                  <i class="bi" [ngClass]="notif.lida ? 'bi-bell' : 'bi-bell-fill'"></i>
-                </div>
-                <div>
-                  <h6 class="mb-1 text-white fs-7" [ngClass]="{'fw-bold': !notif.lida}">{{ notif.titulo }}</h6>
-                  <p class="mb-1 text-muted-custom" style="font-size: 13px; line-height: 1.4;">{{ notif.mensagem }}</p>
-                  <span class="text-muted-custom opacity-75" style="font-size: 11px;">{{ notif.tempo }}</span>
-                </div>
+              <div class="p-2 text-center border-top border-secondary border-opacity-10 position-relative z-1">
+                <a href="javascript:void(0)" class="text-muted-custom fs-7 text-decoration-none hover-text-white">Ver atividades</a>
               </div>
             </div>
-            <div class="p-2 text-center border-top border-secondary border-opacity-10 position-relative z-1">
-              <a href="javascript:void(0)" class="text-muted-custom fs-7 text-decoration-none hover-text-white">Ver atividades</a>
-            </div>
-          </div>
+          }
         </div>
       </div>
     </header>
@@ -141,29 +114,29 @@
     </div>
 
     <div class="list-container d-flex flex-column gap-2 mb-5" [class.expanded-list]="mostrarTodos">
-      
-      <div *ngFor="let posto of postosExibidos" 
-           class="list-item dash-card d-flex flex-column flex-sm-row align-items-start align-items-sm-center p-3 gap-3"
-           (click)="abrirNoMapa(posto.nome)"
-           style="cursor: pointer;"
-           title="Ver no mapa">
-        <div class="d-flex align-items-center gap-3 flex-grow-1">
-          <div class="icon-box-sm text-neon flex-shrink-0"><i class="bi bi-lightning-charge"></i></div>
-          <div>
-            <h6 class="text-white fw-semibold mb-0">{{ posto.nome }}</h6>
-            <span class="text-muted-custom fs-7">{{ posto.endereco }}</span>
+      @for (posto of postosExibidos; track posto.nome) {
+        <div class="list-item dash-card d-flex flex-column flex-sm-row align-items-start align-items-sm-center p-3 gap-3"
+             (click)="abrirNoMapa(posto.nome)"
+             style="cursor: pointer;"
+             title="Ver no mapa">
+          <div class="d-flex align-items-center gap-3 flex-grow-1">
+            <div class="icon-box-sm text-neon flex-shrink-0"><i class="bi bi-lightning-charge"></i></div>
+            <div>
+              <h6 class="text-white fw-semibold mb-0">{{ posto.nome }}</h6>
+              <span class="text-muted-custom fs-7">{{ posto.endereco }}</span>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-3 ms-sm-auto mt-2 mt-sm-0">
+            <span class="badge-dark-outline" [ngClass]="posto.tagColor">{{ posto.tag }}</span>
+            <span class="text-muted-custom fs-7">{{ posto.distancia }} km <i class="bi bi-chevron-right ms-1"></i></span>
           </div>
         </div>
-        <div class="d-flex align-items-center gap-3 ms-sm-auto mt-2 mt-sm-0">
-          <span class="badge-dark-outline" [ngClass]="posto.tagColor">{{ posto.tag }}</span>
-          <span class="text-muted-custom fs-7">{{ posto.distancia }} km <i class="bi bi-chevron-right ms-1"></i></span>
+      } @empty {
+        <div class="text-center py-5 dash-card">
+          <i class="bi bi-radar text-muted-custom fs-2 mb-2"></i>
+          <p class="text-muted-custom m-0">Buscando eletropostos...</p>
         </div>
-      </div>
-      
-      <div *ngIf="postosExibidos.length === 0" class="text-center py-5 dash-card">
-        <i class="bi bi-radar text-muted-custom fs-2 mb-2"></i>
-        <p class="text-muted-custom m-0">Buscando eletropostos...</p>
-      </div>
+      }
     </div>
 
     <div class="row g-3 mb-5">

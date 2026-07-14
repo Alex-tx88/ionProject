@@ -9,9 +9,11 @@
       <p class="subtitle text-uppercase">Mobilidade Sustentável</p>
     </div>
 
-    <div *ngIf="erroLogin" class="alert alert-danger py-2 text-center" style="font-size: 14px; border-radius: 10px;">
-      E-mail ou senha incorretos!
-    </div>
+    @if (erroLogin) {
+      <div class="alert alert-danger py-2 text-center" style="font-size: 14px; border-radius: 10px;">
+        E-mail ou senha incorretos!
+      </div>
+    }
 
     <form>
       <div class="mb-4">
@@ -31,13 +33,13 @@
       </div>
       
       <div class="text-end mb-4">
-        <a href="#" class="forgot-password">Esqueceu a senha?</a>
+        <button type="button" class="forgot-password btn btn-link p-0 border-0 text-decoration-none">Esqueceu a senha?</button>
       </div>
 
       <div class="form-check mb-4 d-flex align-items-start">
         <input class="form-check-input me-2 mt-1" type="checkbox" id="lgpdCheck" [(ngModel)]="lgpdAceito" name="lgpdAceito" [disabled]="!podeAceitarLgpd">
         <label class="form-check-label text-muted-custom" for="lgpdCheck">
-          Li e concordo com a <a href="#" class="accent-link" (click)="abrirPolitica($event)">Política de Privacidade</a> e autorizo o tratamento dos meus dados pessoais conforme a <span >LGPD</span>.
+          Li e concordo com a <button type="button" class="accent-link btn btn-link p-0 border-0 align-baseline" (click)="abrirPolitica($event)">Política de Privacidade</button> e autorizo o tratamento dos meus dados pessoais conforme a <span>LGPD</span>.
         </label>
       </div>
 
@@ -66,33 +68,6 @@
   </div>
 </footer>
 
-<div class="modal-overlay" *ngIf="mostrarModalPolitica">
-  <div class="modal-content-lgpd shadow-lg">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h4 class="text-white fw-bold m-0"><i class="bi bi-shield-lock-fill text-neon me-2"></i>Política de Privacidade</h4>
-      <button class="btn btn-sm" style="background: rgba(255,255,255,0.1); color: white; border-radius: 50%; width: 32px; height: 32px;" (click)="fecharPolitica()"><i class="bi bi-x-lg"></i></button>
-    </div>
-    
-    <div class="modal-body-lgpd text-muted-custom fs-7">
-      <p>A <strong>Íon Mobilidade</strong> está comprometida com a proteção dos seus dados pessoais e o respeito à sua privacidade, em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).</p>
-      
-      <h6 class="text-white mt-4 mb-2">1. Coleta de Dados</h6>
-      <p>Coletamos informações estritamente necessárias para a prestação dos nossos serviços, incluindo: Nome, E-mail, CPF, modelo do seu veículo elétrico (EV) e sua Localização Geográfica (GPS em tempo real).</p>
-      
-      <h6 class="text-white mt-4 mb-2">2. Uso e Finalidade</h6>
-      <p>Os seus dados de localização não são armazenados de forma permanente. Eles são utilizados de forma efêmera e exclusiva para traçar as rotas até o eletroposto mais próximo de você, calcular o tempo estimado de chegada e garantir o funcionamento do nosso mapa interativo.</p>
-
-      <h6 class="text-white mt-4 mb-2">3. Compartilhamento</h6>
-      <p>Não vendemos ou repassamos seus dados pessoais a terceiros sob nenhuma hipótese. O tráfego de dados sensíveis, como sua localização, utiliza criptografia de ponta-a-ponta em nossos servidores.</p>
-
-      <h6 class="text-white mt-4 mb-2">4. Seus Direitos</h6>
-      <p>Você tem o direito de solicitar a alteração, anonimização ou exclusão total da sua conta e dos seus dados do nosso banco de dados a qualquer momento, através das configurações do seu perfil na Dashboard.</p>
-    </div>
-    
-    <div class="mt-4 pt-3 border-top border-secondary border-opacity-25">
-      <button class="btn w-100 py-3 fw-bold" style="background-color: #00E59B; color: #0B1114; border-radius: 12px;" (click)="aceitarPoliticaModal()">
-        LI E ACEITO A POLÍTICA DE PRIVACIDADE
-      </button>
-    </div>
-  </div>
-</div>
+@if (mostrarModalPolitica) {
+  <app-lgpd-modal (fechar)="fecharPolitica()" (aceitar)="aceitarPoliticaModal()"></app-lgpd-modal>
+}

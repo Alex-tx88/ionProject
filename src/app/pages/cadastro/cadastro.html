@@ -1,195 +1,122 @@
-<div class="auth-container d-flex justify-content-center align-items-center vh-100">
-  <div class="auth-card p-4 rounded-4 shadow-lg">
+<div class="auth-container d-flex justify-content-center align-items-center vh-100 py-4" style="overflow-y: auto;">
+  <div class="auth-card p-4 rounded-4 shadow-lg my-auto">
     
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <button (click)="passoAnterior()" [class.invisible]="passoAtual === 1" class="btn btn-back d-flex align-items-center p-0">
-        <i class="bi bi-chevron-left me-1"></i> Voltar
-      </button>
-      
-      <div class="logo-mini mx-auto">
-        <i class="bi bi-lightning-charge-fill me-1"></i><strong>ÍON</strong>
-      </div>
-
-      <div class="step-indicator d-flex gap-2">
-        <span class="step-dot" [class.active]="passoAtual === 1 || passoAtual === 2">
-          <i class="bi bi-check-lg" *ngIf="passoAtual === 2"></i>
-          <span *ngIf="passoAtual === 1">1</span>
-        </span>
-        <span class="step-dot" [class.active]="passoAtual === 2">2</span>
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      @if (passo === 2) {
+        <button class="btn-back d-flex align-items-center gap-2 p-0" (click)="voltar()">
+          <i class="bi bi-arrow-left"></i> Voltar
+        </button>
+      } @else {
+        <div></div> }
+      <div class="d-flex gap-2">
+        <span class="step-dot" [class.active]="passo === 1">1</span>
+        <span class="step-dot" [class.active]="passo === 2">2</span>
       </div>
     </div>
 
-    <div *ngIf="passoAtual === 1">
-      <h2 class="form-title mb-1">Criar sua conta</h2>
-      <p class="form-subtitle mb-4">Passo 1 de 2 — Dados pessoais</p>
+    <div class="mb-4">
+      <h2 class="form-title mb-1">Criar Conta</h2>
+      <p class="form-subtitle m-0">Junte-se à revolução elétrica.</p>
+    </div>
 
-      <form>
+    <form>
+      
+      @if (passo === 1) {
         <div class="mb-3">
           <label class="form-label">NOME COMPLETO</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-person"></i></span>
-            <input type="text" class="form-control" placeholder="Ana Souza" [(ngModel)]="dados.nome" name="nome">
-          </div>
+          <input type="text" class="form-control" placeholder="Seu nome" [(ngModel)]="dados.nome" name="nome">
         </div>
 
         <div class="mb-3">
           <label class="form-label">E-MAIL</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-            <input type="email" class="form-control" placeholder="ana@email.com" [(ngModel)]="dados.email" name="email">
-          </div>
+          <input type="email" class="form-control" placeholder="exemplo@email.com" [(ngModel)]="dados.email" name="email">
         </div>
 
-        <div class="row">
-          <div class="col-md-6 mb-4">
-            <label class="form-label">TELEFONE</label>
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-              <input type="text" class="form-control" placeholder="(11) 99999-9999" 
-                     [(ngModel)]="dados.telefone" name="telefone"
-                     (ngModelChange)="aplicarMascaraTelefone($event)" maxlength="15">
-            </div>
-          </div>
-          <div class="col-md-6 mb-4">
+        <div class="row g-3 mb-4">
+          
+          <div class="col-6">
             <label class="form-label">CPF</label>
             <input type="text" class="form-control" placeholder="000.000.000-00" 
-                   [(ngModel)]="dados.cpf" name="cpf"
-                   (ngModelChange)="aplicarMascaraCPF($event)" maxlength="14">
+                   [ngModel]="dados.cpf" (ngModelChange)="onCpfChange($event)" 
+                   name="cpf" maxlength="14">
+          </div>
+          
+          <div class="col-6">
+            <label class="form-label">CELULAR</label>
+            <input type="text" class="form-control" placeholder="(00) 00000-0000" 
+                   [ngModel]="dados.telefone" (ngModelChange)="onTelefoneChange($event)" 
+                   name="telefone" maxlength="15">
           </div>
         </div>
 
-        <button type="button" (click)="proximoPasso()" [disabled]="!passo1Valido" class="btn btn-primary-custom w-100 fw-bold py-2 mb-4">
-          CONTINUAR
+        <button type="button" (click)="avancar()" [disabled]="!passo1Valido" class="btn btn-primary-custom w-100 fw-bold py-2 mb-3">
+          AVANÇAR
         </button>
-      </form>
-    </div>
+      }
 
-    <div *ngIf="passoAtual === 2">
-      <h2 class="form-title mb-1">Segurança e preferências</h2>
-      <p class="form-subtitle mb-4">Passo 2 de 2 — Senha e veículo elétrico</p>
+      @if (passo === 2) {
+        
+        <label class="form-label mb-2">QUAL O SEU TIPO DE VEÍCULO?</label>
+        
+        <div class="d-flex flex-column gap-2 mb-4">
+          @for (v of tiposVeiculo; track v.id) {
+            <div class="vehicle-card p-3 rounded-3 d-flex align-items-center gap-3" 
+                 [class.selected]="tipoVeiculoSelecionado === v.id"
+                 (click)="selecionarTipoVeiculo(v.id)">
+              <div class="icon-box-sm flex-shrink-0" [ngClass]="tipoVeiculoSelecionado === v.id ? 'text-neon' : 'text-muted-custom'" style="background: rgba(255,255,255,0.02);">
+                <i class="bi {{ v.icon }} fs-5"></i>
+              </div>
+              <div class="d-flex flex-column">
+                <span class="name" style="font-size: 0.85rem;">{{ v.nome }}</span>
+                <span class="sub" style="font-size: 0.70rem;">{{ v.sub }}</span>
+              </div>
+            </div>
+          }
+        </div>
 
-      <form>
         <div class="mb-3">
-          <label class="form-label">SENHA</label>
-          <div class="input-group">
-            <input [type]="senhaOculta ? 'password' : 'text'" class="form-control border-end-0" placeholder="Mínimo 8 caracteres" [(ngModel)]="dados.senha" name="senha">
-            <span class="input-group-text border-start-0" (click)="alternarSenha()" style="cursor: pointer;">
+          <label class="form-label">CRIE UMA SENHA</label>
+          <div class="input-group input-group-sm mb-2">
+            <input [type]="senhaOculta ? 'password' : 'text'" class="form-control border-end-0" placeholder="••••••••" [(ngModel)]="dados.senha" name="senha">
+            <span class="input-group-text border-start-0 bg-transparent" (click)="alternarSenha('senha')" style="cursor: pointer;">
               <i class="bi" [ngClass]="senhaOculta ? 'bi-eye' : 'bi-eye-slash'"></i>
             </span>
           </div>
-        </div>
-
-        <div class="mb-4">
-          <label class="form-label">CONFIRMAR SENHA</label>
-          <div class="input-group">
-            <input [type]="confirmarSenhaOculta ? 'password' : 'text'" class="form-control border-end-0" placeholder="Repita a senha" [(ngModel)]="dados.confirmarSenha" name="confirmarSenha">
-            <span class="input-group-text border-start-0" (click)="alternarConfirmarSenha()" style="cursor: pointer;">
+          
+          <div class="input-group input-group-sm">
+            <input [type]="confirmarSenhaOculta ? 'password' : 'text'" class="form-control border-end-0" placeholder="Confirme a senha" [(ngModel)]="dados.confirmarSenha" name="confirmarSenha">
+            <span class="input-group-text border-start-0 bg-transparent" (click)="alternarSenha('confirmar')" style="cursor: pointer;">
               <i class="bi" [ngClass]="confirmarSenhaOculta ? 'bi-eye' : 'bi-eye-slash'"></i>
             </span>
           </div>
+
+          @if (dados.confirmarSenha && dados.senha !== dados.confirmarSenha) {
+            <small class="text-danger mt-1 d-block" style="font-size: 11px;">As senhas não conferem.</small>
+          }
         </div>
 
-        <div class="mb-3">
-          <label class="form-label">TIPO DE VEÍCULO</label>
-          <div class="row g-2">
-            <div class="col-4">
-              <div class="vehicle-card text-center p-2 rounded-3" [class.selected]="veiculoSelecionado === 'BEV'" (click)="selecionarVeiculo('BEV')">
-                <i class="bi bi-car-front-fill d-block mb-1"></i>
-                <span class="d-block name">100% Elétrico</span>
-                <span class="sub">BEV</span>
-              </div>
-            </div>
-            <div class="col-4">
-              <div class="vehicle-card text-center p-2 rounded-3" [class.selected]="veiculoSelecionado === 'PHEV'" (click)="selecionarVeiculo('PHEV')">
-                <i class="bi bi-car-front-fill d-block mb-1"></i>
-                <span class="d-block name">Híbrido Plug-in</span>
-                <span class="sub">PHEV</span>
-              </div>
-            </div>
-            <div class="col-4">
-              <div class="vehicle-card text-center p-2 rounded-3" [class.selected]="veiculoSelecionado === 'NONE'" (click)="selecionarVeiculo('NONE')">
-                <i class="bi bi-car-front-fill d-block mb-1"></i>
-                <span class="d-block name">Ainda não</span>
-                <span class="sub">Em breve</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row mb-4" *ngIf="veiculoSelecionado === 'BEV' || veiculoSelecionado === 'PHEV'">
-          <div class="col-6">
-            <label class="form-label">MARCA</label>
-            <input type="text" class="form-control" placeholder="Ex: BYD" [(ngModel)]="dados.marca" name="marca">
-          </div>
-          <div class="col-6">
-            <label class="form-label">MODELO</label>
-            <input type="text" class="form-control" placeholder="Ex: Dolphin" [(ngModel)]="dados.modelo" name="modelo">
-          </div>
-        </div>
-
-        <div class="form-check mb-3 d-flex align-items-start">
-          <input class="form-check-input me-2 mt-1" type="checkbox" id="privacyCheck" [(ngModel)]="lgpdAceito" name="lgpdAceito" [disabled]="!podeAceitarLgpd">
-          <label class="form-check-label text-muted-custom" for="privacyCheck">
-            Li e concordo com a 
-            <a href="#" class="accent-link" (click)="abrirPolitica($event)">Política de Privacidade</a> 
-            e autorizo o tratamento dos meus dados conforme a LGPD.
+        <div class="form-check mb-4 d-flex align-items-start" style="font-size: 12px;">
+          <input class="form-check-input me-2 mt-1" type="checkbox" id="lgpdCheck" [(ngModel)]="lgpdAceito" name="lgpdAceito" [disabled]="!podeAceitarLgpd">
+          <label class="form-check-label text-muted-custom lh-sm" for="lgpdCheck">
+            Li e concordo com a <button type="button" class="accent-link btn btn-link p-0 border-0 align-baseline" style="font-size: 12px;" (click)="abrirPolitica($event)">Política de Privacidade</button>.
           </label>
         </div>
 
-        <div class="form-check mb-4 d-flex align-items-start">
-          <input class="form-check-input me-2 mt-1" type="checkbox" id="marketingCheck">
-          <label class="form-check-label text-muted-custom" for="marketingCheck">
-            Quero receber novidades e promoções sobre mobilidade elétrica. <span class="text-secondary">(Opcional)</span>
-          </label>
-        </div>
-
-        <button type="button" (click)="finalizarCadastro()" [disabled]="!passo2Valido" class="btn btn-primary-custom w-100 fw-bold py-2 mb-4">
+        <button type="button" (click)="finalizar()" [disabled]="!passo2Valido" class="btn btn-primary-custom w-100 fw-bold py-2 mb-3">
           CRIAR CONTA
         </button>
-      </form>
-    </div>
+      }
 
-    <div class="text-center pb-2">
-      <span class="text-muted-custom">Já tem uma conta? </span>
-      <a routerLink="/login" class="accent-link fw-bold">Entrar</a>
+    </form>
+
+    <div class="text-center pt-2 border-top border-secondary border-opacity-10 mt-2">
+      <span class="text-muted-custom" style="font-size: 13px;">Já tem uma conta? </span>
+      <a routerLink="/login" class="accent-link fw-bold" style="font-size: 13px;">Entrar</a>
     </div>
 
   </div>
 </div>
 
-<footer class="fixed-bottom text-center mb-3">
-  <div class="footer-copy">
-    © 2026 Íon Mobilidade · v2.4.1 · <span class="badge badge-lgpd">● LGPD Compliant</span>
-  </div>
-</footer>
-
-<div class="modal-overlay" *ngIf="mostrarModalPolitica">
-  <div class="modal-content-lgpd shadow-lg">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h4 class="text-white fw-bold m-0"><i class="bi bi-shield-lock-fill text-neon me-2"></i>Política de Privacidade</h4>
-      <button class="btn btn-sm" style="background: rgba(255,255,255,0.1); color: white; border-radius: 50%; width: 32px; height: 32px;" (click)="fecharPolitica()"><i class="bi bi-x-lg"></i></button>
-    </div>
-    
-    <div class="modal-body-lgpd text-muted-custom fs-7">
-      <p>A <strong>Íon Mobilidade</strong> está comprometida com a proteção dos seus dados pessoais e o respeito à sua privacidade, em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).</p>
-      
-      <h6 class="text-white mt-4 mb-2">1. Coleta de Dados</h6>
-      <p>Coletamos informações estritamente necessárias para a prestação dos nossos serviços, incluindo: Nome, E-mail, CPF, modelo do seu veículo elétrico (EV) e sua Localização Geográfica (GPS em tempo real).</p>
-      
-      <h6 class="text-white mt-4 mb-2">2. Uso e Finalidade</h6>
-      <p>Os seus dados de localização não são armazenados de forma permanente. Eles são utilizados de forma efêmera e exclusiva para traçar as rotas até o eletroposto mais próximo de você, calcular o tempo estimado de chegada e garantir o funcionamento do nosso mapa interativo.</p>
-
-      <h6 class="text-white mt-4 mb-2">3. Compartilhamento</h6>
-      <p>Não vendemos ou repassamos seus dados pessoais a terceiros sob nenhuma hipótese. O tráfego de dados sensíveis, como sua localização, utiliza criptografia de ponta-a-ponta em nossos servidores.</p>
-
-      <h6 class="text-white mt-4 mb-2">4. Seus Direitos</h6>
-      <p>Você tem o direito de solicitar a alteração, anonimização ou exclusão total da sua conta e dos seus dados do nosso banco de dados a qualquer momento, através das configurações do seu perfil na Dashboard.</p>
-    </div>
-    
-    <div class="mt-4 pt-3 border-top border-secondary border-opacity-25">
-      <button class="btn w-100 py-3 fw-bold" style="background-color: #00E59B; color: #0B1114; border-radius: 12px;" (click)="aceitarPoliticaModal()">
-        LI E ACEITO A POLÍTICA DE PRIVACIDADE
-      </button>
-    </div>
-  </div>
-</div>
+@if (mostrarModalPolitica) {
+  <app-lgpd-modal (fechar)="fecharPolitica()" (aceitar)="aceitarPoliticaModal()"></app-lgpd-modal>
+}
