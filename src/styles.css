@@ -8,8 +8,12 @@
   --ion-muted: #8b95a1;
 }
 
+/* ======================================================= */
+/* CONTROLE DE ZOOM GERAL DO SISTEMA                       */
+/* ======================================================= */
 html {
-  font-size: 16px;
+  /* Reduz o tamanho base do sistema inteiro (Desktop) */
+  font-size: 14px !important; 
 }
 
 body {
@@ -21,12 +25,6 @@ body {
   width: 100% !important;
   max-width: 100vw !important;
   overflow-x: hidden !important;
-}
-
-@media (max-width: 768px) {
-  html {
-    font-size: 14px;
-  }
 }
 
 /* ======================================================= */
@@ -98,23 +96,22 @@ footer .footer-copy { color: #484f58; font-size: 0.7rem; }
 /* ======================================================= */
 .dashboard-layout { 
   display: flex; 
-  height: 100vh; /* Travado na altura exata da tela */
+  height: 100vh; 
   background-color: var(--ion-bg); 
   font-family: 'Inter', sans-serif; 
-  overflow: hidden; /* Corta rolagem dupla global */
+  overflow: hidden; 
   width: 100%; 
 }
 
 .main-content { 
   flex-grow: 1; 
-  height: 100vh; /* Mantém a altura na tela inteira */
-  overflow-y: auto; /* APENAS essa área ganha rolagem! */
+  height: 100vh; 
+  overflow-y: auto; 
   padding: 2.5rem 4rem; 
   max-width: 1200px; 
   margin: 0 auto; 
 }
 
-/* Deixando a rolagem da lista suave e com a cor do sistema */
 .main-content::-webkit-scrollbar { width: 6px; }
 .main-content::-webkit-scrollbar-track { background: transparent; }
 .main-content::-webkit-scrollbar-thumb { background: rgba(0, 229, 155, 0.2); border-radius: 10px; }
@@ -187,6 +184,12 @@ footer .footer-copy { color: #484f58; font-size: 0.7rem; }
 /* RESPONSIVIDADE (MOBILE)                                 */
 /* ======================================================= */
 @media (max-width: 768px) {
+  
+  html {
+    /* Reduz ainda mais a base no celular para caber perfeitamente */
+    font-size: 12px !important; 
+  }
+
   html, body { overflow-x: hidden !important; width: 100% !important; max-width: 100vw !important; margin: 0 !important; padding: 0 !important; }
   .auth-card { padding: 1.5rem !important; width: 90% !important; max-width: 360px !important; margin: 0 auto !important; }
   
@@ -204,7 +207,6 @@ footer .footer-copy { color: #484f58; font-size: 0.7rem; }
   .sidebar .nav-menu { justify-content: space-around !important; align-items: center !important; height: 100% !important; }
   .sidebar .nav-link { padding: 15px !important; margin: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; }
 
-  /* Área central do celular adaptada com o tamanho exato tirando o rodapé */
   .main-content { 
     padding: 1.5rem 1rem 20px 1rem !important; 
     height: calc(100vh - 70px) !important; 
