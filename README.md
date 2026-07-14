@@ -45,27 +45,38 @@ O sistema Íon vai evoluir de um simples localizador para um verdadeiro ecossist
 
 ---
 
+## 🔐 Como Acessar o Sistema (Login)
+
+O projeto atual é focado no Frontend. Para facilitar a avaliação e os testes, você pode acessar a plataforma imediatamente utilizando as seguintes credenciais de administrador pré-configuradas:
+
+* **E-mail:** `admin@ion.com`
+* **Senha:** `admin123`
+
+---
+
 ## ⚙️ Como executar o projeto localmente
 
 Para correr este projeto na sua máquina, certifique-se de que tem o [Node.js](https://nodejs.org/) e o [Angular CLI](https://angular.io/cli) instalados.
 
-1. **Clone o repositório:**
-   ```bash
-   git clone [https://github.com/seu-utilizador/ionproject.git](https://github.com/seu-utilizador/ionproject.git)
-Navegue até o diretório do projeto:
+**1. Clone o repositório:**
+```bash
+git clone [https://github.com/alex-tx88/ionproject.git](https://github.com/alex-tx88/ionproject.git)
+2. Navegue até o diretório do projeto:
 
 Bash
 cd ionproject
-Instale as dependências:
+3. Instale as dependências:
 
 Bash
 npm install
-Inicie o servidor de desenvolvimento:
+4. Inicie o servidor de desenvolvimento:
 
 Bash
 ng serve
-Abra o seu navegador e aceda a http://localhost:4200/. A aplicação irá recarregar automaticamente se fizer alterações no código.
+Abra o seu navegador e acesse http://localhost:4200/. A aplicação irá recarregar automaticamente se fizer alterações no código.
 
 👨‍💻 Autor
 Desenvolvido por Alex Teixeira de Jesus
+
+
 Estudante e entusiasta de Infraestrutura, Suporte de TI e Desenvolvimento Frontend.
