@@ -1,6 +1,5 @@
 <div class="dashboard-layout">
-<!-- BARRA LATERAL DA DASHBOARD -->
-  <aside class="sidebar d-flex flex-column py-4 flex-shrink-0 z-3 shadow-lg" 
+<aside class="sidebar d-flex flex-column py-4 flex-shrink-0 z-3 shadow-lg" 
          style="width: 240px; border-right: 1px solid rgba(255,255,255,0.05); background-color: #0B1114;">
     
     <div class="brand-icon mb-5 d-flex align-items-center gap-3 px-4 w-100">
@@ -10,31 +9,26 @@
     
     <nav class="nav-menu d-flex flex-column gap-2 w-100 px-3 mt-2 flex-grow-1">
       
-      <!-- PÁGINA INICIAL (Ativa) -->
       <a routerLink="/dashboard" class="nav-link active text-neon d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 text-decoration-none" style="background: rgba(0, 229, 155, 0.1);">
         <i class="bi bi-house-door fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Página Inicial</span>
       </a>
       
-      <!-- MAPA -->
       <a routerLink="/mapa" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-map fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Mapa</span>
       </a>
       
-      <!-- MEUS CARROS -->
       <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-car-front fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Meus Carros</span>
       </a>
       
-      <!-- COMUNIDADE -->
       <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-people fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Comunidade</span>
       </a>
 
-      <!-- LOGOUT -->
       <a href="javascript:void(0)" class="nav-link btn-logout text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none mt-md-auto" (click)="sair()" onmouseover="this.style.backgroundColor='rgba(255,77,77,0.1)'; this.style.color='#ff4d4d';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-box-arrow-right fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Sair</span>
@@ -147,7 +141,12 @@
     </div>
 
     <div class="list-container d-flex flex-column gap-2 mb-5" [class.expanded-list]="mostrarTodos">
-      <div *ngFor="let posto of postosExibidos" class="list-item dash-card d-flex flex-column flex-sm-row align-items-start align-items-sm-center p-3 gap-3">
+      
+      <div *ngFor="let posto of postosExibidos" 
+           class="list-item dash-card d-flex flex-column flex-sm-row align-items-start align-items-sm-center p-3 gap-3"
+           (click)="abrirNoMapa(posto.nome)"
+           style="cursor: pointer;"
+           title="Ver no mapa">
         <div class="d-flex align-items-center gap-3 flex-grow-1">
           <div class="icon-box-sm text-neon flex-shrink-0"><i class="bi bi-lightning-charge"></i></div>
           <div>

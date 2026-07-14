@@ -1,6 +1,5 @@
 <div class="d-flex overflow-hidden" style="width: 100vw; height: 100vh; background-color: #0B1114;">
 
-<!-- BARRA LATERAL DA DASHBOARD -->
   <aside class="sidebar d-flex flex-column py-4 flex-shrink-0 z-3 shadow-lg" 
          style="width: 240px; border-right: 1px solid rgba(255,255,255,0.05); background-color: #0B1114;">
     
@@ -10,37 +9,26 @@
     </div>
     
     <nav class="nav-menu d-flex flex-column gap-2 w-100 px-3 mt-2 flex-grow-1">
-      
-      <!-- PÁGINA INICIAL -->
       <a routerLink="/dashboard" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-house-door fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Página Inicial</span>
       </a>
-      
-      <!-- MAPA (Ativo) -->
       <a routerLink="/mapa" class="nav-link active text-neon d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 text-decoration-none" style="background: rgba(0, 229, 155, 0.1);">
         <i class="bi bi-map fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Mapa</span>
       </a>
-      
-      <!-- MEUS CARROS -->
       <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-car-front fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Meus Carros</span>
       </a>
-      
-      <!-- COMUNIDADE -->
       <a href="javascript:void(0)" class="nav-link text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.05)'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-people fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Comunidade</span>
       </a>
-
-      <!-- LOGOUT -->
       <a href="javascript:void(0)" class="nav-link btn-logout text-muted-custom d-flex align-items-center gap-3 px-3 py-2 py-md-3 rounded-3 transition-all text-decoration-none mt-md-auto" (click)="sair()" onmouseover="this.style.backgroundColor='rgba(255,77,77,0.1)'; this.style.color='#ff4d4d';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#8e9ba4';">
         <i class="bi bi-box-arrow-right fs-5"></i>
         <span class="fw-semibold d-none d-md-block">Sair</span>
       </a>
-      
     </nav>
   </aside>
 
@@ -57,7 +45,11 @@
 
       <div class="search-bar d-none d-md-flex align-items-center px-3 shadow-lg pointer-events-auto" style="background-color: rgba(18, 24, 28, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; height: 48px; flex: 1; max-width: 450px;">
          <i class="bi bi-search text-muted-custom me-2 fs-6"></i>
-         <input type="text" placeholder="Buscar endereço em Salvador..." class="bg-transparent border-0 text-white w-100 shadow-none input-busca" style="outline: none; font-size: 14px;">
+         <input type="text" placeholder="Buscar Shopping, Hotel ou Bairro..." 
+                class="bg-transparent border-0 text-white w-100 shadow-none input-busca" 
+                style="outline: none; font-size: 14px;"
+                [(ngModel)]="termoBusca"
+                (input)="filtrarPostos()">
       </div>
 
       <div class="d-none d-md-flex align-items-center justify-content-end pointer-events-auto">
@@ -75,12 +67,13 @@
       <button class="btn-close-dark position-absolute" style="top: 15px; left: 15px; z-index: 10;" (click)="toggleLista()"><i class="bi bi-x-lg"></i></button>
 
       <div class="p-4 border-bottom border-secondary border-opacity-10 mt-4 mt-md-5">
-        <h5 class="text-white fw-bold m-0">{{ totalEstacoes }} Postos Encontrados</h5>
-        <span class="text-muted-custom fs-7">Baseado na sua localização</span>
+        <h5 class="text-white fw-bold m-0">{{ postosFiltrados.length }} Postos Encontrados</h5>
+        <span class="text-muted-custom fs-7" *ngIf="termoBusca">Para: "{{ termoBusca }}"</span>
+        <span class="text-muted-custom fs-7" *ngIf="!termoBusca">Baseado na sua localização</span>
       </div>
       
       <div class="posto-list flex-grow-1 overflow-y-auto p-3 d-flex flex-column gap-3">
-        <div *ngFor="let posto of postosOrdenados; let i = index" class="list-item dash-card d-flex flex-column p-3 cursor-pointer hover-bg-dark transition-all" style="border: 1px solid rgba(255,255,255,0.05); background-color: #0B1114; border-radius: 12px;" (click)="focarNoPosto(posto.lat, posto.lon, i)">
+        <div *ngFor="let posto of postosFiltrados" class="list-item dash-card d-flex flex-column p-3 cursor-pointer hover-bg-dark transition-all" style="border: 1px solid rgba(255,255,255,0.05); background-color: #0B1114; border-radius: 12px;" (click)="abrirDetalhes(posto)">
           <div class="d-flex align-items-start gap-3 w-100">
             <div class="icon-box-sm text-neon flex-shrink-0 mt-1"><i class="bi bi-lightning-charge"></i></div>
             <div class="flex-grow-1 min-w-0">
@@ -93,6 +86,12 @@
             </div>
           </div>
         </div>
+
+        <div *ngIf="postosFiltrados.length === 0" class="text-center mt-5">
+          <i class="bi bi-search text-muted-custom fs-1 mb-3 d-block"></i>
+          <span class="text-muted-custom d-block">Nenhum posto encontrado para esta pesquisa.</span>
+        </div>
+
       </div>
     </div>
 
@@ -132,14 +131,61 @@
             </div>
           </div>
 
+          <div class="mb-4" *ngIf="postoSelecionado.comodidades && postoSelecionado.comodidades.length > 0">
+            <h6 class="text-white-50 mb-2 fs-6 fw-semibold" style="letter-spacing: 1px; font-size: 0.8rem !important;">AO REDOR (5 MIN A PÉ)</h6>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2" *ngIf="postoSelecionado.comodidades.includes('cafe')">☕ Bom Café</span>
+              <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2" *ngIf="postoSelecionado.comodidades.includes('wifi')">💻 Wi-Fi</span>
+              <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2" *ngIf="postoSelecionado.comodidades.includes('wc')">🚾 Banheiro</span>
+              <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2" *ngIf="postoSelecionado.comodidades.includes('food')">🍔 Alimentação</span>
+              <span class="badge rounded-pill bg-dark border border-secondary text-light px-3 py-2" *ngIf="postoSelecionado.comodidades.includes('pet')">🐕 Pet-Friendly</span>
+            </div>
+          </div>
+
+          <div class="mb-4 p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-white-50 fw-semibold" style="font-size: 0.85rem;">AVISO DOS USUÁRIOS</span>
+              
+              <span *ngIf="postoSelecionado.alertaAtual" class="badge bg-danger text-white px-2 py-1 pulse-gps" style="box-shadow: 0 0 10px rgba(255,77,77,0.5);">
+                <i class="bi bi-exclamation-triangle-fill me-1"></i> {{postoSelecionado.alertaAtual.tipo}} ({{postoSelecionado.alertaAtual.tempo}})
+              </span>
+              <span *ngIf="!postoSelecionado.alertaAtual" class="badge text-dark px-2 py-1" style="background-color: #00E59B;">
+                <i class="bi bi-check-circle-fill me-1"></i> Posto Livre
+              </span>
+            </div>
+            
+            <div class="d-flex flex-wrap gap-2 mt-2">
+              <button class="btn btn-outline-success btn-report" (click)="reportarProblema('Posto Livre')">
+                ✅ Posto Livre
+              </button>
+              <button class="btn btn-outline-warning btn-report" (click)="reportarProblema('Fila Longa')">
+                ⏳ Fila Longa
+              </button>
+              <button class="btn btn-outline-danger btn-report" (click)="reportarProblema('Equipamento Avariado')">
+                ⚠️ Avariado
+              </button>
+              <button class="btn btn-outline-secondary text-light btn-report" (click)="reportarProblema('Vaga Ocupada (ICE)')">
+                🚨 Vaga Ocupada
+              </button>
+            </div>
+          </div>
+
           <div class="mt-auto">
             <button class="btn w-100 py-3 fw-bold shadow-lg d-flex align-items-center justify-content-center gap-2" 
-                    [ngClass]="tempoRota ? 'btn-light' : 'btn-action-route'"
+                    [ngClass]="tempoRota ? 'btn-danger' : 'btn-action-route'"
                     style="transition: all 0.3s ease; border-radius: 12px;"
-                    (click)="tracarRota()">
-              <i class="bi fs-5" [ngClass]="tempoRota ? 'bi-sign-turn-right-fill text-dark' : 'bi-cursor-fill'"></i> 
-              <span *ngIf="!tempoRota">Iniciar Rota <span class="fw-normal opacity-75 ms-1">({{ postoSelecionado.distancia }} km)</span></span>
-              <span *ngIf="tempoRota" class="text-dark">Rota <span class="ms-1 px-2 py-1 rounded" style="background: rgba(0,0,0,0.1); font-size: 13px;">{{ postoSelecionado.distancia }} km • <b>~{{ tempoRota }}</b></span></span>
+                    (click)="tempoRota ? encerrarRota() : tracarRota()">
+              
+              <i class="bi fs-5" [ngClass]="tempoRota ? 'bi-x-circle-fill' : 'bi-cursor-fill'"></i> 
+              
+              <span *ngIf="!tempoRota">
+                Iniciar Rota <span class="fw-normal opacity-75 ms-1">({{ postoSelecionado.distancia }} km)</span>
+              </span>
+              
+              <span *ngIf="tempoRota" class="text-white">
+                Encerrar Rota <span class="ms-1 px-2 py-1 rounded" style="background: rgba(0,0,0,0.2); font-size: 13px;">{{ postoSelecionado.distancia }} km • <b>~{{ tempoRota }}</b></span>
+              </span>
+              
             </button>
           </div>
         </div>

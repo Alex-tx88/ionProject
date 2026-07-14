@@ -141,6 +141,10 @@ export class Dashboard implements OnInit {
   abrirMapa(): void {
     this.router.navigate(['/mapa']);
   }
+
+  abrirNoMapa(nomeDoPosto: string): void {
+    this.router.navigate(['/mapa'], { queryParams: { loc: nomeDoPosto } });
+  }
   
   sair(): void {
     if (confirm('Tem certeza que deseja sair do Íon?')) {

@@ -7,11 +7,11 @@ export interface Estacao {
   isFast: boolean;
   potencia?: string;
   conector?: string;
-  
-
   distancia?: string;
   tag?: string;
   tagColor?: string;
+  comodidades?: string[];
+  alertaAtual?: { tipo: string, tempo: string };
 }
 
 export interface Notificacao {
