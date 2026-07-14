@@ -1,12 +1,12 @@
-<div class="auth-container d-flex justify-content-center align-items-center vh-100">
-  <div class="auth-card p-4 rounded-4 shadow-lg">
+<div class="auth-container d-flex justify-content-center align-items-center min-vh-100 py-5">
+  <div class="auth-card p-4 rounded-4 shadow-lg" style="margin-bottom: 30px;">
     
-    <div class="text-center mb-5 mt-2">
+    <div class="text-center mb-4 mt-2">
       <div class="logo-icon d-inline-flex justify-content-center align-items-center rounded-3 mb-2">
         <i class="bi bi-lightning-charge-fill"></i>
       </div>
       <h1 class="fw-bold mb-0 logo-text">ÍON</h1>
-      <p class="subtitle text-uppercase">Mobilidade Sustentável</p>
+      <p class="subtitle text-uppercase mb-0">Mobilidade Sustentável</p>
     </div>
 
     <div class="mb-4 p-3 rounded-3" style="background-color: rgba(0, 229, 155, 0.05); border: 1px dashed rgba(0, 229, 155, 0.3);">
@@ -24,19 +24,19 @@
     </div>
 
     @if (erroLogin) {
-      <div class="alert alert-danger py-2 text-center" style="font-size: 14px; border-radius: 10px;">
+      <div class="alert alert-danger py-2 text-center mb-3" style="font-size: 14px; border-radius: 10px;">
         E-mail ou senha incorretos!
       </div>
     }
 
     <form>
-      <div class="mb-4">
-        <label class="form-label">E-MAIL</label>
+      <div class="mb-3">
+        <label class="form-label" style="font-size: 0.8rem;">E-MAIL</label>
         <input type="email" class="form-control" placeholder="admin@ion.com" [(ngModel)]="dados.email" name="email">
       </div>
 
-      <div class="mb-2">
-        <label class="form-label">SENHA</label>
+      <div class="mb-1">
+        <label class="form-label" style="font-size: 0.8rem;">SENHA</label>
         <div class="input-group">
           <input [type]="senhaOculta ? 'password' : 'text'" class="form-control border-end-0" placeholder="admin123" [(ngModel)]="dados.senha" name="senha">
           
@@ -46,23 +46,23 @@
         </div>
       </div>
       
-      <div class="text-end mb-4">
+      <div class="text-end mb-3">
         <button type="button" class="forgot-password btn btn-link p-0 border-0 text-decoration-none">Esqueceu a senha?</button>
       </div>
 
       <div class="form-check mb-4 d-flex align-items-start">
         <input class="form-check-input me-2 mt-1" type="checkbox" id="lgpdCheck" [(ngModel)]="lgpdAceito" name="lgpdAceito" [disabled]="!podeAceitarLgpd">
-        <label class="form-check-label text-muted-custom" for="lgpdCheck">
+        <label class="form-check-label text-muted-custom" for="lgpdCheck" style="font-size: 0.85rem;">
           Li e concordo com a <button type="button" class="accent-link btn btn-link p-0 border-0 align-baseline" (click)="abrirPolitica($event)">Política de Privacidade</button> e autorizo o tratamento dos meus dados pessoais conforme a <span>LGPD</span>.
         </label>
       </div>
 
-      <button type="button" (click)="entrar()" [disabled]="!loginValido" class="btn btn-primary-custom w-100 fw-bold py-2 mb-4">
+      <button type="button" (click)="entrar()" [disabled]="!loginValido" class="btn btn-primary-custom w-100 fw-bold py-2 mb-3">
         ENTRAR
       </button>
     </form>
 
-    <div class="d-flex align-items-center mb-4">
+    <div class="d-flex align-items-center mb-3">
       <hr class="flex-grow-1 line-divider">
       <span class="mx-3 divider-text text-uppercase">ou</span>
       <hr class="flex-grow-1 line-divider">
@@ -76,7 +76,7 @@
   </div>
 </div>
 
-<footer class="fixed-bottom text-center mb-3">
+<footer class="fixed-bottom text-center mb-3 d-none d-md-block">
   <div class="footer-copy">
     © 2026 Íon Mobilidade · v2.4.1 · <span class="badge badge-lgpd">● LGPD Compliant</span>
   </div>
