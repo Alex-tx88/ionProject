@@ -1,5 +1,6 @@
-<div class="auth-container d-flex justify-content-center align-items-center min-vh-100 py-5">
-  <div class="auth-card p-4 rounded-4 shadow-lg" style="margin-bottom: 30px;">
+<div class="auth-container d-flex justify-content-center align-items-center min-vh-100 py-5 position-relative">
+  
+  <div class="auth-card p-4 rounded-4 shadow-lg z-1" style="margin-bottom: 40px;">
     
     <div class="text-center mb-4 mt-2">
       <div class="logo-icon d-inline-flex justify-content-center align-items-center rounded-3 mb-2">
@@ -74,13 +75,14 @@
     </div>
 
   </div>
-</div>
 
-<footer class="fixed-bottom text-center mb-3 d-none d-md-block">
-  <div class="footer-copy">
-    © 2026 Íon Mobilidade · v2.4.1 · <span class="badge badge-lgpd">● LGPD Compliant</span>
-  </div>
-</footer>
+  <footer class="position-absolute bottom-0 w-100 text-center pb-3 d-none d-md-block z-0">
+    <div class="footer-copy text-muted-custom">
+      © 2026 Íon Mobilidade · v2.4.1 · <span class="badge badge-lgpd">● LGPD Compliant</span>
+    </div>
+  </footer>
+
+</div>
 
 @if (mostrarModalPolitica) {
   <app-lgpd-modal (fechar)="fecharPolitica()" (aceitar)="aceitarPoliticaModal()"></app-lgpd-modal>
