@@ -59,12 +59,20 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
     this.processarEstacoes();
     this.buscarLocalizacaoReal();
 
+    // Escuta a URL para ver se o Dashboard mandou abrir um posto específico
     this.querySub = this.route.queryParams.subscribe(params => {
-      if (params['loc']) {
-        const nomePosto = params['loc'];
+      if (params['posto']) {
+        const nomePosto = params['posto'];
         const posto = this.postosOrdenados.find(p => p.nome === nomePosto);
+        
         if (posto) {
-          this.postoPendenteParaAbrir = posto;
+          if (this.map) {
+            // Se o mapa já estiver pronto, abre o card e dá zoom
+            this.abrirDetalhes(posto);
+          } else {
+            // Se o mapa ainda está renderizando, deixa em modo de espera
+            this.postoPendenteParaAbrir = posto;
+          }
         }
       }
     });
@@ -83,10 +91,9 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-    private iniciarMapa(): void {
+  private iniciarMapa(): void {
     this.map = L.map('map', { zoomControl: false }).setView([this.latUsuario, this.lonUsuario], 13);
     
-    // CORREÇÃO: Usando o OpenStreetMap padrão (cores normais)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
       maxZoom: 19
@@ -96,9 +103,12 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
     this.atualizarMarcadorUsuario();
     this.adicionarMarcadoresPostos();
 
+    // Se veio do Dashboard e o mapa acabou de carregar, abre o card e centraliza a tela
     if (this.postoPendenteParaAbrir) {
-      setTimeout(() => this.abrirDetalhes(this.postoPendenteParaAbrir!), 500);
-      this.postoPendenteParaAbrir = null;
+      setTimeout(() => {
+        this.abrirDetalhes(this.postoPendenteParaAbrir!);
+        this.postoPendenteParaAbrir = null;
+      }, 500);
     }
   }
 
@@ -109,8 +119,13 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
         this.latUsuario = pos.coords.latitude;
         this.lonUsuario = pos.coords.longitude;
         this.processarEstacoes();
-        if (this.map) {
+        
+        // Só muda a visão para o GPS do usuário se NÃO houver um posto pendente sendo aberto
+        if (this.map && !this.postoSelecionado && !this.postoPendenteParaAbrir) {
           this.map.setView([this.latUsuario, this.lonUsuario], 14);
+        }
+        
+        if (this.map) {
           this.atualizarMarcadorUsuario();
           this.adicionarMarcadoresPostos();
         }
@@ -172,7 +187,6 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
       const marker = L.marker([posto.lat, posto.lon], { icon: customIcon }).addTo(this.map);
       marker.on('click', () => {
         this.abrirDetalhes(posto);
-        this.map.setView([posto.lat, posto.lon], 16, { animate: true, duration: 0.5 });
       });
       this.markers.push(marker);
     });
@@ -189,13 +203,23 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  toggleLista(): void { this.mostrarLista = !this.mostrarLista; }
+  toggleLista(): void { 
+    this.mostrarLista = !this.mostrarLista; 
+  }
   
+  // =========================================
+  // CORREÇÃO: ABRE DETALHES, FECHA A LISTA E DÁ O ZOOM AUTOMÁTICO
+  // =========================================
   abrirDetalhes(posto: EstacaoProcessada): void {
     this.postoSelecionado = posto;
     this.iniciarCarrossel();
-    if (window.innerWidth <= 768 && this.mostrarLista) {
-      this.mostrarLista = false;
+    
+    // 1. Fecha a guia lateral/inferior de pesquisa imediatamente
+    this.mostrarLista = false;
+
+    // 2. Dá o zoom e centraliza a tela no posto clicado
+    if (this.map) {
+      this.map.setView([posto.lat, posto.lon], 16, { animate: true, duration: 0.5 });
     }
   }
 
@@ -203,6 +227,7 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
     this.postoSelecionado = null;
     this.encerrarRota();
     this.pararCarrossel();
+    this.router.navigate(['/mapa']);
   }
 
   async tracarRota(): Promise<void> {
@@ -215,7 +240,7 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
 
     try {
       const response = await fetch(url);
-      const data: RouteResponse = await response.json(); // Usando a Tipagem correta!
+      const data: RouteResponse = await response.json(); 
       
       if (!this.map || !data.routes || data.routes.length === 0) return;
 
@@ -243,26 +268,21 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
     this.tempoRota = null;
   }
 
-    reportarProblema(tipo: string): void {
+  reportarProblema(tipo: string): void {
     if (!this.postoSelecionado) return;
 
     if (tipo === 'Posto Livre') {
-      
       this.postoSelecionado.alertaAtual = undefined;
     } else {
-      // Cria um alerta normal para outras situações (Fila, Avariado, etc.)
       this.postoSelecionado.alertaAtual = {
         tipo: tipo,
         tempo: 'Agora mesmo'
       };
     }
 
-    // Atualiza a lista principal para refletir a mudança no mapa
     const index = this.postosOrdenados.findIndex(p => p.nome === this.postoSelecionado!.nome);
     if (index !== -1) {
       this.postosOrdenados[index].alertaAtual = this.postoSelecionado.alertaAtual;
-      
-      // Isso força o mapa a atualizar o marcador (se ele estava vermelho/piscando, ele volta ao normal)
       this.adicionarMarcadoresPostos();
     }
   }

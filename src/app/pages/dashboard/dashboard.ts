@@ -144,7 +144,8 @@ export class Dashboard implements OnInit {
   }
 
   abrirNoMapa(nomeDoPosto: string): void {
-    this.router.navigate(['/mapa'], { queryParams: { loc: nomeDoPosto } });
+    // CORRIGIDO: Enviando o parâmetro 'posto' na URL para o mapa capturar
+    this.router.navigate(['/mapa'], { queryParams: { posto: nomeDoPosto } });
   }
   
   sair(): void {
