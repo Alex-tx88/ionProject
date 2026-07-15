@@ -1,14 +1,13 @@
-<!-- Removido o overflow-x-hidden daqui para evitar conflitos de scroll -->
 <div class="landing-container min-vh-100 d-flex flex-column position-relative">
   
-  <!-- WRAPPER ISOLADO PARA OS EFEITOS DE LUZ (Mata a barra de rolagem dupla) -->
+  <!-- WRAPPER ISOLADO PARA OS EFEITOS DE LUZ -->
   <div class="position-absolute top-0 start-0 w-100 h-100 overflow-hidden" style="pointer-events: none; z-index: 0;">
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
   </div>
 
-  <!-- NAVBAR -->
-  <nav class="navbar p-4 z-3 position-relative">
+  <!-- NAVBAR ATUALIZADA (Entrar + Cadastre-se) -->
+  <nav class="navbar p-3 p-md-4 z-3 position-relative">
     <div class="container d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center gap-2">
         <div class="logo-icon d-flex justify-content-center align-items-center rounded-3 mb-0" style="width: 40px; height: 40px;">
@@ -16,8 +15,11 @@
         </div>
         <h3 class="text-white fw-bold mb-0 logo-text" style="letter-spacing: 2px; font-size: 1.5rem;">ÍON</h3>
       </div>
-      <div>
-        <a routerLink="/login" class="btn btn-outline-neon px-4 py-2 fw-semibold rounded-pill">Entrar</a>
+      <div class="d-flex gap-2 gap-md-3">
+        <!-- O botão de entrar fica discreto (esconde no celular muito pequeno para não quebrar layout) -->
+        <a routerLink="/login" class="btn btn-outline-neon px-3 px-md-4 py-2 fw-semibold rounded-pill d-none d-sm-inline-block">Entrar</a>
+        <!-- O botão de cadastro ganha destaque -->
+        <a routerLink="/cadastro" class="btn btn-primary-custom px-3 px-md-4 py-2 fw-semibold rounded-pill shadow-sm">Cadastre-se</a>
       </div>
     </div>
   </nav>
@@ -41,9 +43,16 @@
             O Íon é o seu copiloto de mobilidade elétrica. Muito além de um simples mapa, nossa plataforma entrega <strong>velocidade e precisão</strong> para eliminar as duas maiores dores de quem dirige um veículo elétrico:
           </p>
 
-          <a routerLink="/login" class="btn btn-primary-custom px-5 py-3 fs-5 fw-bold rounded-pill shadow-lg hover-scale d-inline-flex align-items-center gap-2">
-            Acessar Plataforma <i class="bi bi-arrow-right"></i>
-          </a>
+          <!-- DUPLA DE BOTÕES PRINCIPAIS -->
+          <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-3 mt-2">
+            <a routerLink="/cadastro" class="btn btn-primary-custom px-4 px-xl-5 py-3 fs-5 fw-bold rounded-pill shadow-lg hover-scale d-inline-flex align-items-center justify-content-center gap-2">
+              Criar conta grátis <i class="bi bi-person-plus-fill"></i>
+            </a>
+            <a routerLink="/login" class="btn text-white px-4 px-xl-5 py-3 fs-5 fw-bold rounded-pill shadow-lg hover-scale d-inline-flex align-items-center justify-content-center gap-2" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);">
+              Fazer Login <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+
         </div>
 
         <div class="col-lg-6 position-relative fade-in-right">
@@ -52,7 +61,7 @@
             <div class="interactive-card p-4 rounded-4 shadow-lg float-anim-1" style="max-width: 480px;">
               <div class="d-flex align-items-center gap-3 mb-3 position-relative z-1">
                 <div class="icon-box-landing text-neon"><i class="bi bi-battery-half"></i></div>
-                <h5 class="text-white fw-bold m-0">Autonomia</h5>
+                <h5 class="text-white fw-bold m-0">Ansiedade de Autonomia</h5>
               </div>
               <p class="text-muted-custom fs-7 mb-0 position-relative z-1" style="line-height: 1.6;">
                 Na correria do dia a dia, imprevistos acontecem. Quando a bateria está no limite e o destino ainda está longe, o Íon localiza a estação mais próxima em segundos, sem rodeios.
@@ -63,7 +72,7 @@
             <div class="interactive-card p-4 rounded-4 shadow-lg float-anim-2 me-lg-5" style="max-width: 480px;">
               <div class="d-flex align-items-center gap-3 mb-3 position-relative z-1">
                 <div class="icon-box-landing text-neon"><i class="bi bi-plug-fill"></i></div>
-                <h5 class="text-white fw-bold m-0">Compatibilidade</h5>
+                <h5 class="text-white fw-bold m-0">Incerteza de Compatibilidade</h5>
               </div>
               <p class="text-muted-custom fs-7 mb-0 position-relative z-1" style="line-height: 1.6;">
                 Não basta encontrar um eletroposto; é preciso ter certeza de que ele serve para o seu carro. Nossa plataforma garante que a estação escolhida tenha o plugue exato do seu veículo.
@@ -78,6 +87,7 @@
     </div>
   </main>
 
+  <!-- RECURSOS DO SISTEMA -->
   <section class="features-section position-relative z-3 py-5" style="background: linear-gradient(to bottom, transparent, rgba(11,17,20,0.8) 20%, rgba(11,17,20,0.98) 100%); border-top: 1px solid rgba(0, 229, 155, 0.05);">
     <div class="container py-5 mt-4">
       <div class="text-center mb-5 fade-in-up">
@@ -88,7 +98,6 @@
       </div>
 
       <div class="row g-4">
-        <!-- Dashboard -->
         <div class="col-md-4">
           <div class="feature-card p-4 rounded-4 text-center h-100">
             <div class="feature-icon mb-4 mx-auto"><i class="bi bi-grid-1x2"></i></div>
@@ -98,7 +107,6 @@
             </p>
           </div>
         </div>
-        <!-- Mapa -->
         <div class="col-md-4">
           <div class="feature-card p-4 rounded-4 text-center h-100">
             <div class="feature-icon mb-4 mx-auto"><i class="bi bi-map"></i></div>
@@ -108,7 +116,6 @@
             </p>
           </div>
         </div>
-        <!-- Web & Mobile -->
         <div class="col-md-4">
           <div class="feature-card p-4 rounded-4 text-center h-100">
             <div class="feature-icon mb-4 mx-auto"><i class="bi bi-laptop"></i> <i class="bi bi-phone ms-2"></i></div>
@@ -122,6 +129,7 @@
     </div>
   </section>
 
+  <!-- RODAPÉ -->
   <footer class="position-relative z-3 w-100 py-4 border-top border-secondary border-opacity-10" style="background: rgba(11, 17, 20, 0.98);">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
       <div class="d-flex align-items-center gap-2">
