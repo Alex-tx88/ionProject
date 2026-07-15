@@ -1,0 +1,10 @@
+.btn-hover-neon {
+  transition: all 0.3s ease !important;
+}
+
+.btn-hover-neon:hover {
+  background-color: rgba(0, 229, 155, 0.05) !important;
+  border-color: rgba(0, 229, 155, 0.4) !important;
+  box-shadow: 0 0 15px rgba(0, 229, 155, 0.2) !important;
+  transform: translateX(-5px);
+}
