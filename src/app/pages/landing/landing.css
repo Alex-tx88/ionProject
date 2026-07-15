@@ -1,0 +1,134 @@
+/* FUNDO E OVERLAY */
+.landing-container {
+  background-image: url('/bg-cidade.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: var(--ion-bg);
+}
+
+.bg-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at center, rgba(11, 17, 20, 0.7) 0%, rgba(11, 17, 20, 0.95) 100%);
+  z-index: 1;
+}
+
+/* EFEITOS DE LUZ NO FUNDO  */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 2;
+  opacity: 0.15;
+  animation: orb-drift 10s infinite alternate ease-in-out;
+}
+.orb-1 {
+  width: 400px; height: 400px;
+  background-color: var(--ion-neon);
+  top: -100px; right: -100px;
+}
+.orb-2 {
+  width: 300px; height: 300px;
+  background-color: #3b82f6;
+  bottom: -50px; left: -100px;
+}
+@keyframes orb-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-30px, 50px) scale(1.1); }
+}
+
+/* COMPONENTES SIMPLES */
+.pulse-dot {
+  width: 8px; height: 8px;
+  background-color: var(--ion-neon);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--ion-neon);
+  animation: pulse-gps 2s infinite;
+}
+
+.btn-outline-neon {
+  color: var(--ion-neon);
+  border: 1px solid var(--ion-neon);
+  background: rgba(0, 229, 155, 0.05);
+  transition: all 0.3s ease;
+}
+.btn-outline-neon:hover {
+  background: var(--ion-neon);
+  color: var(--ion-bg);
+  box-shadow: 0 0 15px rgba(0, 229, 155, 0.4);
+}
+
+.hover-scale { transition: transform 0.2s ease; }
+.hover-scale:hover { transform: scale(1.05); }
+
+/* CARDS INTERATIVOS */
+.interactive-card {
+  background: rgba(18, 24, 28, 0.6);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  overflow: hidden;
+  cursor: default;
+}
+.interactive-card:hover {
+  transform: translateY(-10px) !important;
+  border-color: rgba(0, 229, 155, 0.5);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 229, 155, 0.1) !important;
+}
+
+/* EFEITO DE BRILHO AO PASSAR O MOUSE */
+.card-glow {
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 229, 155, 0.05), transparent);
+  transition: all 0.5s ease;
+  z-index: 0;
+  transform: skewX(-20deg);
+}
+.interactive-card:hover .card-glow {
+  left: 200%;
+  transition: all 0.8s ease;
+}
+
+.icon-box-landing {
+  width: 48px; height: 48px;
+  background: rgba(0, 229, 155, 0.1);
+  border: 1px solid rgba(0, 229, 155, 0.2);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+}
+
+/* ANIMAÇÕES DE ENTRADA E FLUTUAÇÃO */
+.fade-in-left {
+  animation: fadeInLeft 1s ease-out forwards;
+}
+.fade-in-right {
+  animation: fadeInRight 1s ease-out forwards;
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.float-anim-1 {
+  animation: float 6s ease-in-out infinite;
+}
+.float-anim-2 {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 1.5s; 
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
