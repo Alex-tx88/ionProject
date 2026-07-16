@@ -137,7 +137,6 @@
   .mobile-details-card::-webkit-scrollbar { width: 4px; }
   .mobile-details-card::-webkit-scrollbar-thumb { background: rgba(0, 229, 155, 0.3); border-radius: 10px; }
 
-  /* FOTO MENOR NO CELULAR PARA ECONOMIZAR ESPAÇO */
   .img-carrossel-container { height: 120px !important; }
 
   .map-legend { bottom: 85px !important; left: 10px !important; padding: 10px !important; }
@@ -172,4 +171,38 @@
   font-size: 0.85rem;
   font-weight: 600;
   transition: all 0.2s ease;
+}
+
+/* ========================================= */
+/* MINI PAINEL DE MODO NAVEGAÇÃO (GPS)       */
+/* ========================================= */
+.route-active-panel {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translate(-50%, 150%);
+  width: calc(100% - 40px);
+  max-width: 450px;
+  background-color: rgba(18, 24, 28, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--ion-border);
+  border-radius: 20px;
+  z-index: 1005;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s, visibility 0.3s;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.route-active-panel.show-route-panel {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .route-active-panel {
+    bottom: 90px !important;
+  }
 }

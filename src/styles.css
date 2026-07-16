@@ -89,7 +89,6 @@ footer .footer-links a:hover { color: var(--ion-muted); }
 footer .footer-copy { color: #484f58; font-size: 0.7rem; }
 .badge-lgpd { border: 1px solid #1f6746; color: var(--ion-neon); background-color: rgba(0, 229, 155, 0.05); font-size: 0.65rem; border-radius: 20px; padding: 3px 8px; }
 
-
 /* ======================================================= */
 /* LAYOUT PRINCIPAL (DASHBOARD - ROLAGEM ISOLADA)          */
 /* ======================================================= */
@@ -178,14 +177,12 @@ footer .footer-copy { color: #484f58; font-size: 0.7rem; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-
 /* ======================================================= */
 /* RESPONSIVIDADE (MOBILE)                                 */
 /* ======================================================= */
 @media (max-width: 768px) {
   
   html {
-    /* Reduz ainda mais a base no celular para caber perfeitamente */
     font-size: 12px !important; 
   }
 
@@ -206,13 +203,13 @@ footer .footer-copy { color: #484f58; font-size: 0.7rem; }
   .sidebar .nav-menu { justify-content: space-around !important; align-items: center !important; height: 100% !important; }
   .sidebar .nav-link { padding: 15px !important; margin: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; }
 
-  .main-content { 
-    padding: 1.5rem 1rem 20px 1rem !important; 
-    height: calc(100vh - 70px) !important; 
+.main-content {
+    padding: 1.5rem 1rem 100px 1rem !important; 
+    height: 100dvh !important; 
     width: 100% !important; 
     max-width: 100vw !important; 
   }
-  
+
   .top-cards-grid { grid-template-columns: 1fr !important; height: auto !important; gap: 16px !important; }
   .row { margin-left: 0 !important; margin-right: 0 !important; display: flex !important; flex-direction: column !important; gap: 12px !important; }
   .header { display: flex !important; flex-direction: column !important; align-items: flex-start !important; gap: 15px !important; }

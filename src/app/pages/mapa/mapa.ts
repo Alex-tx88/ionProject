@@ -39,6 +39,9 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
   mostrarLista: boolean = false;
   termoBusca: string = '';
   tempoRota: string | null = null;
+
+  // Variável que controla a visibilidade do Modo GPS
+  modoRotaAtivo: boolean = false;
   
   // Dados de Estações
   postosOrdenados: EstacaoProcessada[] = [];
@@ -58,8 +61,6 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.processarEstacoes();
     this.buscarLocalizacaoReal();
-
-    // Escuta a URL para ver se o Dashboard mandou abrir um posto específico
     this.querySub = this.route.queryParams.subscribe(params => {
       if (params['posto']) {
         const nomePosto = params['posto'];
@@ -67,10 +68,8 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
         
         if (posto) {
           if (this.map) {
-            // Se o mapa já estiver pronto, abre o card e dá zoom
             this.abrirDetalhes(posto);
           } else {
-            // Se o mapa ainda está renderizando, deixa em modo de espera
             this.postoPendenteParaAbrir = posto;
           }
         }
@@ -103,7 +102,6 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
     this.atualizarMarcadorUsuario();
     this.adicionarMarcadoresPostos();
 
-    // Se veio do Dashboard e o mapa acabou de carregar, abre o card e centraliza a tela
     if (this.postoPendenteParaAbrir) {
       setTimeout(() => {
         this.abrirDetalhes(this.postoPendenteParaAbrir!);
@@ -120,7 +118,6 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
         this.lonUsuario = pos.coords.longitude;
         this.processarEstacoes();
         
-        // Só muda a visão para o GPS do usuário se NÃO houver um posto pendente sendo aberto
         if (this.map && !this.postoSelecionado && !this.postoPendenteParaAbrir) {
           this.map.setView([this.latUsuario, this.lonUsuario], 14);
         }
@@ -195,29 +192,31 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
   filtrarPostos(): void {
     if (!this.termoBusca) {
       this.postosFiltrados = [...this.postosOrdenados];
-      return;
+    } else {
+      const termo = this.termoBusca.toLowerCase();
+      this.postosFiltrados = this.postosOrdenados.filter(p => 
+        p.nome.toLowerCase().includes(termo) || p.endereco.toLowerCase().includes(termo)
+      );
+      this.mostrarLista = true;
+      if (this.postoSelecionado) {
+        this.fecharDetalhes();
+      }
     }
-    const termo = this.termoBusca.toLowerCase();
-    this.postosFiltrados = this.postosOrdenados.filter(p => 
-      p.nome.toLowerCase().includes(termo) || p.endereco.toLowerCase().includes(termo)
-    );
   }
 
   toggleLista(): void { 
     this.mostrarLista = !this.mostrarLista; 
+    if (this.mostrarLista && this.postoSelecionado) {
+      this.fecharDetalhes();
+    }
   }
   
-  // =========================================
-  // CORREÇÃO: ABRE DETALHES, FECHA A LISTA E DÁ O ZOOM AUTOMÁTICO
-  // =========================================
   abrirDetalhes(posto: EstacaoProcessada): void {
     this.postoSelecionado = posto;
     this.iniciarCarrossel();
-    
-    // 1. Fecha a guia lateral/inferior de pesquisa imediatamente
     this.mostrarLista = false;
+    this.modoRotaAtivo = false; 
 
-    // 2. Dá o zoom e centraliza a tela no posto clicado
     if (this.map) {
       this.map.setView([posto.lat, posto.lon], 16, { animate: true, duration: 0.5 });
     }
@@ -254,6 +253,8 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
       }).addTo(this.map);
       
       this.map.fitBounds(this.rotaAtual.getBounds(), { padding: [50, 50] });
+      this.modoRotaAtivo = true;
+
     } catch (error) {
       console.error(error);
       alert("Não foi possível traçar a rota online.");
@@ -266,6 +267,8 @@ export class Mapa implements OnInit, AfterViewInit, OnDestroy {
       this.rotaAtual = null;
     }
     this.tempoRota = null;
+    
+    this.modoRotaAtivo = false;
   }
 
   reportarProblema(tipo: string): void {
