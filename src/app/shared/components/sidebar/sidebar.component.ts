@@ -24,11 +24,13 @@ import { AuthService } from '../../../core/services/auth.service';
         <i class="bi bi-map fs-5"></i><span class="fw-semibold d-none d-md-block">Mapa</span>
       </a>
 
-      <a href="javascript:void(0)" class="nav-link custom-nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-3 px-0 px-md-3 py-3 rounded-3 text-decoration-none">
+      <!-- 👉 AQUI: Adicionado evento de clique para a Garagem -->
+      <a href="javascript:void(0)" (click)="mostrarAlertaGaragem()" class="nav-link custom-nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-3 px-0 px-md-3 py-3 rounded-3 text-decoration-none">
         <i class="bi bi-car-front fs-5"></i><span class="fw-semibold d-none d-md-block">Meus Veículos</span>
       </a>
 
-      <a href="javascript:void(0)" class="nav-link custom-nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-3 px-0 px-md-3 py-3 rounded-3 text-decoration-none">
+      <!-- 👉 AQUI: Adicionado evento de clique para a Comunidade -->
+      <a href="javascript:void(0)" (click)="mostrarAlertaComunidade()" class="nav-link custom-nav-link d-flex align-items-center justify-content-center justify-content-md-start gap-3 px-0 px-md-3 py-3 rounded-3 text-decoration-none">
         <i class="bi bi-people fs-5"></i><span class="fw-semibold d-none d-md-block">Comunidade</span>
       </a>
 
@@ -112,5 +114,18 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class SidebarComponent {
   authService = inject(AuthService);
-  sair() { if (confirm('Sair do Íon?')) this.authService.logout(); }
+
+  mostrarAlertaGaragem(): void {
+    alert('🚀 FUTURA ATUALIZAÇÃO\n\n🚘 Minha Garagem: Um espaço dedicado onde o motorista poderá registrar seus veículos elétricos. O sistema cruzará os dados do seu carro (ex: tipo de tomada e potência suportada) com os postos no mapa, mostrando apenas os compatíveis.');
+  }
+
+  mostrarAlertaComunidade(): void {
+    alert('🚀 FUTURA ATUALIZAÇÃO\n\n👥 Comunidade Íon: Um fórum integrado para os usuários compartilharem experiências, avaliarem postos de carregamento, relatarem pontos fora de serviço e organizarem encontros.');
+  }
+
+  sair() { 
+    if (confirm('Sair do Íon?')) {
+      this.authService.logout(); 
+    }
+  }
 }
